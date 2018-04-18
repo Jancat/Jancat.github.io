@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on 君临</title>
+    <title>Categories on 君临的技术手札</title>
     <link>https://jancat.github.io/categories/</link>
-    <description>Recent content in Categories on 君临</description>
+    <description>Recent content in Categories on 君临的技术手札</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
+    <language>zh-cn</language>
     
 	<atom:link href="https://jancat.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docs</title>
+      <link>https://jancat.github.io/categories/docs/</link>
+      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/categories/docs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Index</title>
+      <link>https://jancat.github.io/categories/index/</link>
+      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/categories/index/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shortcodes</title>
+      <link>https://jancat.github.io/categories/shortcodes/</link>
+      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/categories/shortcodes/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

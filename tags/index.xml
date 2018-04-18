@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on 君临</title>
+    <title>Tags on 君临的技术手札</title>
     <link>https://jancat.github.io/tags/</link>
-    <description>Recent content in Tags on 君临</description>
+    <description>Recent content in Tags on 君临的技术手札</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 06 Mar 2018 16:01:23 +0800</lastBuildDate>
     
 	<atom:link href="https://jancat.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Preview</title>
+      <link>https://jancat.github.io/tags/preview/</link>
+      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/tags/preview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shortcodes</title>
+      <link>https://jancat.github.io/tags/shortcodes/</link>
+      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/tags/shortcodes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tag 6</title>
+      <link>https://jancat.github.io/tags/tag-6/</link>
+      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/tags/tag-6/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

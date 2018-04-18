@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://jancat.github.io/sitemap.xml
