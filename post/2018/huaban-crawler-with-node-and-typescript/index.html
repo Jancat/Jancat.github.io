@@ -756,7 +756,25 @@ async function getPins(boardId: string): Promise&lt;IPin[]&gt; {
 
   
 
-  
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'huaban-crawler-with-node-and-typescript.md',
+    title: '使用Node和Typescript爬取花瓣网图片',
+    link: decodeURI(location.href),
+    desc: '\x3cp\x3e\x3cimg src=\x22\/images\/post\/huaban-crawler-with-node-and-typescript\/huban-logo.jpg\x22 alt=\x22huban-logo\x22 \/\x3e\n\x3c\/p\x3e',
+    owner: 'Jancat',
+    repo: 'Jancat.github.io',
+    oauth: {
+      client_id: '59de37307f48dbd2a39c',
+      client_secret: '7990b31512887673278feeba9aad4245b488ccf3'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
   </article>
         </div>
       </div>
