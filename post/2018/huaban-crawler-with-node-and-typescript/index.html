@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用Node和Typescript爬取花瓣网图片 - 键落云起</title>
+  <link rel="alternate" hreflang="zh" href="https://jancat.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="君临" />
+  <meta name="description" content="" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.38.2" />
+
+
+<link rel="canonical" href="https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="使用Node和Typescript爬取花瓣网图片" />
+<meta property="og:description" content="
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/" />
+
+
+
+<meta property="article:published_time" content="2018-04-19T04:03:44&#43;00:00"/>
+
+<meta property="article:modified_time" content="2018-04-20T17:02:34&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="使用Node和Typescript爬取花瓣网图片">
+<meta itemprop="description" content="
+">
+
+
+<meta itemprop="datePublished" content="2018-04-19T04:03:44&#43;00:00" />
+<meta itemprop="dateModified" content="2018-04-19T04:03:44&#43;00:00" />
+<meta itemprop="wordCount" content="3440">
+
+
+
+<meta itemprop="keywords" content="花瓣,爬虫,huaban,crawler,Node,TypeScript," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用Node和Typescript爬取花瓣网图片"/>
+<meta name="twitter:description" content="
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">键落云起</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      键落云起
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">使用Node和Typescript爬取花瓣网图片</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-19 </span>
+        <div class="post-category">
+            
+              <a href="/categories/node/"> Node </a>
+            
+              <a href="/categories/typescript/"> TypeScript </a>
+            
+          </div>
+        <span class="more-meta"> 约 3440 字 </span>
+        <span class="more-meta"> 预计阅读 7 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#前言">前言</a>
+<ul>
+<li><a href="#技术选型">技术选型</a></li>
+</ul></li>
+<li><a href="#花瓣网技术分析">花瓣网技术分析</a>
+<ul>
+<li><a href="#画板资源">画板资源</a></li>
+<li><a href="#board-data">Board Data</a></li>
+<li><a href="#图片懒加载">图片懒加载</a></li>
+</ul></li>
+<li><a href="#node-爬虫实现">Node 爬虫实现</a>
+<ul>
+<li><a href="#输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</a></li>
+<li><a href="#输入用户id下载该用户所有自建画板的图片-不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</a></li>
+</ul></li>
+<li><a href="#总结">总结</a></li>
+<li><a href="#github-project">Github Project</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p><img src="/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg" alt="huban-logo" />
+</p>
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+<ul>
+<li><a href="#前言">前言</a>
+
+<ul>
+<li><a href="#技术选型">技术选型</a></li>
+</ul></li>
+<li><a href="#花瓣网技术分析">花瓣网技术分析</a>
+
+<ul>
+<li><a href="#画板资源">画板资源</a></li>
+<li><a href="#board-data">Board Data</a></li>
+<li><a href="#图片懒加载">图片懒加载</a></li>
+</ul></li>
+<li><a href="#node-爬虫实现">Node 爬虫实现</a>
+
+<ul>
+<li><a href="#输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</a></li>
+<li><a href="#输入用户id下载该用户所有自建画板的图片不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</a></li>
+</ul></li>
+<li><a href="#总结">总结</a></li>
+<li><a href="#github-project">Github Project</a></li>
+</ul>
+
+<!-- /code_chunk_output -->
+
+<h2 id="前言">前言</h2>
+
+<p><a href="https://huaban.com">花瓣网</a> 最初是模仿国外的 <a href="https://www.pinterest.com/">Pinterest</a> 开始做起来的图片采集分享网站，国内类似的网站有<a href="https://www.duitang.com/">堆糖</a>。在初期的用户积累阶段过后，花瓣网近几年开始探索其商业模式，以“图”为中心向相关领域延伸（摄影、设计、Live、电商导购等），不过不管怎么发展，用户体验还是要放在首位的，不忘初衷。</p>
+
+<p>作为国内优秀的图片网站,其流畅的瀑布流图片展示、简单易用的图片采集分类方式、强大的图片采集插件，让我这个图控坚持在这里深耕多年，采集了几万张图片，骗粉几千个（欢迎关注 <a href="http://huaban.com/junlin/">http://huaban.com/junlin/</a> ）。</p>
+
+<p>然而对于<strong>图控+收藏控</strong>来说，花瓣网也只是<strong>个人图库大计</strong>中的其中一环，毕竟还是有很多<del>私图</del>不宜光明正大放出来的，花瓣网也有违规图片检测机制，所以需要汇总花瓣网采集的图片到个人存储库中（网盘or硬盘）；此为<u>纯纯的</u>动机，也是本文出现的原因。</p>
+
+<h3 id="技术选型">技术选型</h3>
+
+<p>这么多图片手工一个个下载肯定是不现实的，花瓣网也没有提供批量下载画板的功能（要是有就省心了，可能是考虑到这功能开放后会影响网站运营），这样就催生了很多批量下载工具、脚本（<a href="https://www.douban.com/group/473118/">豆皮DouP相册下载器豆瓣小组</a>、Github 爬虫项目），基本都能很方便的下载。</p>
+
+<p>本着一颗不安分喜欢折腾的心，也是出于技术学习目的，打算自己实现一个批量下载的爬虫脚本。虽然爬虫首选Python，但，作为相信着 <strong>Atwood定律</strong> 的前端er，</p>
+
+<blockquote>
+<p>any application that can be written in JavaScript, will eventually be written in JavaScript.
+（任何能够用JavaScript实现的应用，最终都必将由JavaScript实现。）
+&ndash; Jeff Atwood</p>
+</blockquote>
+
+<p>很自然的选择了 <strong>Node.js</strong> ，再加上越来越来流行的 <strong>TypeScript</strong>，如虎添翼，Perfect！</p>
+
+<h2 id="花瓣网技术分析">花瓣网技术分析</h2>
+
+<p>首先打开花瓣网任意一个<strong>画板</strong>，在 Chrome DevTools - Network 下观察它和服务器之前的交互。</p>
+
+<h3 id="画板资源">画板资源</h3>
+
+<p>刷新后发现有很多网络请求，注意到最开始有个带有<strong>画板ID</strong>的 Request <a href="http://huaban.com/boards/17473820/">http://huaban.com/boards/17473820/</a> ，应该就是它了，服务器响应的是一个 HTML Document。</p>
+
+<p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-request.png" alt="board-request" /></p>
+
+<h3 id="board-data">Board Data</h3>
+
+<p>在这个 HTML Document 中发现有个 <code>&lt;script&gt;</code> 中带有大量的 <strong>board</strong> 数据：</p>
+
+<pre><code class="language-js">app.page['board'] = {
+  board_id: 17473820,
+  user_id: 14191742,
+  title: '◈ 二次元 少女 ◈',
+  description: '三次元之外的一片净土，满满的治愈~',
+  category_id: 'anime',
+  seq: 3,
+  pin_count: 12627,
+  follow_count: 1004,
+  like_count: 37,
+  created_at: 1410342416,
+  updated_at: 1523766920,
+  deleting: 0,
+  is_private: 0,
+  extra: { cover: { pin_id: '407033830' } },
+  user: { ... },
+  category_name: '动漫',
+  following: false,
+  liked: false,
+  pins: [
+    {
+      pin_id: 1595477246,
+      user_id: 14191742,
+      board_id: 17473820,
+      file_id: 183940093,
+      file: {
+        id: 183940093,
+        farm: 'farm1',
+        bucket: 'hbimg',
+        key: '95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn',
+        type: 'image/jpeg',
+        width: 752,
+        height: 1062,
+        frames: 1,
+        colors: [{ color: 5934, ratio: 0.09 }],
+        theme: '00172e',
+      },
+      media_type: 0,
+      source: 'pixiv.net',
+      link: 'https://www.pixiv.net/member_illust.php?mode=medium&amp;illust_id=67752097',
+      raw_text: '奏さん',
+      text_meta: { tags: [] },
+      via: 1587727234,
+      via_user_id: 8451317,
+      original: 1568136527,
+      created_at: 1523444564,
+      like_count: 1,
+      comment_count: 0,
+      repin_count: 3,
+      is_private: 0,
+      extra: null,
+      orig_source: null,
+      tags: [],
+    },
+    { ... },
+    ...
+  ]
+}
+</code></pre>
+
+<p>其中 <code>app.page.board.pins</code> 是一个对象数组，里面每个对象对应着画板中其中一张图片的信息，<code>pin</code> 代表一张图片的信息。</p>
+
+<p>在网页中检查第一张图片的源 <code>&lt;img src=&quot;//img.hb.aicdn.com/95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn_fw236&quot;&gt;</code>，可以发现花瓣网图片使用了又拍云的CDN服务，第二部分即是上面的 <code>pins[0].file.key</code> 加上一个 <code>_fw236</code> 后缀；其它图片的 <code>src</code> 都带有这个 <code>_fw236</code> 后缀，暂时还不知道它的意义。</p>
+
+<p>拿到了画板图片信息，到这一步就能想到可以通过爬虫来下载画板的图片。</p>
+
+<h3 id="图片懒加载">图片懒加载</h3>
+
+<p>再回到画板网页上，看到页面上目前只加载了画板一部分图片，剩下的图片是通过<strong>懒加载</strong>的方式出现的（想想就知道不能一次性把所有图片都加载出来）。</p>
+
+<p>拖动滚动条到底部，继续观察 <strong>Network</strong>，第一个请求 <a href="http://huaban.com/boards/17473820/?jg6ltavl&amp;max=1584529804&amp;limit=20&amp;wfl=1">http://huaban.com/boards/17473820/?jg6ltavl&amp;max=1584529804&amp;limit=20&amp;wfl=1</a> 在画板ID后面携带了一些参数：</p>
+
+<p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-lazy-load.png" alt="board-lazy-load" /></p>
+
+<pre><code class="language-js">jg6ltavl: 
+max: 1584529804
+limit: 20
+wfl: 1
+</code></pre>
+
+<ul>
+<li>第一个参数是个随机字符串，最后一位按字母表顺序循环，没发现有什么意义，忽略；</li>
+<li>第二个参数 <strong>max</strong> 的值是个 <strong>pin_id</strong> ；</li>
+<li>第三个参数 <strong>limit</strong> 限制了服务器返回的 <strong>pin 数量</strong>；</li>
+<li>第四个参数 <strong>wfl</strong> 可能是 <strong>waterfall</strong> 瀑布流的缩写，没发现有什么意义，忽略。</li>
+</ul>
+
+<p>重点是 <strong>max</strong> 和 <strong>limit</strong> 这两个值，经过测试发现，<strong>max</strong> 是上一张图片的 <strong>pin_id</strong>，服务器按先后顺序（采集顺序）返回这张图片<strong>后面</strong>的 pin 数据；</p>
+
+<p>而 <strong>limit</strong> 告诉服务器返回<strong>多少个</strong> pin 数据。后面测出服务器对 <strong>limit</strong> 做了最大值校验，最大是 <strong>100</strong>，即一次最多只能加载100张图片数据。</p>
+
+<p>到了现在可以开始写爬虫模拟上面的操作了。</p>
+
+<h2 id="node-爬虫实现">Node 爬虫实现</h2>
+
+<p>使用 Node.js 实现命令行程序，提供两种方式下载图片：</p>
+
+<ol>
+<li>输入<strong>画板ID</strong>下载该画板的所有图片</li>
+<li>输入<strong>用户ID</strong>下载该用户所有自建画板的图片（不包括收藏的画板）</li>
+</ol>
+
+<h3 id="输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</h3>
+
+<ol>
+<li><p>在命令行中跟用户交互，使用 Node <code>readline</code> API实现在 <code>stdin/stdout</code> 读取输入和显示输出：</p>
+
+<pre><code class="language-ts">import readline from 'readline'
+
+const rl: readline.ReadLine = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
+rl.question('画板ID：', boardId =&gt; {})
+</code></pre></li>
+
+<li><p>首先根据画板ID获取 <code>board</code> 数据，然后获取到 <code>board</code> 中所有的 <code>pins</code> 数据，最后根据每个 <code>pin</code> 数据下载图片到本地目录中，中间向命令行中输出一些提示：</p>
+
+<pre><code class="language-ts">async function downloadSingleBoard(boardId: string): Promise&lt;void&gt; {
+  console.time('Total time')
+  const board = await getBoardInfo(boardId)
+  console.log('\n开始下载画板 %s - %s，图片数量：%d', boardId, board.title, board.pin_count)
+
+  await getPinsAndDownload(board)
+  outputResult()
+}
+</code></pre></li>
+
+<li><p>根据画板ID获取 <code>board</code> 数据。为了使用 ES7 的 <code>async/await</code>，引入了 <code>promisify</code> 的 request 库</p>
+
+<pre><code class="language-ts">import rp from 'request-promise'
+
+async function getBoardInfo(boardId: string): Promise&lt;IBoard&gt; {
+  const response: {
+    err?: number
+    board: IBoard
+  } = await rp({
+    uri: `${huabanDomain}/boards/${boardId}/`,
+    headers: jsonRequestHeader,
+    qs: {
+      limit: 1,
+    },
+    json: true,
+  })
+  if (response.err === 404) {
+    throw new Error('画板不存在！')
+  }
+
+  return response.board
+}
+</code></pre></li>
+
+<li><p>获取 <code>pins</code> 数据然后下载图片，输出结果。其中在获取 <code>pins</code> 数据的时候发现有些画板无法获取全部的 <code>pins</code> 数据，造成画板图片下载不全（暂时还不清楚原因）</p>
+
+<pre><code class="language-ts">async function getPinsAndDownload(board: IBoard): Promise&lt;void&gt; {
+  const boardPins = await getPins(board.board_id)
+  // TODO: 有些画板获取的pins数据不全？
+  const missedPinsCount = board.pin_count - boardPins.length
+
+  const boardPath = `${downloadPath}/${board.board_id} - ${board.title}`
+  fs.emptyDirSync(boardPath)
+
+  const downloadCount: number = await downloadImage(boardPins, boardPath)
+  const failedCount: number = board.pin_count - downloadCount - missedPinsCount
+  totalDownload += downloadCount
+
+  console.log(
+    `Done. 成功 %d 个${failedCount ? `，失败 \x1b[31m${failedCount}\x1b[0m个` : ''}${
+      missedPinsCount ? `，丢失 \x1b[31m${missedPinsCount}\x1b[0m 个` : ''
+    }`,
+    downloadCount,
+  )
+}
+</code></pre></li>
+
+<li><p>获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 <code>'X-Requested-With': 'XMLHttpRequest'</code>，服务器返回的是包含json的HMLT Document，而不是单纯的 <code>json</code> 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 <code>json</code>，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）</p>
+
+<pre><code class="language-ts">// 关键头部，添加该项后服务器只会返回json数据，而不是包含json的HTML
+const jsonRequestHeader = {
+  Accept: 'application/json',
+  'X-Requested-With': 'XMLHttpRequest',
+}
+
+async function getPins(boardId: string): Promise&lt;IPin[]&gt; {
+  const allPins: IPin[] = []
+
+  async function loadPins(lastPinId: string = ''): Promise&lt;void&gt; {
+    // limit 查询参数限制获取的pin数量，最大100，默认20
+    const response = await rp({
+      uri: `${huabanDomain}/boards/${boardId}/`,
+      qs: {
+        limit: 100,
+        max: lastPinId,
+      },
+      headers: jsonRequestHeader,
+      json: true,
+    })
+
+    const board = response.board
+    // if (response.headers['content-type']!.includes('text/html')) {
+    //   // 匹配 boards json 串
+    //   const boardJson: string = /app\.page\[&quot;board&quot;\]\s=\s({.*});/.exec(response)![1]
+    //   board = JSON.parse(boardJson)
+    // }
+    allPins.push(...board.pins)
+
+    // 当此次获取的pins为空或者全部pins已获取完，则返回
+    const pinsChunkLength: number = board.pins.length
+    if (pinsChunkLength &amp;&amp; allPins.length &lt; board.pin_count) {
+      // 用最后一个pin id作为下一次请求的max值，表示获取该pin后面的pins
+      await loadPins(board.pins[pinsChunkLength - 1].pin_id)
+    }
+  }
+
+  await loadPins()
+  return allPins
+}
+</code></pre></li>
+
+<li><p>根据 <code>pins</code> 下载图片。这里引入了 <code>async</code> 异步库来控制同一时间的下载并发数，否则并发过高<strong>Node会失去响应</strong>；下载失败的图片还会重试一次</p>
+
+<pre><code class="language-ts">async function downloadImage(allPins: IPin[], boardPath: string): Promise&lt;number&gt; {
+  let downloadCount: number = 0
+  const errorImageUrl: Array&lt;{ url: string; path: string }&gt; = []
+
+  // 重试下载失败的图片
+  function retry() {
+    for (const image of errorImageUrl) {
+      rp({
+        uri: image.url,
+        timeout: 20 * 1000,
+        encoding: null, // make response a Buffer to write image correctly
+      }).pipe(
+        fs.createWriteStream(image.path).on('finish', () =&gt; {
+          totalDownload++
+          console.log('\x1b[32m Retry ok! \x1b[0m %s', image.url)
+        }),
+      )
+    }
+  }
+
+  function download(pin: IPin, cb: () =&gt; void): void {
+    const imageUrl: string = `${imageServer}/${pin.file.key}_fw658`
+    const imageName: string = `${pin.pin_id}${imagesTypes[pin.file.type] || '.jpg'}`
+
+    rp({
+      uri: imageUrl,
+      timeout: 20 * 1000,
+      encoding: null, // make response a Buffer to write image correctly
+    })
+      .then(data =&gt; {
+        downloadCount++
+
+        fs.writeFile(`${boardPath}/${imageName}`, data, error =&gt; {
+          error &amp;&amp; console.error('\x1b[31m%s\x1b[0m%s', error.message, imageUrl)
+        })
+      })
+      .catch(error =&gt; {
+        console.error('\x1b[31m%s %s.\x1b[0m %s', 'Download image failed.', error.message, imageUrl)
+        errorImageUrl.push({ url: imageUrl, path: `${boardPath}/${imageName}` })
+      })
+      .finally(cb)
+  }
+
+  // async控制并发下载数，否则并发数太高Node会失去响应
+  return new Promise&lt;number&gt;(resolve =&gt; {
+    // 同一时间最多有10个(不能太高)并发请求
+    async.eachLimit(allPins, 10, download, (error: IError | undefined) =&gt; {
+      if (error) {
+        throw error
+      }
+      errorImageUrl.length &amp;&amp; retry()
+      resolve(downloadCount)
+    })
+  })
+}
+</code></pre></li>
+
+<li><p>下载的图片会保存在默认 <code>images</code> 目录或者用户输入的指定目录中，下载速度平均 5 张/秒</p></li>
+</ol>
+
+<h3 id="输入用户id下载该用户所有自建画板的图片-不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</h3>
+
+<ol>
+<li><p>命令行中输入用户ID</p>
+
+<pre><code class="language-ts">rl.question('请输入地址栏中的用户名：', username =&gt; {})
+</code></pre></li>
+
+<li><p>首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片</p>
+
+<pre><code class="language-ts">async function downloadBoardsOfUser(username: string): Promise&lt;void&gt; {
+  console.time('Total time')
+  const userBoards: IBoard[] = await getUserBoards(username)
+
+  console.log('\n用户 [%s] 画板数量：%d', username, userBoards.length)
+
+  // 顺序下载画板，并行下载会失控
+  for (const board of userBoards) {
+    console.log(
+      '\n开始下载画板：[%s - %s]，图片数量：%d',
+      board.board_id,
+      board.title,
+      board.pin_count,
+    )
+    await getPinsAndDownload(board)
+  }
+
+  outputResult()
+}
+</code></pre></li>
+
+<li><p>获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取</p>
+
+<pre><code class="language-ts">async function getUserBoards(username: string): Promise&lt;IBoard[]&gt; {
+  const allUserBoards: IBoard[] = []
+
+  async function getBoards(lastBoardId?: string): Promise&lt;void&gt; {
+    const response: {
+      err?: number
+      user?: IUser
+    } = await rp({
+      uri: `${huabanDomain}/${username}/`,
+      qs: {
+        limit: 100,
+        max: lastBoardId,
+      },
+      headers: jsonRequestHeader,
+      json: true,
+    })
+
+    if (response.err === 404) {
+      throw new Error('用户不存在！')
+    } else if (!response.user!.board_count) {
+      throw new Error('用户没有画板！')
+    }
+
+    const user: IUser = response.user!
+    const requestUserBoardsCount = user.boards.length
+    allUserBoards.push(...user.boards)
+
+    // 获取所有画板数据
+    if (requestUserBoardsCount &amp;&amp; allUserBoards.length &lt; user.board_count) {
+      await getBoards(user.boards[requestUserBoardsCount - 1].board_id)
+    }
+  }
+
+  await getBoards()
+  return allUserBoards
+}
+</code></pre></li>
+
+<li><p>后面步骤跟方式一相同，这里只是使用 <code>for</code> 循环下载多个画板图片</p></li>
+</ol>
+
+<h2 id="总结">总结</h2>
+
+<p>这次爬虫几乎没有遇到服务器的反抗，花瓣网没有做反爬虫检测，最基本的 <code>User-Agent</code> 都不需要伪装，很适合爬虫初学者拿来练手；这种开放共享的精神值得表扬👍。</p>
+
+<p>遗留下了有些画板 <code>pins</code> 数据不全的问题，等待有缘再解决。</p>
+
+<h2 id="github-project">Github Project</h2>
+
+<p>项目引入了 <code>TSLint</code>、<code>Prettier</code> 来规范代码风格，用 <code>ts-node</code> 来执行 <code>.ts</code> 程序；</p>
+
+<p>代码放到Github上了 ➡ <a href="https://github.com/Jancat/huaban-crawl">Jancat/huaban-crawl</a></p>
+
+<p>Enjoy the pictures ~</p>
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">君临</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-04-20 17:00</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content">原创文章，如需转载请注明文章作者和出处。谢谢！</span>
+  </p>
+</div>
+
+    
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    
+      <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-reward-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    
+      <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div>
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/%E8%8A%B1%E7%93%A3/">花瓣</a>
+          
+          <a href="/tags/%E7%88%AC%E8%99%AB/">爬虫</a>
+          
+          <a href="/tags/huaban/">huaban</a>
+          
+          <a href="/tags/crawler/">crawler</a>
+          
+          <a href="/tags/node/">Node</a>
+          
+          <a href="/tags/typescript/">TypeScript</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:szujunlinpan@gmail.com" rel="me" class="iconfont icon-email"
+        title="email" target="_blank">
+      </a>
+      <a href="https://stackoverflow.com/users/4281309/junlin" rel="me" class="iconfont icon-stack-overflow"
+        title="stack-overflow" target="_blank">
+      </a>
+      <a href="https://github.com/Jancat" rel="me" class="iconfont icon-github"
+        title="github" target="_blank">
+      </a>
+      <a href="https://www.zhihu.com/people/Jancat/" rel="me" class="iconfont icon-zhihu"
+        title="zhihu" target="_blank">
+      </a>
+  <a href="https://jancat.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">君临</span></span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+</body>
+</html>

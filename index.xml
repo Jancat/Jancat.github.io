@@ -1,400 +1,477 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>君临的技术手札</title>
+    <title>键落云起</title>
     <link>https://jancat.github.io/</link>
-    <description>Recent content on 君临的技术手札</description>
+    <description>Recent content on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-cn</language>
-    <lastBuildDate>Sun, 20 Aug 2017 21:38:52 +0800</lastBuildDate>
+    <language>zh</language>
+    <lastBuildDate>Fri, 20 Apr 2018 09:10:24 +0000</lastBuildDate>
     
         <atom:link href="https://jancat.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>About</title>
+      <title>关于</title>
       <link>https://jancat.github.io/about/</link>
-      <pubDate>Sun, 20 Aug 2017 21:38:52 +0800</pubDate>
+      <pubDate>Fri, 20 Apr 2018 09:10:24 +0000</pubDate>
       
       <guid>https://jancat.github.io/about/</guid>
       
-        <description>&lt;p&gt;Hugo is a static site engine written in Go.&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/about/about-background.jpg&#34; alt=&#34;background&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;It makes use of a variety of open source projects including:&lt;/p&gt;
+&lt;p&gt;游走于文艺边缘，心中常住着持剑的少年&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cobra&#34;&gt;Cobra&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/viper&#34;&gt;Viper&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/jWalterWeatherman&#34;&gt;J Walter Weatherman&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/spf13/cast&#34;&gt;Cast&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;向往二次元，正因无法企及&lt;/p&gt;
 
-&lt;p&gt;Learn more and contribute on &lt;a href=&#34;https://github.com/gohugoio&#34;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;喜欢Coding带来的成就感&lt;/p&gt;
 </description>
       
     </item>
     
     <item>
-      <title>Jane Theme Preview</title>
-      <link>https://jancat.github.io/post/jane-theme-preview/</link>
-      <pubDate>Tue, 06 Mar 2018 16:01:23 +0800</pubDate>
+      <title>使用Node和Typescript爬取花瓣网图片</title>
+      <link>https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/</link>
+      <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
       
-      <guid>https://jancat.github.io/post/jane-theme-preview/</guid>
+      <guid>https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/</guid>
       
-        <description>&lt;p&gt;&lt;strong&gt;Markdown&lt;/strong&gt; is created by &lt;a href=&#34;http://daringfireball.net/&#34;&gt;Daring Fireball&lt;/a&gt;, the original guideline is &lt;a href=&#34;http://daringfireball.net/projects/markdown/syntax&#34;&gt;here&lt;/a&gt;. Its syntax, however, varies between different parsers or editors.&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg&#34; alt=&#34;huban-logo&#34; /&gt;
+&lt;/p&gt;
 
-&lt;p&gt;Please note that HTML fragments in markdown source will be recognized but not parsed or rendered. Also, there may be small reformatting on the original markdown source code after saving.&lt;/p&gt;
+&lt;!-- @import &#34;[TOC]&#34; {cmd=&#34;toc&#34; depthFrom=1 depthTo=6 orderedList=false} --&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;paragraph-and-line-breaks&#34;&gt;Paragraph and line breaks&lt;/h2&gt;
-
-&lt;p&gt;A paragraph is simply one or more consecutive lines of text. In markdown source code, paragraphs are separated by more than one blank lines. In Typora, you only need to press &lt;code&gt;Return&lt;/code&gt; to create a new paragraph.&lt;/p&gt;
-
-&lt;p&gt;Press &lt;code&gt;Shift&lt;/code&gt; + &lt;code&gt;Return&lt;/code&gt; to create a single line break. However, most markdown parser will ignore single line break, to make other markdown parsers recognize your line break, you can leave two whitespace at the end of the line, or insert &lt;code&gt;&amp;lt;br/&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;headers&#34;&gt;Headers&lt;/h2&gt;
-
-&lt;p&gt;Headers use 1-6 hash characters at the start of the line, corresponding to header levels 1-6. For example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;# This is an H1
-
-## This is an H2
-
-###### This is an H6
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In typora, input ‘#’s followed by title content, and press &lt;code&gt;Return&lt;/code&gt; key will create a header.&lt;/p&gt;
-
-&lt;h2 id=&#34;blockquotes&#34;&gt;Blockquotes&lt;/h2&gt;
-
-&lt;p&gt;Markdown uses email-style &amp;gt; characters for block quoting. They are presented as:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;This is a blockquote with two paragraphs. This is first paragraph.&lt;/p&gt;
-
-&lt;p&gt;This is second pragraph.Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&lt;/p&gt;
-
-&lt;p&gt;This is another blockquote with one paragraph. There is three empty line to seperate two blockquote.&lt;/p&gt;
-
-&lt;p&gt;这是一段中文测试。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In typora, just input ‘&amp;gt;’ followed by quote contents a block quote is  generated. Typora will insert proper ‘&amp;gt;’ or line break for you. Block quote inside anther block quote is allowed by adding additional levels of ‘&amp;gt;’.&lt;/p&gt;
-
-&lt;h2 id=&#34;lists&#34;&gt;Lists&lt;/h2&gt;
-
-&lt;p&gt;Input &lt;code&gt;* list item 1&lt;/code&gt; will create an un-ordered list, the &lt;code&gt;*&lt;/code&gt; symbol can be replace with &lt;code&gt;+&lt;/code&gt; or &lt;code&gt;-&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Input &lt;code&gt;1. list item 1&lt;/code&gt; will create an ordered list, their markdown source code is like:&lt;/p&gt;
+&lt;!-- code_chunk_output --&gt;
 
 &lt;ul&gt;
-&lt;li&gt;Red&lt;/li&gt;
-&lt;li&gt;Green&lt;/li&gt;
-&lt;li&gt;Blue&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#前言&#34;&gt;前言&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#技术选型&#34;&gt;技术选型&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#花瓣网技术分析&#34;&gt;花瓣网技术分析&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#画板资源&#34;&gt;画板资源&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#board-data&#34;&gt;Board Data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#图片懒加载&#34;&gt;图片懒加载&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#node-爬虫实现&#34;&gt;Node 爬虫实现&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#输入画板id下载该画板的所有图片&#34;&gt;输入画板ID下载该画板的所有图片&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#输入用户id下载该用户所有自建画板的图片不包括收藏的画板&#34;&gt;输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#总结&#34;&gt;总结&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#github-project&#34;&gt;Github Project&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;ol&gt;
-&lt;li&gt;Red&lt;/li&gt;
-&lt;li&gt;Green&lt;/li&gt;
-&lt;li&gt;Blue&lt;/li&gt;
-&lt;/ol&gt;
+&lt;!-- /code_chunk_output --&gt;
 
-&lt;h2 id=&#34;task-list&#34;&gt;Task List&lt;/h2&gt;
+&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
 
-&lt;p&gt;Task lists are lists with items marked as either &lt;code&gt;[ ]&lt;/code&gt; or &lt;code&gt;[x]&lt;/code&gt; (incomplete or complete). For example:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://huaban.com&#34;&gt;花瓣网&lt;/a&gt; 最初是模仿国外的 &lt;a href=&#34;https://www.pinterest.com/&#34;&gt;Pinterest&lt;/a&gt; 开始做起来的图片采集分享网站，国内类似的网站有&lt;a href=&#34;https://www.duitang.com/&#34;&gt;堆糖&lt;/a&gt;。在初期的用户积累阶段过后，花瓣网近几年开始探索其商业模式，以“图”为中心向相关领域延伸（摄影、设计、Live、电商导购等），不过不管怎么发展，用户体验还是要放在首位的，不忘初衷。&lt;/p&gt;
 
-&lt;ul class=&#34;task-list&#34;&gt;
-&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; a task list item&lt;/label&gt;&lt;/li&gt;
-&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; list syntax required&lt;/label&gt;&lt;/li&gt;
-&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; normal &lt;strong&gt;formatting&lt;/strong&gt;, @mentions, #1234 refs&lt;/label&gt;&lt;/li&gt;
-&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; disabled class=&#34;task-list-item&#34;&gt; incomplete&lt;/label&gt;&lt;/li&gt;
-&lt;li&gt;&lt;label&gt;&lt;input type=&#34;checkbox&#34; checked disabled class=&#34;task-list-item&#34;&gt; completed&lt;/label&gt;&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;作为国内优秀的图片网站,其流畅的瀑布流图片展示、简单易用的图片采集分类方式、强大的图片采集插件，让我这个图控坚持在这里深耕多年，采集了几万张图片，骗粉几千个（欢迎关注 &lt;a href=&#34;http://huaban.com/junlin/&#34;&gt;http://huaban.com/junlin/&lt;/a&gt; ）。&lt;/p&gt;
 
-&lt;p&gt;You can change the complete/incomplete state by click the checkbox before the item.&lt;/p&gt;
+&lt;p&gt;然而对于&lt;strong&gt;图控+收藏控&lt;/strong&gt;来说，花瓣网也只是&lt;strong&gt;个人图库大计&lt;/strong&gt;中的其中一环，毕竟还是有很多&lt;del&gt;私图&lt;/del&gt;不宜光明正大放出来的，花瓣网也有违规图片检测机制，所以需要汇总花瓣网采集的图片到个人存储库中（网盘or硬盘）；此为&lt;u&gt;纯纯的&lt;/u&gt;动机，也是本文出现的原因。&lt;/p&gt;
 
-&lt;h2 id=&#34;syntax-highlighting&#34;&gt;Syntax Highlighting&lt;/h2&gt;
+&lt;h3 id=&#34;技术选型&#34;&gt;技术选型&lt;/h3&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function helloWorld () {
-  alert(&amp;quot;Hello, World!&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这么多图片手工一个个下载肯定是不现实的，花瓣网也没有提供批量下载画板的功能（要是有就省心了，可能是考虑到这功能开放后会影响网站运营），这样就催生了很多批量下载工具、脚本（&lt;a href=&#34;https://www.douban.com/group/473118/&#34;&gt;豆皮DouP相册下载器豆瓣小组&lt;/a&gt;、Github 爬虫项目），基本都能很方便的下载。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class HelloWorld {
-  public static void main(String[] args) {
-    System.out.println(&amp;quot;Hello, World!&amp;quot;);
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;math-blocks&#34;&gt;Math Blocks&lt;/h2&gt;
-
-&lt;p&gt;You can render *LaTeX* mathematical expressions using &lt;strong&gt;MathJax&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;Input &lt;code&gt;$$&lt;/code&gt;, then press &amp;lsquo;Return&amp;rsquo; key will trigger an input field which accept &lt;em&gt;Tex/LaTex&lt;/em&gt; source. Following is an example:
-$$
-\mathbf{V}_1 \times \mathbf{V}_2 =  \begin{vmatrix}
-\mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} &lt;br /&gt;
-\frac{\partial X}{\partial u} &amp;amp;  \frac{\partial Y}{\partial u} &amp;amp; 0 &lt;br /&gt;
-\frac{\partial X}{\partial v} &amp;amp;  \frac{\partial Y}{\partial v} &amp;amp; 0 &lt;br /&gt;
-\end{vmatrix}
-$$&lt;/p&gt;
-
-&lt;p&gt;In markdown source file, math block is &lt;em&gt;LaTeX&lt;/em&gt; expression wrapped by ‘$$’ mark:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;$$
-\mathbf{V}_1 \times \mathbf{V}_2 =  \begin{vmatrix}
-\mathbf{i} &amp;amp; \mathbf{j} &amp;amp; \mathbf{k} \\
-\frac{\partial X}{\partial u} &amp;amp;  \frac{\partial Y}{\partial u} &amp;amp; 0 \\
-\frac{\partial X}{\partial v} &amp;amp;  \frac{\partial Y}{\partial v} &amp;amp; 0 \\
-\end{vmatrix}
-$$
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;tables&#34;&gt;Tables&lt;/h2&gt;
-
-&lt;p&gt;Input &lt;code&gt;| First Header  | Second Header |&lt;/code&gt; and press &lt;code&gt;return&lt;/code&gt; key will create a table with two column.&lt;/p&gt;
-
-&lt;p&gt;After table is created, focus on that table will pop up a toolbar for table, where you can resize, align, or delete table. You can also use context menu to copy and add/delete column/row.&lt;/p&gt;
-
-&lt;p&gt;Following descriptions can be skipped, as markdown source code for tables are generated by typora automatically.&lt;/p&gt;
-
-&lt;p&gt;In markdown source code, they look like:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;| Name              | Markdown            | HTML tag             |
-| ----------------- | ------------------- | -------------------- |
-| *Emphasis*        | `*Emphasis*`        | `&amp;lt;em&amp;gt;&amp;lt;/em&amp;gt;`          |
-| **Strong**        | `**Strong**`        | `&amp;lt;strong&amp;gt;&amp;lt;/strong&amp;gt;` |
-| `code`            | ``code``            | `&amp;lt;code&amp;gt;&amp;lt;/code&amp;gt;`      |
-| ~~Strikethrough~~ | `~~Strikethrough~~` | `&amp;lt;del&amp;gt;&amp;lt;/del`         |
-| &amp;lt;u&amp;gt;Underline&amp;lt;/u&amp;gt;  | `&amp;lt;u&amp;gt;underline&amp;lt;/u&amp;gt;`  | `&amp;lt;u&amp;gt;&amp;lt;/u&amp;gt;`            |
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Name&lt;/th&gt;
-&lt;th&gt;Markdown&lt;/th&gt;
-&lt;th&gt;HTML tag&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;em&gt;Emphasis&lt;/em&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;*Emphasis*&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;&amp;lt;em&amp;gt;&amp;lt;/em&amp;gt;&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;&lt;strong&gt;Strong&lt;/strong&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;**Strong**&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;&amp;lt;strong&amp;gt;&amp;lt;/strong&amp;gt;&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;code&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;code&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;&amp;lt;code&amp;gt;&amp;lt;/code&amp;gt;&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;&lt;del&gt;Strikethrough&lt;/del&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;~~Strikethrough~~&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;&amp;lt;del&amp;gt;&amp;lt;/del&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;&lt;u&gt;Underline&lt;/u&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;&amp;lt;u&amp;gt;underline&amp;lt;/u&amp;gt;&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;&lt;code&gt;&amp;lt;u&amp;gt;&amp;lt;/u&amp;gt;&lt;/code&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&#34;footnotes&#34;&gt;Footnotes&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;You can create footnotes like this[^footnote].
-
-[^footnote]: Here is the *text* of the **footnote**.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;will produce:&lt;/p&gt;
-
-&lt;p&gt;You can create footnotes like this&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:footnote&#34;&gt;&lt;a href=&#34;#fn:footnote&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
-
-&lt;p&gt;Mouse on the ‘footnote’ superscript to see content of the footnote.&lt;/p&gt;
-
-&lt;h2 id=&#34;horizontal-rules&#34;&gt;Horizontal Rules&lt;/h2&gt;
-
-&lt;p&gt;Input &lt;code&gt;***&lt;/code&gt; or &lt;code&gt;---&lt;/code&gt; on a blank line and press &lt;code&gt;return&lt;/code&gt; will draw a horizontal line.&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&#34;links&#34;&gt;Links&lt;/h2&gt;
-
-&lt;p&gt;Markdown supports two style of links: inline and reference.&lt;/p&gt;
-
-&lt;p&gt;In both styles, the link text is delimited by [square brackets].&lt;/p&gt;
-
-&lt;p&gt;To create an inline link, use a set of regular parentheses immediately after the link text’s closing square bracket. Inside the parentheses, put the URL where you want the link to point, along with an optional title for the link, surrounded in quotes. For example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;This is [an example](http://example.com/ &amp;quot;Title&amp;quot;) inline link.
-
-[This link](http://example.net/) has no title attribute.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;will produce:&lt;/p&gt;
-
-&lt;p&gt;This is &lt;a href=&#34;http://example.com/&#34; title=&#34;Title&#34;&gt;an example&lt;/a&gt; inline link. (&lt;code&gt;&amp;lt;p&amp;gt;This is &amp;lt;a href=&amp;quot;http://example.com/&amp;quot; title=&amp;quot;Title&amp;quot;&amp;gt;&lt;/code&gt;)&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://example.net/&#34;&gt;This link&lt;/a&gt; has no title attribute. (&lt;code&gt;&amp;lt;p&amp;gt;&amp;lt;a href=&amp;quot;http://example.net/&amp;quot;&amp;gt;This link&amp;lt;/a&amp;gt; has no&lt;/code&gt;)&lt;/p&gt;
-
-&lt;h3 id=&#34;internal-links&#34;&gt;Internal Links&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;You can set the href to headers&lt;/strong&gt;, which will create a bookmark that allow you to jump to that section after clicking. For example:&lt;/p&gt;
-
-&lt;p&gt;Command(on Windows: Ctrl) + Click &lt;a href=&#34;#block-elements&#34;&gt;This link&lt;/a&gt; will jump to header &lt;code&gt;Block Elements&lt;/code&gt;. To see how to write that, please move cursor or click that link with &lt;code&gt;⌘&lt;/code&gt; key pressed to expand the element into markdown source.&lt;/p&gt;
-
-&lt;h3 id=&#34;reference-links&#34;&gt;Reference Links&lt;/h3&gt;
-
-&lt;p&gt;Reference-style links use a second set of square brackets, inside which you place a label of your choosing to identify the link:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;This is [an example][id] reference-style link.
-
-Then, anywhere in the document, you define your link label like this, on a line by itself:
-
-[id]: http://example.com/  &amp;quot;Optional Title Here&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In typora, they will be rendered like:&lt;/p&gt;
-
-&lt;p&gt;This is &lt;a href=&#34;http://example.com/&#34; title=&#34;Optional Title Here&#34;&gt;an example&lt;/a&gt; reference-style link.&lt;/p&gt;
-
-&lt;p&gt;The implicit link name shortcut allows you to omit the name of the link, in which case the link text itself is used as the name. Just use an empty set of square brackets — e.g., to link the word “Google” to the google.com web site, you could simply write:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;[Google][]
-And then define the link:
-
-[Google]: http://google.com/
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In typora click link will expand it for editing, command+click will open the hyperlink in web browser.&lt;/p&gt;
-
-&lt;h2 id=&#34;urls&#34;&gt;URLs&lt;/h2&gt;
-
-&lt;p&gt;Typora allows you to insert urls as links, wrapped by &lt;code&gt;&amp;lt;&lt;/code&gt;brackets&lt;code&gt;&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;lt;i@typora.io&amp;gt;&lt;/code&gt; becomes &lt;a href=&#34;mailto:i@typora.io&#34;&gt;i@typora.io&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Typora will aslo auto link standard URLs. e.g: www.google.com.&lt;/p&gt;
-
-&lt;h2 id=&#34;images&#34;&gt;Images&lt;/h2&gt;
-
-&lt;p&gt;Image looks similar with links, but it requires an additional &lt;code&gt;!&lt;/code&gt; char before the start of link. Image syntax looks like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;![Alt text](/path/to/img.jpg)
-
-![Alt text](/path/to/img.jpg &amp;quot;Optional title&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You are able to use drag &amp;amp; drop to insert image from image file or we browser. And modify the markdown source code by clicking on the image. Relative path will be used if image is in same directory or sub-directory with current editing document when drag &amp;amp; drop.&lt;/p&gt;
-
-&lt;p&gt;For more tips on images, please read &lt;a href=&#34;http://support.typora.io//Images/&#34;&gt;http://support.typora.io//Images/&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;emphasis&#34;&gt;Emphasis&lt;/h2&gt;
-
-&lt;p&gt;Markdown treats asterisks (&lt;code&gt;*&lt;/code&gt;) and underscores (&lt;code&gt;_&lt;/code&gt;) as indicators of emphasis. Text wrapped with one &lt;code&gt;*&lt;/code&gt; or &lt;code&gt;_&lt;/code&gt; will be wrapped with an HTML &lt;code&gt;&amp;lt;em&amp;gt;&lt;/code&gt; tag. E.g:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;*single asterisks*
-
-_single underscores_
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;output:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;single asterisks&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;single underscores&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;GFM will ignores underscores in words, which is commonly used in code and names, like this:&lt;/p&gt;
+&lt;p&gt;本着一颗不安分喜欢折腾的心，也是出于技术学习目的，打算自己实现一个批量下载的爬虫脚本。虽然爬虫首选Python，但，作为相信着 &lt;strong&gt;Atwood定律&lt;/strong&gt; 的前端er，&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;wow_great_stuff&lt;/p&gt;
-
-&lt;p&gt;do_this_and_do_that_and_another_thing.&lt;/p&gt;
+&lt;p&gt;any application that can be written in JavaScript, will eventually be written in JavaScript.
+（任何能够用JavaScript实现的应用，最终都必将由JavaScript实现。）
+&amp;ndash; Jeff Atwood&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;To produce a literal asterisk or underscore at a position where it would otherwise be used as an emphasis delimiter, you can backslash escape it:&lt;/p&gt;
+&lt;p&gt;很自然的选择了 &lt;strong&gt;Node.js&lt;/strong&gt; ，再加上越来越来流行的 &lt;strong&gt;TypeScript&lt;/strong&gt;，如虎添翼，Perfect！&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;\*this text is surrounded by literal asterisks\*
+&lt;h2 id=&#34;花瓣网技术分析&#34;&gt;花瓣网技术分析&lt;/h2&gt;
+
+&lt;p&gt;首先打开花瓣网任意一个&lt;strong&gt;画板&lt;/strong&gt;，在 Chrome DevTools - Network 下观察它和服务器之前的交互。&lt;/p&gt;
+
+&lt;h3 id=&#34;画板资源&#34;&gt;画板资源&lt;/h3&gt;
+
+&lt;p&gt;刷新后发现有很多网络请求，注意到最开始有个带有&lt;strong&gt;画板ID&lt;/strong&gt;的 Request &lt;a href=&#34;http://huaban.com/boards/17473820/&#34;&gt;http://huaban.com/boards/17473820/&lt;/a&gt; ，应该就是它了，服务器响应的是一个 HTML Document。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/board-request.png&#34; alt=&#34;board-request&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;board-data&#34;&gt;Board Data&lt;/h3&gt;
+
+&lt;p&gt;在这个 HTML Document 中发现有个 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 中带有大量的 &lt;strong&gt;board&lt;/strong&gt; 数据：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;app.page[&#39;board&#39;] = {
+  board_id: 17473820,
+  user_id: 14191742,
+  title: &#39;◈ 二次元 少女 ◈&#39;,
+  description: &#39;三次元之外的一片净土，满满的治愈~&#39;,
+  category_id: &#39;anime&#39;,
+  seq: 3,
+  pin_count: 12627,
+  follow_count: 1004,
+  like_count: 37,
+  created_at: 1410342416,
+  updated_at: 1523766920,
+  deleting: 0,
+  is_private: 0,
+  extra: { cover: { pin_id: &#39;407033830&#39; } },
+  user: { ... },
+  category_name: &#39;动漫&#39;,
+  following: false,
+  liked: false,
+  pins: [
+    {
+      pin_id: 1595477246,
+      user_id: 14191742,
+      board_id: 17473820,
+      file_id: 183940093,
+      file: {
+        id: 183940093,
+        farm: &#39;farm1&#39;,
+        bucket: &#39;hbimg&#39;,
+        key: &#39;95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn&#39;,
+        type: &#39;image/jpeg&#39;,
+        width: 752,
+        height: 1062,
+        frames: 1,
+        colors: [{ color: 5934, ratio: 0.09 }],
+        theme: &#39;00172e&#39;,
+      },
+      media_type: 0,
+      source: &#39;pixiv.net&#39;,
+      link: &#39;https://www.pixiv.net/member_illust.php?mode=medium&amp;amp;illust_id=67752097&#39;,
+      raw_text: &#39;奏さん&#39;,
+      text_meta: { tags: [] },
+      via: 1587727234,
+      via_user_id: 8451317,
+      original: 1568136527,
+      created_at: 1523444564,
+      like_count: 1,
+      comment_count: 0,
+      repin_count: 3,
+      is_private: 0,
+      extra: null,
+      orig_source: null,
+      tags: [],
+    },
+    { ... },
+    ...
+  ]
+}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Typora recommends to use &lt;code&gt;*&lt;/code&gt; symbol.&lt;/p&gt;
+&lt;p&gt;其中 &lt;code&gt;app.page.board.pins&lt;/code&gt; 是一个对象数组，里面每个对象对应着画板中其中一张图片的信息，&lt;code&gt;pin&lt;/code&gt; 代表一张图片的信息。&lt;/p&gt;
 
-&lt;h2 id=&#34;strong&#34;&gt;Strong&lt;/h2&gt;
+&lt;p&gt;在网页中检查第一张图片的源 &lt;code&gt;&amp;lt;img src=&amp;quot;//img.hb.aicdn.com/95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn_fw236&amp;quot;&amp;gt;&lt;/code&gt;，可以发现花瓣网图片使用了又拍云的CDN服务，第二部分即是上面的 &lt;code&gt;pins[0].file.key&lt;/code&gt; 加上一个 &lt;code&gt;_fw236&lt;/code&gt; 后缀；其它图片的 &lt;code&gt;src&lt;/code&gt; 都带有这个 &lt;code&gt;_fw236&lt;/code&gt; 后缀，暂时还不知道它的意义。&lt;/p&gt;
 
-&lt;p&gt;double *’s or _’s will be wrapped with an HTML &lt;code&gt;&amp;lt;strong&amp;gt;&lt;/code&gt; tag, e.g:&lt;/p&gt;
+&lt;p&gt;拿到了画板图片信息，到这一步就能想到可以通过爬虫来下载画板的图片。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;**double asterisks**
+&lt;h3 id=&#34;图片懒加载&#34;&gt;图片懒加载&lt;/h3&gt;
 
-__double underscores__
+&lt;p&gt;再回到画板网页上，看到页面上目前只加载了画板一部分图片，剩下的图片是通过&lt;strong&gt;懒加载&lt;/strong&gt;的方式出现的（想想就知道不能一次性把所有图片都加载出来）。&lt;/p&gt;
+
+&lt;p&gt;拖动滚动条到底部，继续观察 &lt;strong&gt;Network&lt;/strong&gt;，第一个请求 &lt;a href=&#34;http://huaban.com/boards/17473820/?jg6ltavl&amp;amp;max=1584529804&amp;amp;limit=20&amp;amp;wfl=1&#34;&gt;http://huaban.com/boards/17473820/?jg6ltavl&amp;amp;max=1584529804&amp;amp;limit=20&amp;amp;wfl=1&lt;/a&gt; 在画板ID后面携带了一些参数：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/board-lazy-load.png&#34; alt=&#34;board-lazy-load&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;jg6ltavl: 
+max: 1584529804
+limit: 20
+wfl: 1
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;output:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一个参数是个随机字符串，最后一位按字母表顺序循环，没发现有什么意义，忽略；&lt;/li&gt;
+&lt;li&gt;第二个参数 &lt;strong&gt;max&lt;/strong&gt; 的值是个 &lt;strong&gt;pin_id&lt;/strong&gt; ；&lt;/li&gt;
+&lt;li&gt;第三个参数 &lt;strong&gt;limit&lt;/strong&gt; 限制了服务器返回的 &lt;strong&gt;pin 数量&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;第四个参数 &lt;strong&gt;wfl&lt;/strong&gt; 可能是 &lt;strong&gt;waterfall&lt;/strong&gt; 瀑布流的缩写，没发现有什么意义，忽略。&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;&lt;strong&gt;double asterisks&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;重点是 &lt;strong&gt;max&lt;/strong&gt; 和 &lt;strong&gt;limit&lt;/strong&gt; 这两个值，经过测试发现，&lt;strong&gt;max&lt;/strong&gt; 是上一张图片的 &lt;strong&gt;pin_id&lt;/strong&gt;，服务器按先后顺序（采集顺序）返回这张图片&lt;strong&gt;后面&lt;/strong&gt;的 pin 数据；&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;double underscores&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;而 &lt;strong&gt;limit&lt;/strong&gt; 告诉服务器返回&lt;strong&gt;多少个&lt;/strong&gt; pin 数据。后面测出服务器对 &lt;strong&gt;limit&lt;/strong&gt; 做了最大值校验，最大是 &lt;strong&gt;100&lt;/strong&gt;，即一次最多只能加载100张图片数据。&lt;/p&gt;
 
-&lt;p&gt;Typora recommends to use &lt;code&gt;**&lt;/code&gt; symbol.&lt;/p&gt;
+&lt;p&gt;到了现在可以开始写爬虫模拟上面的操作了。&lt;/p&gt;
 
-&lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
+&lt;h2 id=&#34;node-爬虫实现&#34;&gt;Node 爬虫实现&lt;/h2&gt;
 
-&lt;p&gt;To indicate a span of code, wrap it with backtick quotes (`). Unlike a pre-formatted code block, a code span indicates code within a normal paragraph. For example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-markdown&#34;&gt;Use the `printf()` function.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;will produce:&lt;/p&gt;
-
-&lt;p&gt;Use the &lt;code&gt;printf()&lt;/code&gt; function.&lt;/p&gt;
-
-&lt;h2 id=&#34;strikethrough&#34;&gt;Strikethrough&lt;/h2&gt;
-
-&lt;p&gt;GFM adds syntax to create strikethrough text, which is missing from standard Markdown.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;~~Mistaken text.~~&lt;/code&gt; becomes &lt;del&gt;Mistaken text.&lt;/del&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;underline&#34;&gt;Underline&lt;/h2&gt;
-
-&lt;p&gt;Underline is powered by raw HTML.&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;&amp;lt;u&amp;gt;Underline&amp;lt;/u&amp;gt;&lt;/code&gt; becomes &lt;u&gt;Underline&lt;/u&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;emoji-happy&#34;&gt;Emoji :happy:&lt;/h2&gt;
-
-&lt;p&gt;Input emoji with syntax &lt;code&gt;😄&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;User can trigger auto-complete suggestions for emoji by pressing &lt;code&gt;ESC&lt;/code&gt; key, or trigger it automatically after enable it on preference panel. Also, input UTF8 emoji char directly from &lt;code&gt;Edit&lt;/code&gt; -&amp;gt; &lt;code&gt;Emoji &amp;amp; Symbols&lt;/code&gt; from menu bar is also supported.&lt;/p&gt;
-
-&lt;h2 id=&#34;inline-math&#34;&gt;Inline Math&lt;/h2&gt;
-
-&lt;p&gt;To use this feature, first, please enable it in &lt;code&gt;Preference&lt;/code&gt; Panel -&amp;gt; &lt;code&gt;Markdown&lt;/code&gt; Tab. Then use &lt;code&gt;$&lt;/code&gt; to wrap TeX command, for example: &lt;code&gt;$\lim_{x \to \infty} \exp(-x) = 0$&lt;/code&gt; will be rendered as LaTeX command.&lt;/p&gt;
-
-&lt;p&gt;To trigger inline preview for inline math: input “$”, then press &lt;code&gt;ESC&lt;/code&gt; key, then input TeX command, a preview tooltip will be visible like below:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://typora.io/img/inline-math.gif&#34; style=&#34;zoom:50%;&#34; /&gt;&lt;/p&gt;
-&lt;div class=&#34;footnotes&#34;&gt;
-
-&lt;hr /&gt;
+&lt;p&gt;使用 Node.js 实现命令行程序，提供两种方式下载图片：&lt;/p&gt;
 
 &lt;ol&gt;
-&lt;li id=&#34;fn:footnote&#34;&gt;Here is the &lt;em&gt;text&lt;/em&gt; of the &lt;strong&gt;footnote&lt;/strong&gt;.
- &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:footnote&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;输入&lt;strong&gt;画板ID&lt;/strong&gt;下载该画板的所有图片&lt;/li&gt;
+&lt;li&gt;输入&lt;strong&gt;用户ID&lt;/strong&gt;下载该用户所有自建画板的图片（不包括收藏的画板）&lt;/li&gt;
 &lt;/ol&gt;
-&lt;/div&gt;</description>
+
+&lt;h3 id=&#34;输入画板id下载该画板的所有图片&#34;&gt;输入画板ID下载该画板的所有图片&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在命令行中跟用户交互，使用 Node &lt;code&gt;readline&lt;/code&gt; API实现在 &lt;code&gt;stdin/stdout&lt;/code&gt; 读取输入和显示输出：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;import readline from &#39;readline&#39;
+
+const rl: readline.ReadLine = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
+rl.question(&#39;画板ID：&#39;, boardId =&amp;gt; {})
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;首先根据画板ID获取 &lt;code&gt;board&lt;/code&gt; 数据，然后获取到 &lt;code&gt;board&lt;/code&gt; 中所有的 &lt;code&gt;pins&lt;/code&gt; 数据，最后根据每个 &lt;code&gt;pin&lt;/code&gt; 数据下载图片到本地目录中，中间向命令行中输出一些提示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function downloadSingleBoard(boardId: string): Promise&amp;lt;void&amp;gt; {
+  console.time(&#39;Total time&#39;)
+  const board = await getBoardInfo(boardId)
+  console.log(&#39;\n开始下载画板 %s - %s，图片数量：%d&#39;, boardId, board.title, board.pin_count)
+
+  await getPinsAndDownload(board)
+  outputResult()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;根据画板ID获取 &lt;code&gt;board&lt;/code&gt; 数据。为了使用 ES7 的 &lt;code&gt;async/await&lt;/code&gt;，引入了 &lt;code&gt;promisify&lt;/code&gt; 的 request 库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;import rp from &#39;request-promise&#39;
+
+async function getBoardInfo(boardId: string): Promise&amp;lt;IBoard&amp;gt; {
+  const response: {
+    err?: number
+    board: IBoard
+  } = await rp({
+    uri: `${huabanDomain}/boards/${boardId}/`,
+    headers: jsonRequestHeader,
+    qs: {
+      limit: 1,
+    },
+    json: true,
+  })
+  if (response.err === 404) {
+    throw new Error(&#39;画板不存在！&#39;)
+  }
+
+  return response.board
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;获取 &lt;code&gt;pins&lt;/code&gt; 数据然后下载图片，输出结果。其中在获取 &lt;code&gt;pins&lt;/code&gt; 数据的时候发现有些画板无法获取全部的 &lt;code&gt;pins&lt;/code&gt; 数据，造成画板图片下载不全（暂时还不清楚原因）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function getPinsAndDownload(board: IBoard): Promise&amp;lt;void&amp;gt; {
+  const boardPins = await getPins(board.board_id)
+  // TODO: 有些画板获取的pins数据不全？
+  const missedPinsCount = board.pin_count - boardPins.length
+
+  const boardPath = `${downloadPath}/${board.board_id} - ${board.title}`
+  fs.emptyDirSync(boardPath)
+
+  const downloadCount: number = await downloadImage(boardPins, boardPath)
+  const failedCount: number = board.pin_count - downloadCount - missedPinsCount
+  totalDownload += downloadCount
+
+  console.log(
+    `Done. 成功 %d 个${failedCount ? `，失败 \x1b[31m${failedCount}\x1b[0m个` : &#39;&#39;}${
+      missedPinsCount ? `，丢失 \x1b[31m${missedPinsCount}\x1b[0m 个` : &#39;&#39;
+    }`,
+    downloadCount,
+  )
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 &lt;code&gt;&#39;X-Requested-With&#39;: &#39;XMLHttpRequest&#39;&lt;/code&gt;，服务器返回的是包含json的HMLT Document，而不是单纯的 &lt;code&gt;json&lt;/code&gt; 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 &lt;code&gt;json&lt;/code&gt;，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;// 关键头部，添加该项后服务器只会返回json数据，而不是包含json的HTML
+const jsonRequestHeader = {
+  Accept: &#39;application/json&#39;,
+  &#39;X-Requested-With&#39;: &#39;XMLHttpRequest&#39;,
+}
+
+async function getPins(boardId: string): Promise&amp;lt;IPin[]&amp;gt; {
+  const allPins: IPin[] = []
+
+  async function loadPins(lastPinId: string = &#39;&#39;): Promise&amp;lt;void&amp;gt; {
+    // limit 查询参数限制获取的pin数量，最大100，默认20
+    const response = await rp({
+      uri: `${huabanDomain}/boards/${boardId}/`,
+      qs: {
+        limit: 100,
+        max: lastPinId,
+      },
+      headers: jsonRequestHeader,
+      json: true,
+    })
+
+    const board = response.board
+    // if (response.headers[&#39;content-type&#39;]!.includes(&#39;text/html&#39;)) {
+    //   // 匹配 boards json 串
+    //   const boardJson: string = /app\.page\[&amp;quot;board&amp;quot;\]\s=\s({.*});/.exec(response)![1]
+    //   board = JSON.parse(boardJson)
+    // }
+    allPins.push(...board.pins)
+
+    // 当此次获取的pins为空或者全部pins已获取完，则返回
+    const pinsChunkLength: number = board.pins.length
+    if (pinsChunkLength &amp;amp;&amp;amp; allPins.length &amp;lt; board.pin_count) {
+      // 用最后一个pin id作为下一次请求的max值，表示获取该pin后面的pins
+      await loadPins(board.pins[pinsChunkLength - 1].pin_id)
+    }
+  }
+
+  await loadPins()
+  return allPins
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;根据 &lt;code&gt;pins&lt;/code&gt; 下载图片。这里引入了 &lt;code&gt;async&lt;/code&gt; 异步库来控制同一时间的下载并发数，否则并发过高&lt;strong&gt;Node会失去响应&lt;/strong&gt;；下载失败的图片还会重试一次&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function downloadImage(allPins: IPin[], boardPath: string): Promise&amp;lt;number&amp;gt; {
+  let downloadCount: number = 0
+  const errorImageUrl: Array&amp;lt;{ url: string; path: string }&amp;gt; = []
+
+  // 重试下载失败的图片
+  function retry() {
+    for (const image of errorImageUrl) {
+      rp({
+        uri: image.url,
+        timeout: 20 * 1000,
+        encoding: null, // make response a Buffer to write image correctly
+      }).pipe(
+        fs.createWriteStream(image.path).on(&#39;finish&#39;, () =&amp;gt; {
+          totalDownload++
+          console.log(&#39;\x1b[32m Retry ok! \x1b[0m %s&#39;, image.url)
+        }),
+      )
+    }
+  }
+
+  function download(pin: IPin, cb: () =&amp;gt; void): void {
+    const imageUrl: string = `${imageServer}/${pin.file.key}_fw658`
+    const imageName: string = `${pin.pin_id}${imagesTypes[pin.file.type] || &#39;.jpg&#39;}`
+
+    rp({
+      uri: imageUrl,
+      timeout: 20 * 1000,
+      encoding: null, // make response a Buffer to write image correctly
+    })
+      .then(data =&amp;gt; {
+        downloadCount++
+
+        fs.writeFile(`${boardPath}/${imageName}`, data, error =&amp;gt; {
+          error &amp;amp;&amp;amp; console.error(&#39;\x1b[31m%s\x1b[0m%s&#39;, error.message, imageUrl)
+        })
+      })
+      .catch(error =&amp;gt; {
+        console.error(&#39;\x1b[31m%s %s.\x1b[0m %s&#39;, &#39;Download image failed.&#39;, error.message, imageUrl)
+        errorImageUrl.push({ url: imageUrl, path: `${boardPath}/${imageName}` })
+      })
+      .finally(cb)
+  }
+
+  // async控制并发下载数，否则并发数太高Node会失去响应
+  return new Promise&amp;lt;number&amp;gt;(resolve =&amp;gt; {
+    // 同一时间最多有10个(不能太高)并发请求
+    async.eachLimit(allPins, 10, download, (error: IError | undefined) =&amp;gt; {
+      if (error) {
+        throw error
+      }
+      errorImageUrl.length &amp;amp;&amp;amp; retry()
+      resolve(downloadCount)
+    })
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;下载的图片会保存在默认 &lt;code&gt;images&lt;/code&gt; 目录或者用户输入的指定目录中，下载速度平均 5 张/秒&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;输入用户id下载该用户所有自建画板的图片-不包括收藏的画板&#34;&gt;输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;命令行中输入用户ID&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;rl.question(&#39;请输入地址栏中的用户名：&#39;, username =&amp;gt; {})
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function downloadBoardsOfUser(username: string): Promise&amp;lt;void&amp;gt; {
+  console.time(&#39;Total time&#39;)
+  const userBoards: IBoard[] = await getUserBoards(username)
+
+  console.log(&#39;\n用户 [%s] 画板数量：%d&#39;, username, userBoards.length)
+
+  // 顺序下载画板，并行下载会失控
+  for (const board of userBoards) {
+    console.log(
+      &#39;\n开始下载画板：[%s - %s]，图片数量：%d&#39;,
+      board.board_id,
+      board.title,
+      board.pin_count,
+    )
+    await getPinsAndDownload(board)
+  }
+
+  outputResult()
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function getUserBoards(username: string): Promise&amp;lt;IBoard[]&amp;gt; {
+  const allUserBoards: IBoard[] = []
+
+  async function getBoards(lastBoardId?: string): Promise&amp;lt;void&amp;gt; {
+    const response: {
+      err?: number
+      user?: IUser
+    } = await rp({
+      uri: `${huabanDomain}/${username}/`,
+      qs: {
+        limit: 100,
+        max: lastBoardId,
+      },
+      headers: jsonRequestHeader,
+      json: true,
+    })
+
+    if (response.err === 404) {
+      throw new Error(&#39;用户不存在！&#39;)
+    } else if (!response.user!.board_count) {
+      throw new Error(&#39;用户没有画板！&#39;)
+    }
+
+    const user: IUser = response.user!
+    const requestUserBoardsCount = user.boards.length
+    allUserBoards.push(...user.boards)
+
+    // 获取所有画板数据
+    if (requestUserBoardsCount &amp;amp;&amp;amp; allUserBoards.length &amp;lt; user.board_count) {
+      await getBoards(user.boards[requestUserBoardsCount - 1].board_id)
+    }
+  }
+
+  await getBoards()
+  return allUserBoards
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;后面步骤跟方式一相同，这里只是使用 &lt;code&gt;for&lt;/code&gt; 循环下载多个画板图片&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;这次爬虫几乎没有遇到服务器的反抗，花瓣网没有做反爬虫检测，最基本的 &lt;code&gt;User-Agent&lt;/code&gt; 都不需要伪装，很适合爬虫初学者拿来练手；这种开放共享的精神值得表扬👍。&lt;/p&gt;
+
+&lt;p&gt;遗留下了有些画板 &lt;code&gt;pins&lt;/code&gt; 数据不全的问题，等待有缘再解决。&lt;/p&gt;
+
+&lt;h2 id=&#34;github-project&#34;&gt;Github Project&lt;/h2&gt;
+
+&lt;p&gt;项目引入了 &lt;code&gt;TSLint&lt;/code&gt;、&lt;code&gt;Prettier&lt;/code&gt; 来规范代码风格，用 &lt;code&gt;ts-node&lt;/code&gt; 来执行 &lt;code&gt;.ts&lt;/code&gt; 程序；&lt;/p&gt;
+
+&lt;p&gt;代码放到Github上了 ➡ &lt;a href=&#34;https://github.com/Jancat/huaban-crawl&#34;&gt;Jancat/huaban-crawl&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Enjoy the pictures ~&lt;/p&gt;</description>
       
     </item>
     
