@@ -6,10 +6,199 @@
     <description>Recent content on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 20 Apr 2018 21:41:23 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Apr 2018 10:59:40 +0800</lastBuildDate>
     
         <atom:link href="https://jancat.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Win10 VMware 安装 Elementary OS</title>
+      <link>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</link>
+      <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</guid>
+      
+        <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;elementary OS是一个基于Ubuntu的Linux发行版。它使用一个自己开发的基于GNOME的名为Pantheon的桌面环境。 这个桌面环境出众的原因是它深度集成了其他elementary OS应用程序，如Plank（一个基于Docky的Dock）、Midori（默认的网页浏览器）或Scratch（一个简单的文本编辑器）。该发行版使用基于Mutter的Gala作为其窗口管理器。&lt;/p&gt;
+
+&lt;p&gt;这个发行版是从为Ubuntu设计的一套主题和应用程序发展而来的。由于是基于Ubuntu的，因此与Ubuntu的仓库和包完全兼容。它使用Ubuntu自己的软件中心来处理软件的安装和卸载。其类似于Mac OS X的界面致力于使新用户不需要费太大力气就可以根据直觉使用。
+—— &lt;a href=&#34;https://zh.wikipedia.org/wiki/Elementary_OS&#34;&gt;elementary OS wiki&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;2018年，&lt;strong&gt;elementary OS&lt;/strong&gt; 有文章评价为“&lt;strong&gt;最美的Linux桌面发行版&lt;/strong&gt;”，其桌面环境和使用跟 Mac OS X 很相似；如果你想在 Windows 下拥有 Mac 系统的操作体验，那么在虚拟机中安装 elementary os 是个最好的选择，可以随时在 Windows 办公娱乐、elementary OS 开发环境之间切换。&lt;/p&gt;
+
+&lt;p&gt;本文将一步步介绍在 Win10 VMware 中安装 elementary OS 的步骤。&lt;/p&gt;
+
+&lt;h3 id=&#34;下载-elementary-os-镜像&#34;&gt;下载 Elementary OS 镜像&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;进入官网 &lt;a href=&#34;https://elementary.io/zh_CN/&#34;&gt;https://elementary.io/zh_CN/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;输入金额 0，点击下载 iso 镜像
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/download-elementary-os-iso.png&#34; alt=&#34;download-elementary-os-iso&#34; /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;下载安装-vmware-workstation-pro&#34;&gt;下载安装 VMware Workstation Pro&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;进入 VMware 官网下载页面下载 &lt;a href=&#34;https://my.vmware.com/en/web/vmware/info/slug/desktop_end_user_computing/vmware_workstation_pro/14_0&#34;&gt;https://my.vmware.com/en/web/vmware/info/slug/desktop_end_user_computing/vmware_workstation_pro/14_0&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;安装&lt;/li&gt;
+&lt;li&gt;输入序列号激活 &lt;code&gt;CV7T2-6WY5Q-48EWP-ZXY7X-QGUWD&lt;/code&gt;、&lt;code&gt;FF31K-AHZD1-H8ETZ-8WWEZ-WUUVA&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;创建-elementary-os-虚拟机&#34;&gt;创建 elementary OS 虚拟机&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;启动 VMware&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建新的虚拟机，选择&lt;strong&gt;自定义&lt;/strong&gt;，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/new-vm.png&#34; alt=&#34;new-vm&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择虚拟机兼容性，默认下一步&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择&lt;strong&gt;安装程序光盘映像文件&lt;/strong&gt;，选中刚才下载的 Elementary OS iso镜像文件，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/select-iso.png&#34; alt=&#34;select-iso&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;操作系统版本选择 &lt;strong&gt;Linux&lt;/strong&gt;、&lt;strong&gt;其他 Linux 4.x 或更高版本内核 64位&lt;/strong&gt;，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/select-os.png&#34; alt=&#34;select-os&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修改默认的虚拟机名称和存储位置，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-location.png&#34; alt=&#34;vm-location&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;处理器配置2核（当前操作系统内核数的一半），下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-cpu.png&#34; alt=&#34;vm-cpu&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;内存看个人选择，这里选择3G，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-memory.png&#34; alt=&#34;vm-memory&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;网络类型选择 &lt;strong&gt;桥接网络&lt;/strong&gt;，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-network.png&#34; alt=&#34;vm-network&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择I/O控制器类型，默认下一步&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择硬盘类型，默认下一步&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;创建新虚拟磁盘，（使用物理磁盘可能会影响到主机系统的正常使用），下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-disk.png&#34; alt=&#34;vm-disk&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;最大磁盘大小根据个人选择，这里选择40G，选择&lt;strong&gt;将虚拟磁盘存储为单个文件&lt;/strong&gt;，下一步
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-disk-size.png&#34; alt=&#34;vm-disk-size&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;完成创建虚拟机
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/vm-done.png&#34; alt=&#34;vm-done&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;安装-elementary-os&#34;&gt;安装 elementary OS&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;开启此虚拟机&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;语言选择 &lt;strong&gt;English&lt;/strong&gt;（或者中文简体），点击&lt;strong&gt;Install Elementary&lt;/strong&gt;
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/os-language.png&#34; alt=&#34;os-language&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择 &lt;strong&gt;Install third-party software&lt;/strong&gt;，continue
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/os-install-third-party-software.png&#34; alt=&#34;os-install-third-party-software&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Install Type 默认选择&lt;strong&gt;擦除磁盘安装Elementary OS&lt;/strong&gt;，点击&lt;strong&gt;Install Now&lt;/strong&gt;，&lt;strong&gt;Continue&lt;/strong&gt;
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/os-install-type.png&#34; alt=&#34;os-install-type&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;选择城市，&lt;strong&gt;Contiune&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;键盘布局选择&lt;strong&gt;Chiese&lt;/strong&gt;，&lt;strong&gt;Continue&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;设置个人用户名、密码&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装过程等待5分钟左右，完成后重启
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/os-done.jpg&#34; alt=&#34;os-done&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;在虚拟机中安装-vmtools&#34;&gt;在虚拟机中安装 VMTools&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;选择 &lt;strong&gt;虚拟机 &amp;gt; 安装 VMware Tools&lt;/strong&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在虚拟机中会挂载 &lt;strong&gt;VMware Tools&lt;/strong&gt; CD&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进入挂载的 &lt;strong&gt;VMware Tools&lt;/strong&gt;，拷贝&lt;strong&gt;VMwareTools&lt;/strong&gt;文件到&lt;strong&gt;Documents&lt;/strong&gt;目录下（在CDROM中无法写入）&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进入&lt;strong&gt;Documents&lt;/strong&gt;目录，用&lt;code&gt;tar&lt;/code&gt;命令解压&lt;strong&gt;VMwareTools&lt;/strong&gt;文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;tar zxf VMwareTools
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;进入解压出的&lt;strong&gt;VMwareTools&lt;/strong&gt;，执行&lt;strong&gt;vmware-install.pl&lt;/strong&gt;文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cd VMwareTools
+sudo vmware-install.pl
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;一路默认回车，完成安装&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;要在主机和虚拟机之间拖拽文件和复制粘贴文本，需要执行&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;/usr/bin/vmware-user
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;注销，重新登录&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;虚拟机无法连接网络&#34;&gt;虚拟机无法连接网络&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;虚拟机 &amp;gt; 设置 &amp;gt; 选择桥接模式
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/network-bridge.png&#34; alt=&#34;network-bridge&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;编辑 &amp;gt; 虚拟网络编辑器 &amp;gt; 桥接模式桥接到你的物理网卡
+&lt;center&gt;
+&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/network-edit.png&#34; alt=&#34;network-edit&#34; /&gt;
+&lt;/center&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;测试主机和虚拟机之间能够互相访问&#34;&gt;测试主机和虚拟机之间能够互相访问&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;主机ping虚拟机IP&lt;/li&gt;
+&lt;li&gt;虚拟机访问主机开启的http服务（可能无法ping通主机IP）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;到这里，elementary OS 在 VMware 中就安装完成了，后面还会介绍 elementary OS 的初始化和使用&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>如何选择技术博客的发布方式</title>

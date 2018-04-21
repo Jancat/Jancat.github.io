@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</loc>
+    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://jancat.github.io/post/2018/how-to-select-the-way-to-post-teach-blog/</loc>
     <lastmod>2018-04-21T10:07:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -11,7 +18,7 @@
   
   <url>
     <loc>https://jancat.github.io/about/</loc>
-    <lastmod>2018-04-20T17:31:23+08:00</lastmod>
+    <lastmod>2018-04-21T12:56:13+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -37,8 +44,22 @@
   </url>
   
   <url>
+    <loc>https://jancat.github.io/tags/elementary/</loc>
+    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jancat.github.io/tags/huaban/</loc>
     <lastmod>2018-04-21T10:07:48+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/categories/linux/</loc>
+    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -59,7 +80,7 @@
   
   <url>
     <loc>https://jancat.github.io/post/</loc>
-    <lastmod>2018-04-21T10:07:48+08:00</lastmod>
+    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -86,6 +107,13 @@
   </url>
   
   <url>
+    <loc>https://jancat.github.io/tags/vmware/</loc>
+    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jancat.github.io/tags/%E7%88%AC%E8%99%AB/</loc>
     <lastmod>2018-04-21T10:07:48+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -101,7 +129,7 @@
   
   <url>
     <loc>https://jancat.github.io/</loc>
-    <lastmod>2018-04-21T10:07:48+08:00</lastmod>
+    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

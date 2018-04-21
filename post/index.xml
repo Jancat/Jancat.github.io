@@ -6,10 +6,21 @@
     <description>Recent content in Posts on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Fri, 20 Apr 2018 21:41:23 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Apr 2018 10:59:40 +0800</lastBuildDate>
     
 	<atom:link href="https://jancat.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Win10 VMware 安装 Elementary OS</title>
+      <link>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</link>
+      <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>如何选择技术博客的发布方式</title>

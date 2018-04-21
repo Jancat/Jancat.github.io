@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Win10 VMware 安装 Elementary OS - 键落云起</title>
+  <link rel="alternate" hreflang="zh" href="https://jancat.github.io/" />
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="君临" />
+  <meta name="description" content="
+" />
+
+  <meta name="keywords" content="Hugo, theme, jane" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.38.2" />
+
+
+<link rel="canonical" href="https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/" />
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="icon" href="/favicon.ico" />
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+<link href="/dist/jane.min.css?v=2.7.0" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+
+
+<meta property="og:title" content="Win10 VMware 安装 Elementary OS" />
+<meta property="og:description" content="
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/" />
+
+
+
+<meta property="article:published_time" content="2018-04-21T10:59:40&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-04-21T12:56:46&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="Win10 VMware 安装 Elementary OS">
+<meta itemprop="description" content="
+
+">
+
+
+<meta itemprop="datePublished" content="2018-04-21T10:59:40&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-21T10:59:40&#43;08:00" />
+<meta itemprop="wordCount" content="1382">
+
+
+
+<meta itemprop="keywords" content="elementary,vmware," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Win10 VMware 安装 Elementary OS"/>
+<meta name="twitter:description" content="
+
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">键落云起</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">关于</li>
+      </a>
+  </ul>
+</nav>
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      键落云起
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+      <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+  </ul>
+</nav>
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">Win10 VMware 安装 Elementary OS</h1>
+      
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-21 </span>
+        <div class="post-category">
+            
+              <a href="/categories/linux/"> Linux </a>
+            
+          </div>
+        <span class="more-meta"> 约 1382 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#下载-elementary-os-镜像">下载 Elementary OS 镜像</a></li>
+<li><a href="#下载安装-vmware-workstation-pro">下载安装 VMware Workstation Pro</a></li>
+<li><a href="#创建-elementary-os-虚拟机">创建 elementary OS 虚拟机</a></li>
+<li><a href="#安装-elementary-os">安装 elementary OS</a></li>
+<li><a href="#在虚拟机中安装-vmtools">在虚拟机中安装 VMTools</a></li>
+</ul></li>
+<li><a href="#虚拟机无法连接网络">虚拟机无法连接网络</a>
+<ul>
+<li><a href="#测试主机和虚拟机之间能够互相访问">测试主机和虚拟机之间能够互相访问</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p><img src="/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg" alt="Elementary OS Poster" /></p>
+
+<p></p>
+
+<blockquote>
+<p>elementary OS是一个基于Ubuntu的Linux发行版。它使用一个自己开发的基于GNOME的名为Pantheon的桌面环境。 这个桌面环境出众的原因是它深度集成了其他elementary OS应用程序，如Plank（一个基于Docky的Dock）、Midori（默认的网页浏览器）或Scratch（一个简单的文本编辑器）。该发行版使用基于Mutter的Gala作为其窗口管理器。</p>
+
+<p>这个发行版是从为Ubuntu设计的一套主题和应用程序发展而来的。由于是基于Ubuntu的，因此与Ubuntu的仓库和包完全兼容。它使用Ubuntu自己的软件中心来处理软件的安装和卸载。其类似于Mac OS X的界面致力于使新用户不需要费太大力气就可以根据直觉使用。
+—— <a href="https://zh.wikipedia.org/wiki/Elementary_OS">elementary OS wiki</a></p>
+</blockquote>
+
+<p>2018年，<strong>elementary OS</strong> 有文章评价为“<strong>最美的Linux桌面发行版</strong>”，其桌面环境和使用跟 Mac OS X 很相似；如果你想在 Windows 下拥有 Mac 系统的操作体验，那么在虚拟机中安装 elementary os 是个最好的选择，可以随时在 Windows 办公娱乐、elementary OS 开发环境之间切换。</p>
+
+<p>本文将一步步介绍在 Win10 VMware 中安装 elementary OS 的步骤。</p>
+
+<h3 id="下载-elementary-os-镜像">下载 Elementary OS 镜像</h3>
+
+<ol>
+<li>进入官网 <a href="https://elementary.io/zh_CN/">https://elementary.io/zh_CN/</a></li>
+<li>输入金额 0，点击下载 iso 镜像
+<img src="/images/post/win10-vmware-install-elementary-os/download-elementary-os-iso.png" alt="download-elementary-os-iso" /></li>
+</ol>
+
+<h3 id="下载安装-vmware-workstation-pro">下载安装 VMware Workstation Pro</h3>
+
+<ol>
+<li>进入 VMware 官网下载页面下载 <a href="https://my.vmware.com/en/web/vmware/info/slug/desktop_end_user_computing/vmware_workstation_pro/14_0">https://my.vmware.com/en/web/vmware/info/slug/desktop_end_user_computing/vmware_workstation_pro/14_0</a></li>
+<li>安装</li>
+<li>输入序列号激活 <code>CV7T2-6WY5Q-48EWP-ZXY7X-QGUWD</code>、<code>FF31K-AHZD1-H8ETZ-8WWEZ-WUUVA</code></li>
+</ol>
+
+<h3 id="创建-elementary-os-虚拟机">创建 elementary OS 虚拟机</h3>
+
+<ol>
+<li><p>启动 VMware</p></li>
+
+<li><p>创建新的虚拟机，选择<strong>自定义</strong>，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/new-vm.png" alt="new-vm" />
+</center></p></li>
+
+<li><p>选择虚拟机兼容性，默认下一步</p></li>
+
+<li><p>选择<strong>安装程序光盘映像文件</strong>，选中刚才下载的 Elementary OS iso镜像文件，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/select-iso.png" alt="select-iso" />
+</center></p></li>
+
+<li><p>操作系统版本选择 <strong>Linux</strong>、<strong>其他 Linux 4.x 或更高版本内核 64位</strong>，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/select-os.png" alt="select-os" />
+</center></p></li>
+
+<li><p>修改默认的虚拟机名称和存储位置，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-location.png" alt="vm-location" />
+</center></p></li>
+
+<li><p>处理器配置2核（当前操作系统内核数的一半），下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-cpu.png" alt="vm-cpu" />
+</center></p></li>
+
+<li><p>内存看个人选择，这里选择3G，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-memory.png" alt="vm-memory" />
+</center></p></li>
+
+<li><p>网络类型选择 <strong>桥接网络</strong>，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-network.png" alt="vm-network" />
+</center></p></li>
+
+<li><p>选择I/O控制器类型，默认下一步</p></li>
+
+<li><p>选择硬盘类型，默认下一步</p></li>
+
+<li><p>创建新虚拟磁盘，（使用物理磁盘可能会影响到主机系统的正常使用），下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-disk.png" alt="vm-disk" />
+</center></p></li>
+
+<li><p>最大磁盘大小根据个人选择，这里选择40G，选择<strong>将虚拟磁盘存储为单个文件</strong>，下一步
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-disk-size.png" alt="vm-disk-size" />
+</center></p></li>
+
+<li><p>完成创建虚拟机
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/vm-done.png" alt="vm-done" />
+</center></p></li>
+</ol>
+
+<h3 id="安装-elementary-os">安装 elementary OS</h3>
+
+<ol>
+<li><p>开启此虚拟机</p></li>
+
+<li><p>语言选择 <strong>English</strong>（或者中文简体），点击<strong>Install Elementary</strong>
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/os-language.png" alt="os-language" />
+</center></p></li>
+
+<li><p>选择 <strong>Install third-party software</strong>，continue
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/os-install-third-party-software.png" alt="os-install-third-party-software" />
+</center></p></li>
+
+<li><p>Install Type 默认选择<strong>擦除磁盘安装Elementary OS</strong>，点击<strong>Install Now</strong>，<strong>Continue</strong>
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/os-install-type.png" alt="os-install-type" />
+</center></p></li>
+
+<li><p>选择城市，<strong>Contiune</strong></p></li>
+
+<li><p>键盘布局选择<strong>Chiese</strong>，<strong>Continue</strong></p></li>
+
+<li><p>设置个人用户名、密码</p></li>
+
+<li><p>安装过程等待5分钟左右，完成后重启
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/os-done.jpg" alt="os-done" />
+</center></p></li>
+</ol>
+
+<h3 id="在虚拟机中安装-vmtools">在虚拟机中安装 VMTools</h3>
+
+<ol>
+<li><p>选择 <strong>虚拟机 &gt; 安装 VMware Tools</strong></p></li>
+
+<li><p>在虚拟机中会挂载 <strong>VMware Tools</strong> CD</p></li>
+
+<li><p>进入挂载的 <strong>VMware Tools</strong>，拷贝<strong>VMwareTools</strong>文件到<strong>Documents</strong>目录下（在CDROM中无法写入）</p></li>
+
+<li><p>进入<strong>Documents</strong>目录，用<code>tar</code>命令解压<strong>VMwareTools</strong>文件</p>
+
+<pre><code class="language-shell">tar zxf VMwareTools
+</code></pre></li>
+
+<li><p>进入解压出的<strong>VMwareTools</strong>，执行<strong>vmware-install.pl</strong>文件</p>
+
+<pre><code class="language-shell">cd VMwareTools
+sudo vmware-install.pl
+</code></pre></li>
+
+<li><p>一路默认回车，完成安装</p></li>
+
+<li><p>要在主机和虚拟机之间拖拽文件和复制粘贴文本，需要执行</p>
+
+<pre><code class="language-shell">/usr/bin/vmware-user
+</code></pre></li>
+
+<li><p>注销，重新登录</p></li>
+</ol>
+
+<h2 id="虚拟机无法连接网络">虚拟机无法连接网络</h2>
+
+<ol>
+<li><p>虚拟机 &gt; 设置 &gt; 选择桥接模式
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/network-bridge.png" alt="network-bridge" />
+</center></p></li>
+
+<li><p>编辑 &gt; 虚拟网络编辑器 &gt; 桥接模式桥接到你的物理网卡
+<center>
+<img src="/images/post/win10-vmware-install-elementary-os/network-edit.png" alt="network-edit" />
+</center></p></li>
+</ol>
+
+<h3 id="测试主机和虚拟机之间能够互相访问">测试主机和虚拟机之间能够互相访问</h3>
+
+<ul>
+<li>主机ping虚拟机IP</li>
+<li>虚拟机访问主机开启的http服务（可能无法ping通主机IP）</li>
+</ul>
+
+<hr />
+
+<p>到这里，elementary OS 在 VMware 中就安装完成了，后面还会介绍 elementary OS 的初始化和使用</p>
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">君临</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-04-21 12:44</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content">原创文章，如需转载请注明文章作者和出处。谢谢！</span>
+  </p>
+</div>
+
+    
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    
+      <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-reward-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    
+      <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div>
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="/tags/elementary/">elementary</a>
+          
+          <a href="/tags/vmware/">vmware</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/2018/how-to-select-the-way-to-post-teach-blog/">
+            <span class="next-text nav-default">如何选择技术博客的发布方式</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+    
+
+  
+
+  
+
+  <div id="comments-gitment"></div>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitment@0.0.3/style/default.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitment@0.0.3/dist/gitment.browser.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript">
+  const gitment = new Gitment({
+    id: 'win10-vmware-install-elementary-os.md',
+    title: 'Win10 VMware 安装 Elementary OS',
+    link: decodeURI(location.href),
+    desc: '\x3cp\x3e\x3cimg src=\x22\/images\/post\/win10-vmware-install-elementary-os\/elementary-os-poster.jpg\x22 alt=\x22Elementary OS Poster\x22 \/\x3e\x3c\/p\x3e\n\n\x3cp\x3e\x3c\/p\x3e',
+    owner: 'Jancat',
+    repo: 'Jancat.github.io',
+    oauth: {
+      client_id: '59de37307f48dbd2a39c',
+      client_secret: '7990b31512887673278feeba9aad4245b488ccf3'
+    }
+  })
+  gitment.render('comments-gitment')
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://github.com/imsun/gitment">comments powered by gitment.</a></noscript>
+  </article>
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:szujunlinpan@gmail.com" rel="me" class="iconfont icon-email"
+        title="email" target="_blank">
+      </a>
+      <a href="https://stackoverflow.com/users/4281309/junlin" rel="me" class="iconfont icon-stack-overflow"
+        title="stack-overflow" target="_blank">
+      </a>
+      <a href="https://github.com/Jancat" rel="me" class="iconfont icon-github"
+        title="github" target="_blank">
+      </a>
+      <a href="https://www.zhihu.com/people/Jancat/" rel="me" class="iconfont icon-zhihu"
+        title="zhihu" target="_blank">
+      </a>
+  <a href="https://jancat.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss"
+    title="rss" target="_blank">
+  </a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span><span class="author">君临</span></span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/dist/jane.min.js?v=2.7.0"></script>
+
+
+
+
+
+</body>
+</html>
