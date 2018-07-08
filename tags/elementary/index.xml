@@ -6,10 +6,22 @@
     <description>Recent content in Elementary on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 21 Apr 2018 10:59:40 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Jul 2018 18:16:57 +0800</lastBuildDate>
     
 	<atom:link href="https://jancat.github.io/tags/elementary/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 Elementary OS</title>
+      <link>https://jancat.github.io/post/2018/use-elementary-os/</link>
+      <pubDate>Sun, 08 Jul 2018 18:16:57 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2018/use-elementary-os/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/&#34;&gt;上一篇&lt;/a&gt; 介绍了在 Win10 上安装 Elementary OS，这篇介绍下 Elementary OS 的简单使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/elementary-desktop.png&#34; alt=&#34;elementary-desktop&#34; /&gt;
+&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Win10 VMware 安装 Elementary OS</title>
