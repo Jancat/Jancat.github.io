@@ -3,6 +3,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://jancat.github.io/post/2018/use-elementary-os/</loc>
+    <lastmod>2018-07-08T18:16:57+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</loc>
     <lastmod>2018-04-21T12:56:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -80,7 +87,7 @@
   
   <url>
     <loc>https://jancat.github.io/post/</loc>
-    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
+    <lastmod>2018-07-08T18:16:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>
@@ -129,7 +136,7 @@
   
   <url>
     <loc>https://jancat.github.io/</loc>
-    <lastmod>2018-04-21T12:56:46+08:00</lastmod>
+    <lastmod>2018-07-08T18:16:57+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0</priority>
   </url>

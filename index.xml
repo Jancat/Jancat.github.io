@@ -6,10 +6,202 @@
     <description>Recent content on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 21 Apr 2018 10:59:40 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 08 Jul 2018 18:16:57 +0800</lastBuildDate>
     
         <atom:link href="https://jancat.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用 Elementary OS</title>
+      <link>https://jancat.github.io/post/2018/use-elementary-os/</link>
+      <pubDate>Sun, 08 Jul 2018 18:16:57 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2018/use-elementary-os/</guid>
+      
+        <description>&lt;p&gt;&lt;a href=&#34;https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/&#34;&gt;上一篇&lt;/a&gt; 介绍了在 Win10 上安装 Elementary OS，这篇介绍下 Elementary OS 的简单使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/elementary-desktop.png&#34; alt=&#34;elementary-desktop&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;包管理-apt-get&#34;&gt;包管理 apt-get&lt;/h2&gt;
+
+&lt;p&gt;因为 Elementary OS 是基于 Ubuntu 的 Linux 发行版，而 Ubuntu 又是基于 Debian，所有基于 Debian 的发行版都使用 &lt;code&gt;apt-get&lt;/code&gt; 这个包管理系统。deb 包可以把一个应用的文件包在一起，大体就如同 Windows 上的安装文件。&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;code&gt;apt-get&lt;/code&gt; 命令的第一步就是引入必需的软件库，Debian 的软件库也就是 Debian 软件包的集合，它们存在互联网上的一些公共站点上。把它们的地址引入后，&lt;code&gt;apt-get&lt;/code&gt; 就能搜索到我们想要的软件。&lt;code&gt;/etc/apt/sources.list&lt;/code&gt; 是存放这些地址列表的配置文件，其格式如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;deb [web或ftp地址] [发行版名字] [main/contrib/non-free]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在修改 &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; 之后需要执行 &lt;code&gt;sudo apt-get update&lt;/code&gt; 来更新本地包列表。&lt;/p&gt;
+
+&lt;h3 id=&#34;替换为-阿里云源&#34;&gt;替换为 阿里云源&lt;/h3&gt;
+
+&lt;p&gt;Elementary OS 的软件源默认为国外的源，速度较慢，可以更换为国内速度较快的阿里云软件源：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;在终端下修改 &lt;code&gt;/etc/apt/sources.list&lt;/code&gt; 文件的可写权限：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo chmod a+w /etc/apt/source.list
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;备份 &lt;strong&gt;source.list&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo cp /etc/apt/source.list /etc/apt/source.list.bak
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;在 &lt;strong&gt;Scratch&lt;/strong&gt; 文本编辑器中打开 &lt;code&gt;/etc/apt/source.list&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;删除原有内容，替换为 &lt;strong&gt;阿里云源&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;执行更新&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;常用软件安装&#34;&gt;常用软件安装&lt;/h2&gt;
+
+&lt;h3 id=&#34;搜狗拼音输入法&#34;&gt;搜狗拼音输入法&lt;/h3&gt;
+
+&lt;p&gt;Linux 系统跟应用程序打交道的是输入法框架，其中 IBus 是目前主流发行版的默认配置。各种输入法要有相对应的输入法框架支持，中文输入法是基于 &lt;strong&gt;fcitx&lt;/strong&gt; 的，而系统默认的是 iBus，所以要先安装 &lt;strong&gt;fcitx 中文输入法框架&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&#34;安装-fcitx&#34;&gt;安装 fcitx&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;安装第三方软件源 &lt;code&gt;software-properties-common&lt;/code&gt; 和 &lt;code&gt;python-software-properties&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install software-properties-common python-software-properties
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;添加 &lt;strong&gt;ppa&lt;/strong&gt; 源&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo add-apt-repository ppa:fcitx-team/nightly
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;更新软件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装 fcitx&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install fcitx 
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;安装 fcitx 的配置工具、table-all 软件包、fcitx-table-all、im-config 切换工具&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install fcitx-config-gtk fcitx-table-all im-config
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;修复软件依赖&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get -f install
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;验证 fcitx 是否安装成功，在 &lt;strong&gt;Applications&lt;/strong&gt; 中查看是否有 fcitx 的应用图标&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;安装搜狗拼音输入法&#34;&gt;安装搜狗拼音输入法&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;在 &lt;a href=&#34;https://pinyin.sogou.com/linux/?r=pinyin&#34;&gt;搜狗官网&lt;/a&gt; 下载输入法 Linux 版 64位&lt;/li&gt;
+&lt;li&gt;在下载目录中使用 &lt;code&gt;dpkg&lt;/code&gt; 命令安装 deb 包
+&lt;code&gt;
+sudo dpkg -i sougoupinyin-xxx.deb
+&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;更新包依赖
+&lt;code&gt;
+sudo apt -f install -y
+&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;重启系统&lt;/li&gt;
+&lt;li&gt;在终端中输入 &lt;code&gt;im-config&lt;/code&gt;，打开 &lt;strong&gt;Input Method Configuration&lt;/strong&gt; 输入法配置界面&lt;/li&gt;
+&lt;li&gt;确定默认输入法为 &lt;strong&gt;搜狗拼音&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;在桌面右上角中启用搜狗输入法
+&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/sougou-pinyin.jpg&#34; alt=&#34;sougou-pinyin&#34; /&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;chrome&#34;&gt;Chrome&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get install google-chrome-stable
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;monitor&#34;&gt;Monitor&lt;/h3&gt;
+
+&lt;p&gt;进程管理工具，在 App Center 中搜索 &lt;strong&gt;Monitor&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;albert&#34;&gt;Albert&lt;/h3&gt;
+
+&lt;p&gt;Alfred in Elementary os
+快速搜索、启动应用神器&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo add-apt-repository ppa:nilarimogard/webupd8
+sudo apt update
+sudo apt install albert
+
+sudo apt -f install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;系统设置&#34;&gt;系统设置&lt;/h2&gt;
+
+&lt;h4 id=&#34;dock-设置-位置-图标&#34;&gt;Dock 设置（位置、图标）&lt;/h4&gt;
+
+&lt;p&gt;终端执行 &lt;code&gt;plank --preferences&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;常见问题&#34;&gt;常见问题&lt;/h2&gt;
+
+&lt;h3 id=&#34;dpkg-文件被锁-其它进程正在占用&#34;&gt;dpkg 文件被锁，其它进程正在占用&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;E: Could not open lock file /var/lib/dpkg/lock - open (13: Permission denied)
+E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;解决：&lt;/strong&gt; 删除文件锁&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;unable-to-locate-package&#34;&gt;Unable to locate package&lt;/h3&gt;
+
+&lt;p&gt;执行 &lt;code&gt;sudo apt-get update&lt;/code&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;could-not-get-lock-无法锁文件&#34;&gt;Could not get lock 无法锁文件&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;E: Could not get lock /var/lib/apt/lists/lock - open (11: Resource temporarily unavailable)
+E: Unable to lock directory /var/lib/apt/lists/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;原因：&lt;/strong&gt; 文件锁冲突
+&lt;strong&gt;解决：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo rm /var/lib/apt/lists/lock
+sudo apt-get update
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;w-无法下载-http-ppa-launchpad-net-fcitx-team-nightly-ubuntu-dists-jessie-main-binary-amd64-packages&#34;&gt;W: 无法下载 &lt;a href=&#34;http://ppa.launchpad.net/fcitx-team/nightly/ubuntu/dists/jessie/main/binary-amd64/Packages&#34;&gt;http://ppa.launchpad.net/fcitx-team/nightly/ubuntu/dists/jessie/main/binary-amd64/Packages&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;解决：&lt;/strong&gt; 执行：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd /etc/apt/sources.list.d
+sudo mv xx.list xx.list.bak
+&lt;/code&gt;&lt;/pre&gt;</description>
+      
+    </item>
     
     <item>
       <title>Win10 VMware 安装 Elementary OS</title>
@@ -153,22 +345,16 @@
 &lt;li&gt;&lt;p&gt;进入挂载的 &lt;strong&gt;VMware Tools&lt;/strong&gt;，拷贝&lt;strong&gt;VMwareTools&lt;/strong&gt;文件到&lt;strong&gt;Documents&lt;/strong&gt;目录下（在CDROM中无法写入）&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;进入&lt;strong&gt;Documents&lt;/strong&gt;目录，用&lt;code&gt;tar&lt;/code&gt;命令解压&lt;strong&gt;VMwareTools&lt;/strong&gt;文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;tar zxf VMwareTools
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;tar zxf VMwareTools&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;进入解压出的&lt;strong&gt;VMwareTools&lt;/strong&gt;，执行&lt;strong&gt;vmware-install.pl&lt;/strong&gt;文件&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;cd VMwareTools
-sudo vmware-install.pl
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span class=&#34;nb&#34;&gt;cd&lt;/span&gt; VMwareTools
+sudo vmware-install.pl&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;一路默认回车，完成安装&lt;/p&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;要在主机和虚拟机之间拖拽文件和复制粘贴文本，需要执行&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;/usr/bin/vmware-user
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;/usr/bin/vmware-user&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;注销，重新登录&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -218,17 +404,22 @@ sudo vmware-install.pl
 &lt;p&gt;技术文章如果要发布在公共的网站上，现在一般有几种选择：&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;&lt;p&gt;简书
-比较受欢迎的Markdown文章创作社区，各种类型的文章都有，但就是因为太泛了，技术氛围不够，专业性不强。但对于普通的不爱折腾的作者来说已经足够了，可以更加专注在文章创作上。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;简书&lt;/strong&gt;&lt;/p&gt;
 
-&lt;li&gt;&lt;p&gt;segmentfault
-segmentfault 专栏也是发布技术文章比较好的选择，网站体验也很不错，相信会越来越流行。&lt;/p&gt;&lt;/li&gt;
+&lt;p&gt;比较受欢迎的Markdown文章创作社区，各种类型的文章都有，但就是因为太泛了，技术氛围不够，专业性不强。但对于普通的不爱折腾的作者来说已经足够了，可以更加专注在文章创作上。&lt;/p&gt;&lt;/li&gt;
 
-&lt;li&gt;&lt;p&gt;知乎
-&amp;gt; 程序员小隐隐于野，中隐隐于楼，大隐隐知乎&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;segmentfault&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;segmentfault 专栏也是发布技术文章比较好的选择，网站体验也很不错，相信会越来越流行。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;知乎&lt;/strong&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;程序员小隐隐于野，中隐隐于楼，大隐隐知乎&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;很多程序员经常出没于知乎，技术文章也很自然地会发在上面。但也是跟简书一样的情况，夹杂在这么多非技术文章/问答中，总是感觉不够专业，比简书更甚。&lt;/p&gt;&lt;/li&gt;
 &lt;/ul&gt;
-
-&lt;p&gt;很多程序员经常出没于知乎，技术文章也很自然地会发在上面。但也是跟简书一样的情况，夹杂在这么多非技术文章/问答中，总是感觉不够专业，比简书更甚。&lt;/p&gt;
 
 &lt;p&gt;如果上面几种方式都不能满足你，那或许你是个比较喜欢折腾的人，想要与众不同，尝试自己建博客网站，建立独特的个人标识。&lt;/p&gt;
 
@@ -382,67 +573,65 @@ segmentfault 专栏也是发布技术文章比较好的选择，网站体验也�
 &lt;h3 id=&#34;board-data&#34;&gt;Board Data&lt;/h3&gt;
 
 &lt;p&gt;在这个 HTML Document 中发现有个 &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; 中带有大量的 &lt;strong&gt;board&lt;/strong&gt; 数据：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;app.page[&#39;board&#39;] = {
-  board_id: 17473820,
-  user_id: 14191742,
-  title: &#39;◈ 二次元 少女 ◈&#39;,
-  description: &#39;三次元之外的一片净土，满满的治愈~&#39;,
-  category_id: &#39;anime&#39;,
-  seq: 3,
-  pin_count: 12627,
-  follow_count: 1004,
-  like_count: 37,
-  created_at: 1410342416,
-  updated_at: 1523766920,
-  deleting: 0,
-  is_private: 0,
-  extra: { cover: { pin_id: &#39;407033830&#39; } },
-  user: { ... },
-  category_name: &#39;动漫&#39;,
-  following: false,
-  liked: false,
-  pins: [
-    {
-      pin_id: 1595477246,
-      user_id: 14191742,
-      board_id: 17473820,
-      file_id: 183940093,
-      file: {
-        id: 183940093,
-        farm: &#39;farm1&#39;,
-        bucket: &#39;hbimg&#39;,
-        key: &#39;95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn&#39;,
-        type: &#39;image/jpeg&#39;,
-        width: 752,
-        height: 1062,
-        frames: 1,
-        colors: [{ color: 5934, ratio: 0.09 }],
-        theme: &#39;00172e&#39;,
-      },
-      media_type: 0,
-      source: &#39;pixiv.net&#39;,
-      link: &#39;https://www.pixiv.net/member_illust.php?mode=medium&amp;amp;illust_id=67752097&#39;,
-      raw_text: &#39;奏さん&#39;,
-      text_meta: { tags: [] },
-      via: 1587727234,
-      via_user_id: 8451317,
-      original: 1568136527,
-      created_at: 1523444564,
-      like_count: 1,
-      comment_count: 0,
-      repin_count: 3,
-      is_private: 0,
-      extra: null,
-      orig_source: null,
-      tags: [],
-    },
-    { ... },
-    ...
-  ]
-}
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;board&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;board_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;17473820&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;user_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;14191742&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;◈ 二次元 少女 ◈&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;description&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;三次元之外的一片净土，满满的治愈~&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;category_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;anime&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;seq&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;pin_count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;12627&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;follow_count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1004&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;like_count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;37&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;created_at&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1410342416&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;updated_at&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1523766920&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;deleting&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;is_private&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;extra&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cover&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;pin_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;407033830&amp;#39;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;...&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;category_name&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;动漫&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;following&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;liked&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;pins&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;pin_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1595477246&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;user_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;14191742&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;board_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;17473820&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;file_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;183940093&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;183940093&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;farm&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;farm1&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;bucket&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;hbimg&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;image/jpeg&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;width&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;752&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;height&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1062&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;frames&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;colors&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;color&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;5934&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;ratio&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mf&#34;&gt;0.09&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}],&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;theme&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;00172e&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;media_type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;source&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;pixiv.net&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;link&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;https://www.pixiv.net/member_illust.php?mode=medium&amp;amp;illust_id=67752097&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;raw_text&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;奏さん&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;text_meta&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;tags&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;via&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1587727234&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;via_user_id&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;8451317&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;original&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1568136527&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;created_at&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1523444564&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;like_count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;comment_count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;repin_count&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;is_private&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;extra&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;orig_source&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;tags&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[],&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;...&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;...&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;其中 &lt;code&gt;app.page.board.pins&lt;/code&gt; 是一个对象数组，里面每个对象对应着画板中其中一张图片的信息，&lt;code&gt;pin&lt;/code&gt; 代表一张图片的信息。&lt;/p&gt;
 
 &lt;p&gt;在网页中检查第一张图片的源 &lt;code&gt;&amp;lt;img src=&amp;quot;//img.hb.aicdn.com/95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn_fw236&amp;quot;&amp;gt;&lt;/code&gt;，可以发现花瓣网图片使用了又拍云的CDN服务，第二部分即是上面的 &lt;code&gt;pins[0].file.key&lt;/code&gt; 加上一个 &lt;code&gt;_fw236&lt;/code&gt; 后缀；其它图片的 &lt;code&gt;src&lt;/code&gt; 都带有这个 &lt;code&gt;_fw236&lt;/code&gt; 后缀，暂时还不知道它的意义。&lt;/p&gt;
@@ -456,13 +645,11 @@ segmentfault 专栏也是发布技术文章比较好的选择，网站体验也�
 &lt;p&gt;拖动滚动条到底部，继续观察 &lt;strong&gt;Network&lt;/strong&gt;，第一个请求 &lt;a href=&#34;http://huaban.com/boards/17473820/?jg6ltavl&amp;amp;max=1584529804&amp;amp;limit=20&amp;amp;wfl=1&#34;&gt;http://huaban.com/boards/17473820/?jg6ltavl&amp;amp;max=1584529804&amp;amp;limit=20&amp;amp;wfl=1&lt;/a&gt; 在画板ID后面携带了一些参数：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/board-lazy-load.png&#34; alt=&#34;board-lazy-load&#34; /&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;jg6ltavl: 
-max: 1584529804
-limit: 20
-wfl: 1
-&lt;/code&gt;&lt;/pre&gt;
-
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;jg6ltavl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; 
+&lt;span class=&#34;nx&#34;&gt;max&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1584529804&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;limit&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;20&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;wfl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;第一个参数是个随机字符串，最后一位按字母表顺序循环，没发现有什么意义，忽略；&lt;/li&gt;
 &lt;li&gt;第二个参数 &lt;strong&gt;max&lt;/strong&gt; 的值是个 &lt;strong&gt;pin_id&lt;/strong&gt; ；&lt;/li&gt;
@@ -489,177 +676,165 @@ wfl: 1
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;在命令行中跟用户交互，使用 Node &lt;code&gt;readline&lt;/code&gt; API实现在 &lt;code&gt;stdin/stdout&lt;/code&gt; 读取输入和显示输出：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;kr&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;readline&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;readline&amp;#39;&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;import readline from &#39;readline&#39;
-
-const rl: readline.ReadLine = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-})
-rl.question(&#39;画板ID：&#39;, boardId =&amp;gt; {})
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rl&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;readline.ReadLine&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;readline&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createInterface&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;input&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;process.stdin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;output&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;process.stdout&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;nx&#34;&gt;rl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;question&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;画板ID：&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;首先根据画板ID获取 &lt;code&gt;board&lt;/code&gt; 数据，然后获取到 &lt;code&gt;board&lt;/code&gt; 中所有的 &lt;code&gt;pins&lt;/code&gt; 数据，最后根据每个 &lt;code&gt;pin&lt;/code&gt; 数据下载图片到本地目录中，中间向命令行中输出一些提示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadSingleBoard&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Total time&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getBoardInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;\n开始下载画板 %s - %s，图片数量：%d&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function downloadSingleBoard(boardId: string): Promise&amp;lt;void&amp;gt; {
-  console.time(&#39;Total time&#39;)
-  const board = await getBoardInfo(boardId)
-  console.log(&#39;\n开始下载画板 %s - %s，图片数量：%d&#39;, boardId, board.title, board.pin_count)
-
-  await getPinsAndDownload(board)
-  outputResult()
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getPinsAndDownload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;outputResult&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;根据画板ID获取 &lt;code&gt;board&lt;/code&gt; 数据。为了使用 ES7 的 &lt;code&gt;async/await&lt;/code&gt;，引入了 &lt;code&gt;promisify&lt;/code&gt; 的 request 库&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-typescript&#34; data-lang=&#34;typescript&#34;&gt;&lt;span class=&#34;kr&#34;&gt;import&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rp&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;from&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;request-promise&amp;#39;&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;import rp from &#39;request-promise&#39;
+&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getBoardInfo&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;IBoard&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;err?&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IBoard&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;huabanDomain&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/boards/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;headers&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;jsonRequestHeader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;qs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;limit&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;===&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;404&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;画板不存在！&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-async function getBoardInfo(boardId: string): Promise&amp;lt;IBoard&amp;gt; {
-  const response: {
-    err?: number
-    board: IBoard
-  } = await rp({
-    uri: `${huabanDomain}/boards/${boardId}/`,
-    headers: jsonRequestHeader,
-    qs: {
-      limit: 1,
-    },
-    json: true,
-  })
-  if (response.err === 404) {
-    throw new Error(&#39;画板不存在！&#39;)
-  }
-
-  return response.board
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;获取 &lt;code&gt;pins&lt;/code&gt; 数据然后下载图片，输出结果。其中在获取 &lt;code&gt;pins&lt;/code&gt; 数据的时候发现有些画板无法获取全部的 &lt;code&gt;pins&lt;/code&gt; 数据，造成画板图片下载不全（暂时还不清楚原因）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getPinsAndDownload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IBoard&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardPins&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// TODO: 有些画板获取的pins数据不全？
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;missedPinsCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function getPinsAndDownload(board: IBoard): Promise&amp;lt;void&amp;gt; {
-  const boardPins = await getPins(board.board_id)
-  // TODO: 有些画板获取的pins数据不全？
-  const missedPinsCount = board.pin_count - boardPins.length
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardPath&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;downloadPath&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board_id&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt; - &lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;fs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;emptyDirSync&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-  const boardPath = `${downloadPath}/${board.board_id} - ${board.title}`
-  fs.emptyDirSync(boardPath)
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardPath&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;failedCount&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_count&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;missedPinsCount&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;totalDownload&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt;
 
-  const downloadCount: number = await downloadImage(boardPins, boardPath)
-  const failedCount: number = board.pin_count - downloadCount - missedPinsCount
-  totalDownload += downloadCount
-
-  console.log(
-    `Done. 成功 %d 个${failedCount ? `，失败 \x1b[31m${failedCount}\x1b[0m个` : &#39;&#39;}${
-      missedPinsCount ? `，丢失 \x1b[31m${missedPinsCount}\x1b[0m 个` : &#39;&#39;
-    }`,
-    downloadCount,
-  )
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+    &lt;span class=&#34;sb&#34;&gt;`Done. 成功 %d 个&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;failedCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`，失败 &lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;x1b[31m&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;failedCount&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;x1b[0m个`&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}${&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;missedPinsCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`，丢失 &lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;x1b[31m&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;missedPinsCount&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;err&#34;&gt;\&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;x1b[0m 个`&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;
+    &lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 &lt;code&gt;&#39;X-Requested-With&#39;: &#39;XMLHttpRequest&#39;&lt;/code&gt;，服务器返回的是包含json的HMLT Document，而不是单纯的 &lt;code&gt;json&lt;/code&gt; 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 &lt;code&gt;json&lt;/code&gt;，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 关键头部，添加该项后服务器只会返回json数据，而不是包含json的HTML
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;jsonRequestHeader&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;Accept&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;application/json&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+  &lt;span class=&#34;s1&#34;&gt;&amp;#39;X-Requested-With&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;XMLHttpRequest&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;// 关键头部，添加该项后服务器只会返回json数据，而不是包含json的HTML
-const jsonRequestHeader = {
-  Accept: &#39;application/json&#39;,
-  &#39;X-Requested-With&#39;: &#39;XMLHttpRequest&#39;,
-}
+&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;IPin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;allPins&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IPin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;
 
-async function getPins(boardId: string): Promise&amp;lt;IPin[]&amp;gt; {
-  const allPins: IPin[] = []
+  &lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;loadPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lastPinId&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// limit 查询参数限制获取的pin数量，最大100，默认20
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;huabanDomain&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/boards/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardId&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;qs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;limit&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;max&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;lastPinId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;headers&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;jsonRequestHeader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
 
-  async function loadPins(lastPinId: string = &#39;&#39;): Promise&amp;lt;void&amp;gt; {
-    // limit 查询参数限制获取的pin数量，最大100，默认20
-    const response = await rp({
-      uri: `${huabanDomain}/boards/${boardId}/`,
-      qs: {
-        limit: 100,
-        max: lastPinId,
-      },
-      headers: jsonRequestHeader,
-      json: true,
-    })
+    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// if (response.headers[&amp;#39;content-type&amp;#39;]!.includes(&amp;#39;text/html&amp;#39;)) {
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;//   // 匹配 boards json 串
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;//   const boardJson: string = /app\.page\[&amp;#34;board&amp;#34;\]\s=\s({.*});/.exec(response)![1]
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;//   board = JSON.parse(boardJson)
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;// }
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;allPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(...&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-    const board = response.board
-    // if (response.headers[&#39;content-type&#39;]!.includes(&#39;text/html&#39;)) {
-    //   // 匹配 boards json 串
-    //   const boardJson: string = /app\.page\[&amp;quot;board&amp;quot;\]\s=\s({.*});/.exec(response)![1]
-    //   board = JSON.parse(boardJson)
-    // }
-    allPins.push(...board.pins)
+    &lt;span class=&#34;c1&#34;&gt;// 当此次获取的pins为空或者全部pins已获取完，则返回
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;pinsChunkLength&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pinsChunkLength&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;allPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;c1&#34;&gt;// 用最后一个pin id作为下一次请求的max值，表示获取该pin后面的pins
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;loadPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pinsChunkLength&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;].&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-    // 当此次获取的pins为空或者全部pins已获取完，则返回
-    const pinsChunkLength: number = board.pins.length
-    if (pinsChunkLength &amp;amp;&amp;amp; allPins.length &amp;lt; board.pin_count) {
-      // 用最后一个pin id作为下一次请求的max值，表示获取该pin后面的pins
-      await loadPins(board.pins[pinsChunkLength - 1].pin_id)
-    }
-  }
-
-  await loadPins()
-  return allPins
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;loadPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;allPins&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;根据 &lt;code&gt;pins&lt;/code&gt; 下载图片。这里引入了 &lt;code&gt;async&lt;/code&gt; 异步库来控制同一时间的下载并发数，否则并发过高&lt;strong&gt;Node会失去响应&lt;/strong&gt;；下载失败的图片还会重试一次&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadImage&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;allPins&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IPin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[],&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;boardPath&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errorImageUrl&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;Array&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function downloadImage(allPins: IPin[], boardPath: string): Promise&amp;lt;number&amp;gt; {
-  let downloadCount: number = 0
-  const errorImageUrl: Array&amp;lt;{ url: string; path: string }&amp;gt; = []
+  &lt;span class=&#34;c1&#34;&gt;// 重试下载失败的图片
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;retry() {&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;image&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;of&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;errorImageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;rp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;uri&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;image.url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;timeout&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;encoding&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// make response a Buffer to write image correctly
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;      &lt;span class=&#34;p&#34;&gt;}).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pipe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;fs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createWriteStream&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;on&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;finish&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+          &lt;span class=&#34;nx&#34;&gt;totalDownload&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;
+          &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;\x1b[32m Retry ok! \x1b[0m %s&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;}),&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-  // 重试下载失败的图片
-  function retry() {
-    for (const image of errorImageUrl) {
-      rp({
-        uri: image.url,
-        timeout: 20 * 1000,
-        encoding: null, // make response a Buffer to write image correctly
-      }).pipe(
-        fs.createWriteStream(image.path).on(&#39;finish&#39;, () =&amp;gt; {
-          totalDownload++
-          console.log(&#39;\x1b[32m Retry ok! \x1b[0m %s&#39;, image.url)
-        }),
-      )
-    }
-  }
+  &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;download&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IPin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;imageUrl&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;imageServer&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;key&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;_fw658`&lt;/span&gt;
+    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;imageName&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_id&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;imagesTypes&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;file&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;.jpg&amp;#39;&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;
 
-  function download(pin: IPin, cb: () =&amp;gt; void): void {
-    const imageUrl: string = `${imageServer}/${pin.file.key}_fw658`
-    const imageName: string = `${pin.pin_id}${imagesTypes[pin.file.type] || &#39;.jpg&#39;}`
+    &lt;span class=&#34;nx&#34;&gt;rp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;uri&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;imageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;timeout&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;20&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;*&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;encoding&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;c1&#34;&gt;// make response a Buffer to write image correctly
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;then&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;++&lt;/span&gt;
 
-    rp({
-      uri: imageUrl,
-      timeout: 20 * 1000,
-      encoding: null, // make response a Buffer to write image correctly
-    })
-      .then(data =&amp;gt; {
-        downloadCount++
+        &lt;span class=&#34;nx&#34;&gt;fs&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;writeFile&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardPath&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;imageName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+          &lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;\x1b[31m%s\x1b[0m%s&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;imageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;catch&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;\x1b[31m%s %s.\x1b[0m %s&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Download image failed.&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;message&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;imageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;errorImageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;url&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;imageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;path&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boardPath&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;imageName&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;finally&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;cb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-        fs.writeFile(`${boardPath}/${imageName}`, data, error =&amp;gt; {
-          error &amp;amp;&amp;amp; console.error(&#39;\x1b[31m%s\x1b[0m%s&#39;, error.message, imageUrl)
-        })
-      })
-      .catch(error =&amp;gt; {
-        console.error(&#39;\x1b[31m%s %s.\x1b[0m %s&#39;, &#39;Download image failed.&#39;, error.message, imageUrl)
-        errorImageUrl.push({ url: imageUrl, path: `${boardPath}/${imageName}` })
-      })
-      .finally(cb)
-  }
-
-  // async控制并发下载数，否则并发数太高Node会失去响应
-  return new Promise&amp;lt;number&amp;gt;(resolve =&amp;gt; {
-    // 同一时间最多有10个(不能太高)并发请求
-    async.eachLimit(allPins, 10, download, (error: IError | undefined) =&amp;gt; {
-      if (error) {
-        throw error
-      }
-      errorImageUrl.length &amp;amp;&amp;amp; retry()
-      resolve(downloadCount)
-    })
-  })
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;c1&#34;&gt;// async控制并发下载数，否则并发数太高Node会失去响应
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;resolve&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;c1&#34;&gt;// 同一时间最多有10个(不能太高)并发请求
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;eachLimit&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;allPins&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;download&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IError&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;|&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;undefined&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;error&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;errorImageUrl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;retry&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;resolve&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;downloadCount&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;下载的图片会保存在默认 &lt;code&gt;images&lt;/code&gt; 目录或者用户输入的指定目录中，下载速度平均 5 张/秒&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
@@ -668,72 +843,66 @@ async function getPins(boardId: string): Promise&amp;lt;IPin[]&amp;gt; {
 
 &lt;ol&gt;
 &lt;li&gt;&lt;p&gt;命令行中输入用户ID&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;rl.question(&#39;请输入地址栏中的用户名：&#39;, username =&amp;gt; {})
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;nx&#34;&gt;rl&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;question&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;请输入地址栏中的用户名：&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;username&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{})&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;downloadBoardsOfUser&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;username&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;Total time&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;userBoards&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IBoard&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getUserBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function downloadBoardsOfUser(username: string): Promise&amp;lt;void&amp;gt; {
-  console.time(&#39;Total time&#39;)
-  const userBoards: IBoard[] = await getUserBoards(username)
+  &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;\n用户 [%s] 画板数量：%d&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;userBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-  console.log(&#39;\n用户 [%s] 画板数量：%d&#39;, username, userBoards.length)
+  &lt;span class=&#34;c1&#34;&gt;// 顺序下载画板，并行下载会失控
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;of&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;userBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;console&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;log&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;
+      &lt;span class=&#34;s1&#34;&gt;&amp;#39;\n开始下载画板：[%s - %s]，图片数量：%d&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;pin_count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getPinsAndDownload&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-  // 顺序下载画板，并行下载会失控
-  for (const board of userBoards) {
-    console.log(
-      &#39;\n开始下载画板：[%s - %s]，图片数量：%d&#39;,
-      board.board_id,
-      board.title,
-      board.pin_count,
-    )
-    await getPinsAndDownload(board)
-  }
-
-  outputResult()
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;nx&#34;&gt;outputResult&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-ts&#34; data-lang=&#34;ts&#34;&gt;&lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getUserBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;username&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;IBoard&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;allUserBoards&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IBoard&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-ts&#34;&gt;async function getUserBoards(username: string): Promise&amp;lt;IBoard[]&amp;gt; {
-  const allUserBoards: IBoard[] = []
+  &lt;span class=&#34;nx&#34;&gt;async&lt;/span&gt; &lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lastBoardId?&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;string&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Promise&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;void&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;err?&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;number&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;user?&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IUser&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;rp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;({&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;uri&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;sb&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;huabanDomain&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;${&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;username&lt;/span&gt;&lt;span class=&#34;si&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;sb&#34;&gt;/`&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;qs&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;limit&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;100&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+        &lt;span class=&#34;nx&#34;&gt;max&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;lastBoardId&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;headers&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;jsonRequestHeader&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;json&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
 
-  async function getBoards(lastBoardId?: string): Promise&amp;lt;void&amp;gt; {
-    const response: {
-      err?: number
-      user?: IUser
-    } = await rp({
-      uri: `${huabanDomain}/${username}/`,
-      qs: {
-        limit: 100,
-        max: lastBoardId,
-      },
-      headers: jsonRequestHeader,
-      json: true,
-    })
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;err&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;===&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;404&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;用户不存在！&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;else&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board_count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;throw&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;Error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;用户没有画板！&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-    if (response.err === 404) {
-      throw new Error(&#39;用户不存在！&#39;)
-    } else if (!response.user!.board_count) {
-      throw new Error(&#39;用户没有画板！&#39;)
-    }
+    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;: &lt;span class=&#34;kt&#34;&gt;IUser&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;response&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;
+    &lt;span class=&#34;kr&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;requestUserBoardsCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;allUserBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;push&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(...&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
 
-    const user: IUser = response.user!
-    const requestUserBoardsCount = user.boards.length
-    allUserBoards.push(...user.boards)
+    &lt;span class=&#34;c1&#34;&gt;// 获取所有画板数据
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;requestUserBoardsCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;allUserBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;length&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board_count&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;user&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;boards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;requestUserBoardsCount&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;].&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;board_id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
 
-    // 获取所有画板数据
-    if (requestUserBoardsCount &amp;amp;&amp;amp; allUserBoards.length &amp;lt; user.board_count) {
-      await getBoards(user.boards[requestUserBoardsCount - 1].board_id)
-    }
-  }
-
-  await getBoards()
-  return allUserBoards
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+  &lt;span class=&#34;nx&#34;&gt;await&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;getBoards&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;allUserBoards&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
 
 &lt;li&gt;&lt;p&gt;后面步骤跟方式一相同，这里只是使用 &lt;code&gt;for&lt;/code&gt; 循环下载多个画板图片&lt;/p&gt;&lt;/li&gt;
 &lt;/ol&gt;
