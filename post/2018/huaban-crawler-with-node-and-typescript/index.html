@@ -86,7 +86,7 @@
 
 <meta itemprop="datePublished" content="2018-04-19T04:03:44&#43;00:00" />
 <meta itemprop="dateModified" content="2018-04-19T04:03:44&#43;00:00" />
-<meta itemprop="wordCount" content="3535">
+<meta itemprop="wordCount" content="3804">
 
 
 
@@ -284,7 +284,7 @@
               <a href="/categories/typescript/"> TypeScript </a>
             
           </div>
-        <span class="more-meta"> 约 3535 字 </span>
+        <span class="more-meta"> 约 3804 字 </span>
         <span class="more-meta"> 预计阅读 8 分钟 </span>
       </div>
     </header>
@@ -390,7 +390,70 @@
 <h3 id="board-data">Board Data</h3>
 
 <p>在这个 HTML Document 中发现有个 <code>&lt;script&gt;</code> 中带有大量的 <strong>board</strong> 数据：</p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">app</span><span class="p">.</span><span class="nx">page</span><span class="p">[</span><span class="s1">&#39;board&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">app</span><span class="p">.</span><span class="nx">page</span><span class="p">[</span><span class="s1">&#39;board&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">board_id</span><span class="o">:</span> <span class="mi">17473820</span><span class="p">,</span>
   <span class="nx">user_id</span><span class="o">:</span> <span class="mi">14191742</span><span class="p">,</span>
   <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;◈ 二次元 少女 ◈&#39;</span><span class="p">,</span>
@@ -448,7 +511,9 @@
     <span class="p">...</span>
   <span class="p">]</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre></td></tr></table>
+</div>
+</div>
 <p>其中 <code>app.page.board.pins</code> 是一个对象数组，里面每个对象对应着画板中其中一张图片的信息，<code>pin</code> 代表一张图片的信息。</p>
 
 <p>在网页中检查第一张图片的源 <code>&lt;img src=&quot;//img.hb.aicdn.com/95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn_fw236&quot;&gt;</code>，可以发现花瓣网图片使用了又拍云的CDN服务，第二部分即是上面的 <code>pins[0].file.key</code> 加上一个 <code>_fw236</code> 后缀；其它图片的 <code>src</code> 都带有这个 <code>_fw236</code> 后缀，暂时还不知道它的意义。</p>
@@ -462,11 +527,22 @@
 <p>拖动滚动条到底部，继续观察 <strong>Network</strong>，第一个请求 <a href="http://huaban.com/boards/17473820/?jg6ltavl&amp;max=1584529804&amp;limit=20&amp;wfl=1">http://huaban.com/boards/17473820/?jg6ltavl&amp;max=1584529804&amp;limit=20&amp;wfl=1</a> 在画板ID后面携带了一些参数：</p>
 
 <p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-lazy-load.png" alt="board-lazy-load" /></p>
-<div class="highlight"><pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">jg6ltavl</span><span class="o">:</span> 
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">jg6ltavl</span><span class="o">:</span> 
 <span class="nx">max</span><span class="o">:</span> <span class="mi">1584529804</span>
 <span class="nx">limit</span><span class="o">:</span> <span class="mi">20</span>
 <span class="nx">wfl</span><span class="o">:</span> <span class="mi">1</span>
-</code></pre></div>
+</code></pre></td></tr></table>
+</div>
+</div>
 <ul>
 <li>第一个参数是个随机字符串，最后一位按字母表顺序循环，没发现有什么意义，忽略；</li>
 <li>第二个参数 <strong>max</strong> 的值是个 <strong>pin_id</strong> ；</li>
@@ -493,26 +569,77 @@
 
 <ol>
 <li><p>在命令行中跟用户交互，使用 Node <code>readline</code> API实现在 <code>stdin/stdout</code> 读取输入和显示输出：</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="nx">readline</span> <span class="nx">from</span> <span class="s1">&#39;readline&#39;</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="nx">readline</span> <span class="nx">from</span> <span class="s1">&#39;readline&#39;</span>
 
 <span class="kr">const</span> <span class="nx">rl</span>: <span class="kt">readline.ReadLine</span> <span class="o">=</span> <span class="nx">readline</span><span class="p">.</span><span class="nx">createInterface</span><span class="p">({</span>
   <span class="nx">input</span>: <span class="kt">process.stdin</span><span class="p">,</span>
   <span class="nx">output</span>: <span class="kt">process.stdout</span><span class="p">,</span>
 <span class="p">})</span>
-<span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;画板ID：&#39;</span><span class="p">,</span> <span class="nx">boardId</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></div></li>
+<span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;画板ID：&#39;</span><span class="p">,</span> <span class="nx">boardId</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>首先根据画板ID获取 <code>board</code> 数据，然后获取到 <code>board</code> 中所有的 <code>pins</code> 数据，最后根据每个 <code>pin</code> 数据下载图片到本地目录中，中间向命令行中输出一些提示：</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadSingleBoard</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadSingleBoard</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;Total time&#39;</span><span class="p">)</span>
   <span class="kr">const</span> <span class="nx">board</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span><span class="p">)</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;\n开始下载画板 %s - %s，图片数量：%d&#39;</span><span class="p">,</span> <span class="nx">boardId</span><span class="p">,</span> <span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span><span class="p">)</span>
 
   <span class="nx">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
   <span class="nx">outputResult</span><span class="p">()</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>根据画板ID获取 <code>board</code> 数据。为了使用 ES7 的 <code>async/await</code>，引入了 <code>promisify</code> 的 request 库</p>
-<div class="highlight"><pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="nx">rp</span> <span class="nx">from</span> <span class="s1">&#39;request-promise&#39;</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="nx">rp</span> <span class="nx">from</span> <span class="s1">&#39;request-promise&#39;</span>
 
 <span class="nx">async</span> <span class="kd">function</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="nx">IBoard</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">response</span><span class="o">:</span> <span class="p">{</span>
@@ -531,10 +658,35 @@
   <span class="p">}</span>
 
   <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">board</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>获取 <code>pins</code> 数据然后下载图片，输出结果。其中在获取 <code>pins</code> 数据的时候发现有些画板无法获取全部的 <code>pins</code> 数据，造成画板图片下载不全（暂时还不清楚原因）</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span>: <span class="kt">IBoard</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span>: <span class="kt">IBoard</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">boardPins</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getPins</span><span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="p">)</span>
   <span class="c1">// TODO: 有些画板获取的pins数据不全？
 </span><span class="c1"></span>  <span class="kr">const</span> <span class="nx">missedPinsCount</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span> <span class="o">-</span> <span class="nx">boardPins</span><span class="p">.</span><span class="nx">length</span>
@@ -552,10 +704,56 @@
     <span class="si">}</span><span class="sb">`</span><span class="p">,</span>
     <span class="nx">downloadCount</span><span class="p">,</span>
   <span class="p">)</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 <code>'X-Requested-With': 'XMLHttpRequest'</code>，服务器返回的是包含json的HMLT Document，而不是单纯的 <code>json</code> 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 <code>json</code>，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="c1">// 关键头部，添加该项后服务器只会返回json数据，而不是包含json的HTML
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="c1">// 关键头部，添加该项后服务器只会返回json数据，而不是包含json的HTML
 </span><span class="c1"></span><span class="kr">const</span> <span class="nx">jsonRequestHeader</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">Accept</span><span class="o">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
   <span class="s1">&#39;X-Requested-With&#39;</span><span class="o">:</span> <span class="s1">&#39;XMLHttpRequest&#39;</span><span class="p">,</span>
@@ -594,10 +792,71 @@
 
   <span class="nx">await</span> <span class="nx">loadPins</span><span class="p">()</span>
   <span class="k">return</span> <span class="nx">allPins</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>根据 <code>pins</code> 下载图片。这里引入了 <code>async</code> 异步库来控制同一时间的下载并发数，否则并发过高<strong>Node会失去响应</strong>；下载失败的图片还会重试一次</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">allPins</span>: <span class="kt">IPin</span><span class="p">[],</span> <span class="nx">boardPath</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">allPins</span>: <span class="kt">IPin</span><span class="p">[],</span> <span class="nx">boardPath</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="kd">let</span> <span class="nx">downloadCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="kr">const</span> <span class="nx">errorImageUrl</span>: <span class="kt">Array</span><span class="o">&lt;</span><span class="p">{</span> <span class="nx">url</span>: <span class="kt">string</span><span class="p">;</span> <span class="nx">path</span>: <span class="kt">string</span> <span class="p">}</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -651,7 +910,9 @@
       <span class="nx">resolve</span><span class="p">(</span><span class="nx">downloadCount</span><span class="p">)</span>
     <span class="p">})</span>
   <span class="p">})</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>下载的图片会保存在默认 <code>images</code> 目录或者用户输入的指定目录中，下载速度平均 5 张/秒</p></li>
 </ol>
@@ -660,10 +921,40 @@
 
 <ol>
 <li><p>命令行中输入用户ID</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;请输入地址栏中的用户名：&#39;</span><span class="p">,</span> <span class="nx">username</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></div></li>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;请输入地址栏中的用户名：&#39;</span><span class="p">,</span> <span class="nx">username</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadBoardsOfUser</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadBoardsOfUser</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;Total time&#39;</span><span class="p">)</span>
   <span class="kr">const</span> <span class="nx">userBoards</span>: <span class="kt">IBoard</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span>
 
@@ -681,10 +972,52 @@
   <span class="p">}</span>
 
   <span class="nx">outputResult</span><span class="p">()</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取</p>
-<div class="highlight"><pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="nx">IBoard</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">{</span>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="nx">IBoard</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">allUserBoards</span>: <span class="kt">IBoard</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
 
   <span class="nx">async</span> <span class="kd">function</span> <span class="nx">getBoards</span><span class="p">(</span><span class="nx">lastBoardId?</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
@@ -719,7 +1052,9 @@
 
   <span class="nx">await</span> <span class="nx">getBoards</span><span class="p">()</span>
   <span class="k">return</span> <span class="nx">allUserBoards</span>
-<span class="p">}</span></code></pre></div></li>
+<span class="p">}</span></code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>后面步骤跟方式一相同，这里只是使用 <code>for</code> 循环下载多个画板图片</p></li>
 </ol>

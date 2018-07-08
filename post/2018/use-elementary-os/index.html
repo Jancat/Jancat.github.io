@@ -91,7 +91,7 @@
 
 <meta itemprop="datePublished" content="2018-07-08T18:16:57&#43;08:00" />
 <meta itemprop="dateModified" content="2018-07-08T18:16:57&#43;08:00" />
-<meta itemprop="wordCount" content="1001">
+<meta itemprop="wordCount" content="1003">
 
 
 
@@ -285,8 +285,8 @@
       <div class="post-meta">
         <span class="post-time"> 2018-07-08 </span>
         
-        <span class="more-meta"> 约 1001 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span class="more-meta"> 约 1003 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
       </div>
     </header>
 
@@ -486,8 +486,16 @@ E: Unable to lock the administration directory (/var/lib/dpkg/), are you root?
 </code></pre>
 
 <p><strong>解决：</strong> 删除文件锁</p>
-<div class="highlight"><pre class="chroma"><code class="language-shell" data-lang="shell">sudo rm /var/cache/apt/archives/lock
-sudo rm /var/lib/dpkg/lock</code></pre></div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo rm /var/cache/apt/archives/lock
+sudo rm /var/lib/dpkg/lock</code></pre></td></tr></table>
+</div>
+</div>
 <hr />
 
 <h3 id="unable-to-locate-package">Unable to locate package</h3>
