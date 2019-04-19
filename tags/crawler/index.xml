@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Crawler on 键落云起</title>
+    <title>crawler on 键落云起</title>
     <link>https://jancat.github.io/tags/crawler/</link>
-    <description>Recent content in Crawler on 键落云起</description>
+    <description>Recent content in crawler on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <lastBuildDate>Thu, 19 Apr 2018 04:03:44 +0000</lastBuildDate>
@@ -17,8 +17,7 @@
       <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
       
       <guid>https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg&#34; alt=&#34;huban-logo&#34; /&gt;
-&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg&#34; alt=&#34;huban-logo&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

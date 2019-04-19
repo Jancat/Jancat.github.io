@@ -6,22 +6,31 @@
     <description>Recent content in Tags on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 19 Apr 2018 04:03:44 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Apr 2019 23:33:14 +0800</lastBuildDate>
     
 	<atom:link href="https://jancat.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Crawler</title>
-      <link>https://jancat.github.io/tags/crawler/</link>
-      <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
+      <title>mvvm</title>
+      <link>https://jancat.github.io/tags/mvvm/</link>
+      <pubDate>Fri, 19 Apr 2019 23:33:14 +0800</pubDate>
       
-      <guid>https://jancat.github.io/tags/crawler/</guid>
+      <guid>https://jancat.github.io/tags/mvvm/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Elementary</title>
+      <title>vue</title>
+      <link>https://jancat.github.io/tags/vue/</link>
+      <pubDate>Fri, 19 Apr 2019 23:33:14 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/tags/vue/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elementary</title>
       <link>https://jancat.github.io/tags/elementary/</link>
       <pubDate>Sun, 08 Jul 2018 18:16:57 +0800</pubDate>
       
@@ -30,11 +39,11 @@
     </item>
     
     <item>
-      <title>Huaban</title>
-      <link>https://jancat.github.io/tags/huaban/</link>
-      <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
+      <title>vmware</title>
+      <link>https://jancat.github.io/tags/vmware/</link>
+      <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
       
-      <guid>https://jancat.github.io/tags/huaban/</guid>
+      <guid>https://jancat.github.io/tags/vmware/</guid>
       <description></description>
     </item>
     
@@ -48,7 +57,7 @@
     </item>
     
     <item>
-      <title>Typescript</title>
+      <title>TypeScript</title>
       <link>https://jancat.github.io/tags/typescript/</link>
       <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
       
@@ -57,11 +66,20 @@
     </item>
     
     <item>
-      <title>Vmware</title>
-      <link>https://jancat.github.io/tags/vmware/</link>
-      <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
+      <title>crawler</title>
+      <link>https://jancat.github.io/tags/crawler/</link>
+      <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
       
-      <guid>https://jancat.github.io/tags/vmware/</guid>
+      <guid>https://jancat.github.io/tags/crawler/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>huaban</title>
+      <link>https://jancat.github.io/tags/huaban/</link>
+      <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
+      
+      <guid>https://jancat.github.io/tags/huaban/</guid>
       <description></description>
     </item>
     

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>键落云起</title>
@@ -6,10 +5,379 @@
     <description>Recent content on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 08 Jul 2018 18:16:57 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 19 Apr 2019 23:33:14 +0800</lastBuildDate>
     
         <atom:link href="https://jancat.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Vue MVVM (defineProperty) 实现</title>
+      <link>https://jancat.github.io/post/2019/vue-mvvm/</link>
+      <pubDate>Fri, 19 Apr 2019 23:33:14 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2019/vue-mvvm/</guid>
+      
+        <description>&lt;p&gt;&lt;img src=&#34;https://cn.vuejs.org/images/data.png&#34; alt=&#34;Vue MVVM Poster&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;vue-响应式原理&#34;&gt;Vue 响应式原理&lt;/h2&gt;
+
+&lt;p&gt;Vue 2.x 的响应式原理是通过 &lt;strong&gt;数据劫持&lt;/strong&gt; 和 &lt;strong&gt;发布-订阅&lt;/strong&gt;模式实现的。&lt;/p&gt;
+
+&lt;p&gt;初始化 Vue 实例时内部就会定义数据劫持和创建发布-订阅模式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/006tKfTcgy1g1pnu3komuj31z40m0wn6.jpg&#34; alt=&#34;Vue MVVM&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;数据劫持&#34;&gt;数据劫持&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;数据劫持&lt;/strong&gt; 通过 &lt;code&gt;Object.defineProperty()&lt;/code&gt; 劫持传入的 &lt;code&gt;data&lt;/code&gt;，对 &lt;code&gt;data&lt;/code&gt; 属性(包括嵌套对象) 的操作进行监听（通过 getter/setter），从而触发一系列响应。&lt;/p&gt;
+
+&lt;p&gt;在 &lt;a href=&#34;https://cn.vuejs.org/v2/guide/reactivity.html&#34;&gt;官方文档-深入响应式原理&lt;/a&gt; 中也说明了 Vue 在初始化实例后 &lt;strong&gt;无法检测到对象属性的添加或删除&lt;/strong&gt;，需要通过 &lt;code&gt;Vue.set(vm.someObject, &#39;b&#39;, 2)&lt;/code&gt; 或者 &lt;code&gt;this.$set(this.someObject,&#39;b&#39;,2)&lt;/code&gt; 的方式动态添加新的响应式属性，即给新的属性添加 getter/setter。&lt;/p&gt;
+
+&lt;h3 id=&#34;发布-订阅&#34;&gt;发布-订阅&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;发布-订阅&lt;/strong&gt;模式是数据劫持之后的响应，订阅中心 &lt;strong&gt;Dep&lt;/strong&gt; 收集对 &lt;strong&gt;Data&lt;/strong&gt; 各个属性的依赖，&lt;strong&gt;Watcher&lt;/strong&gt; 作为订阅者订阅这些依赖；依赖项的 setter 触发时，会通知对应的 &lt;strong&gt;Watcher&lt;/strong&gt;，从而触发更新。&lt;/p&gt;
+
+&lt;h3 id=&#34;mvvm-各模块职责&#34;&gt;MVVM 各模块职责&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MVVM&lt;/strong&gt;: Vue 实例初始化，调用 &lt;strong&gt;Observer&lt;/strong&gt; 数据劫持，调用 &lt;strong&gt;Compiler&lt;/strong&gt; 解析模板；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Observer&lt;/strong&gt;: 劫持 data 全部属性，定义 setter 、getter，添加和通知订阅者；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Compiler&lt;/strong&gt;: 解析模板初始化视图，收集模板中的数据依赖，创建订阅者订阅变化，绑定更新函数；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dep&lt;/strong&gt;：订阅中心，提供添加、移除、通知订阅的接口；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Watcher&lt;/strong&gt;: data 属性的订阅者，收到变化通知后调用更新函数更新视图。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;mvvm-原理实现&#34;&gt;MVVM 原理实现&lt;/h2&gt;
+
+&lt;p&gt;为了理解 Vue MVVM 内部原理，自己造一个简单的 MVVM 伪轮子，能够实现模板解析、数据响应式等基本功能，忽略细节和明显的 bug。同时，为了更容易理解和更好的 coding 体验，使用现代浏览器支持的 ES6+ 语法实现，划分各个模块。&lt;/p&gt;
+
+&lt;p&gt;这个轮子中借助 ES5 的 &lt;code&gt;Object.defineProperty()&lt;/code&gt; 实现数据劫持；在下个轮子中，将会使用 ES6 的 &lt;code&gt;Proxy&lt;/code&gt; 实现，这也是 Vue 3 的计划之一。&lt;/p&gt;
+
+&lt;p&gt;效果：&lt;/p&gt;
+
+&lt;iframe src=&#34;https://codesandbox.io/embed/q7j083qmyq?autoresize=1&amp;fontsize=14&amp;hidenavigation=1&amp;view=preview&#34; title=&#34;vue-mvvm&#34; style=&#34;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&#34; sandbox=&#34;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&#34;&gt;&lt;/iframe&gt;
+
+&lt;h3 id=&#34;index-html&#34;&gt;index.html&lt;/h3&gt;
+
+&lt;p&gt;入口文件，创建渲染模板，通过 &lt;code&gt;v-model&lt;/code&gt; 指令双向绑定 &lt;code&gt;data&lt;/code&gt;，同理 &lt;code&gt;v-class&lt;/code&gt;、&lt;code&gt;v-text&lt;/code&gt;、&lt;code&gt;v-html&lt;/code&gt; 指令插入 &lt;code&gt;data&lt;/code&gt; 值，&lt;code&gt;v-on:click&lt;/code&gt; 绑定点击事件监听器 &lt;code&gt;method&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;在 &lt;code&gt;module script&lt;/code&gt; 中导入并实例化 MVVM，定义 &lt;code&gt;el&lt;/code&gt;、&lt;code&gt;data&lt;/code&gt;、&lt;code&gt;computed&lt;/code&gt;、&lt;code&gt;methods&lt;/code&gt;、&lt;code&gt;$watch&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;mvvm-模块&#34;&gt;MVVM 模块&lt;/h3&gt;
+
+&lt;iframe src=&#34;https://codesandbox.io/embed/q7j083qmyq?autoresize=1&amp;fontsize=16&amp;hidenavigation=1&amp;view=editor&#34; title=&#34;vue-mvvm&#34; style=&#34;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&#34; sandbox=&#34;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;MVVM 构造函数中把 &lt;code&gt;options.data&lt;/code&gt;、&lt;code&gt;options.computed&lt;/code&gt;、&lt;code&gt;options.methods&lt;/code&gt; 中的属性全部绑定到 MVVM &lt;code&gt;this&lt;/code&gt; 上，这样就能在 &lt;code&gt;methods&lt;/code&gt; 中通过 &lt;code&gt;this.xxx&lt;/code&gt; 代理到各自的 key 中，暂时不考虑重复的 key。&lt;/p&gt;
+
+&lt;p&gt;初始化 &lt;code&gt;this&lt;/code&gt; 代理后，调用 &lt;code&gt;Observer&lt;/code&gt; 劫持 &lt;code&gt;data&lt;/code&gt; 中的全部属性。&lt;/p&gt;
+
+&lt;p&gt;最后，调用 &lt;code&gt;Compiler&lt;/code&gt; 解析模板。&lt;/p&gt;
+
+&lt;p&gt;MVVM 实例也提供了 &lt;code&gt;$watch&lt;/code&gt; 方法，调用 &lt;code&gt;Watcher&lt;/code&gt; 监听指定属性的变化。&lt;/p&gt;
+
+&lt;h3 id=&#34;dep-模块&#34;&gt;Dep 模块&lt;/h3&gt;
+
+&lt;iframe src=&#34;https://codesandbox.io/embed/q7j083qmyq?autoresize=1&amp;fontsize=16&amp;hidenavigation=1&amp;module=%2FDep.js&amp;view=editor&#34; title=&#34;vue-mvvm&#34; style=&#34;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&#34; sandbox=&#34;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;strong&gt;Dep&lt;/strong&gt; 模块作为&lt;strong&gt;发布-订阅&lt;/strong&gt;模式的订阅中心，每个 &lt;code&gt;data&lt;/code&gt; 中的属性(包括嵌套) 都绑定了一个 Dep 实例(通过闭包引用)，提供添加、通知、移除订阅者的接口。&lt;/p&gt;
+
+&lt;p&gt;一个某属性绑定的 Dep 实例可以包含多个订阅该属性的 Watcher 实例，属性变化后，将通知这些 Watcher 实例。&lt;/p&gt;
+
+&lt;h3 id=&#34;observer-模块&#34;&gt;Observer 模块&lt;/h3&gt;
+
+&lt;iframe src=&#34;https://codesandbox.io/embed/q7j083qmyq?autoresize=1&amp;fontsize=16&amp;hidenavigation=1&amp;module=%2FObserver.js&amp;view=editor&#34; title=&#34;vue-mvvm&#34; style=&#34;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&#34; sandbox=&#34;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;strong&gt;Observer&lt;/strong&gt; 模块依赖 &lt;strong&gt;Dep&lt;/strong&gt; 模块。&lt;/p&gt;
+
+&lt;p&gt;Observer 构造函数递归劫持 &lt;code&gt;data&lt;/code&gt; 中的全部属性，定义 getter 和 setter，同时为每个属性绑定一个 Dep 实例。&lt;/p&gt;
+
+&lt;p&gt;在属性的 getter 中判断当前 &lt;code&gt;Dep.target&lt;/code&gt; 是否指向一个 &lt;code&gt;Watcher&lt;/code&gt; 实例，如果是，则把该 &lt;code&gt;Watcher&lt;/code&gt; 实例作为属性订阅者添加到 &lt;code&gt;Dep&lt;/code&gt; 中：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;get&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// 访问该 key 时如果 Dep.target 指向 Watcher 实例，把该 key 对应的 Dep 实例传递给 Watcher 实例
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;// 也可以直接 dep.addSub(Dep.target)
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;nx&#34;&gt;Dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;target&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;depend&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;val&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;在属性的 setter 中当值变化后通过闭包引用的 &lt;code&gt;Dep&lt;/code&gt; 实例通知订阅者：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;set&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;newVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;newVal&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;===&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;val&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newVal&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// 新的值是object的话，进行监听
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;nx&#34;&gt;observe&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;newVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// 通知订阅该 key 的 Watcher 实例
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;notify&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;observer-named-export&#34;&gt;Observer named export&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Observer&lt;/code&gt; 模块导出的不是 &lt;code&gt;Observer class&lt;/code&gt;，而是 &lt;code&gt;observe&lt;/code&gt; 函数，用于递归实例化 &lt;code&gt;Observer&lt;/code&gt; 劫持嵌套的 &lt;code&gt;data key&lt;/code&gt; 对象。相当于 &lt;code&gt;data&lt;/code&gt; 中的每个嵌套对象都对应一个 &lt;code&gt;Observer&lt;/code&gt; 实例，包括 &lt;code&gt;data&lt;/code&gt; 本身。不过在这个轮子中没有用到 &lt;code&gt;Observer&lt;/code&gt; 实例的引用。&lt;/p&gt;
+
+&lt;h3 id=&#34;watcher-模块&#34;&gt;Watcher 模块&lt;/h3&gt;
+
+&lt;iframe src=&#34;https://codesandbox.io/embed/q7j083qmyq?autoresize=1&amp;fontsize=16&amp;hidenavigation=1&amp;module=%2FWatcher.js&amp;view=editor&#34; title=&#34;vue-mvvm&#34; style=&#34;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&#34; sandbox=&#34;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;strong&gt;Watcher&lt;/strong&gt; 模块依赖 &lt;strong&gt;Dep&lt;/strong&gt; 模块。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Watcher&lt;/code&gt; 在初始化时将会把 &lt;code&gt;Dep.target&lt;/code&gt; 指向自身的 &lt;code&gt;this&lt;/code&gt;，然后访问监听的属性，触发 &lt;code&gt;Observer&lt;/code&gt; 中定义的属性 getter，从而把当前 &lt;code&gt;Watcher&lt;/code&gt; 实例添加到属性订阅者中。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 获取 Wacher 实例监视的值
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_getValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// 访问监听的属性时把 Dep.target 指向自身，从而在 Observer 中把当前实例添加到属性订阅者中
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;nx&#34;&gt;Dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;target&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;getter&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// 获取属性值后置空 Dep.target
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;nx&#34;&gt;Dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;target&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;null&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;监听嵌套属性&#34;&gt;监听嵌套属性&lt;/h4&gt;
+
+&lt;p&gt;如果 &lt;code&gt;Watcher&lt;/code&gt; 实例监听的是嵌套属性，比如 &lt;code&gt;a.b.c&lt;/code&gt;，关注的是 &lt;code&gt;c&lt;/code&gt; 值的变化。则在访问 &lt;code&gt;a&lt;/code&gt; 时，&lt;code&gt;a&lt;/code&gt; 绑定的 &lt;code&gt;Dep&lt;/code&gt; 实例会把当前 &lt;code&gt;Watcher&lt;/code&gt; 实例添加到订阅者中，同理 &lt;code&gt;b&lt;/code&gt;、&lt;code&gt;c&lt;/code&gt;，即一个 &lt;code&gt;Watcher&lt;/code&gt; 实例的引用同时存在于嵌套属性的父属性 &lt;code&gt;Dep&lt;/code&gt; 订阅者中；当父属性值变化时，也会通知到子属性的订阅者。&lt;/p&gt;
+
+&lt;h4 id=&#34;重复的-dep&#34;&gt;重复的 Dep&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;applyDep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;depIds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;hasOwnProperty&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;addSub&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;depIds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;id&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dep&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;假如相应属性的 &lt;code&gt;dep.id&lt;/code&gt; 已经在当前 &lt;code&gt;watcher&lt;/code&gt; 的 &lt;code&gt;depIds&lt;/code&gt; 里，说明不是一个新的属性，仅仅是改变了其值而已，则不需要将当前 &lt;code&gt;watcher&lt;/code&gt; 添加到该属性的 &lt;code&gt;dep&lt;/code&gt; 里。&lt;/p&gt;
+
+&lt;p&gt;假如相应属性是新的属性，则将当前 &lt;code&gt;watcher&lt;/code&gt; 添加到新属性的&lt;code&gt;dep&lt;/code&gt;里，如通过 &lt;code&gt;vm.child = {name: &#39;a&#39;}&lt;/code&gt; 改变了 &lt;code&gt;child.name&lt;/code&gt; 的值，&lt;code&gt;child.name&lt;/code&gt; 就是个新属性，则需要将当前&lt;code&gt;watcher(child.name)&lt;/code&gt;加入到新的 &lt;code&gt;child.name&lt;/code&gt; 的&lt;code&gt;dep&lt;/code&gt;里。因为此时 &lt;code&gt;child.name&lt;/code&gt; 是个新值，之前的 &lt;code&gt;setter&lt;/code&gt;、&lt;code&gt;dep&lt;/code&gt; 都已经失效，如果不把 &lt;code&gt;watcher&lt;/code&gt; 加入到新的 &lt;code&gt;child.name&lt;/code&gt; 的&lt;code&gt;dep&lt;/code&gt;中，通过 &lt;code&gt;child.name = xxx&lt;/code&gt; 赋值的时候，对应的 &lt;code&gt;watcher&lt;/code&gt; 就收不到通知，等于失效了。&lt;/p&gt;
+
+&lt;h3 id=&#34;compiler-模块&#34;&gt;Compiler 模块&lt;/h3&gt;
+
+&lt;iframe src=&#34;https://codesandbox.io/embed/q7j083qmyq?autoresize=1&amp;fontsize=16&amp;hidenavigation=1&amp;module=%2FCompiler.js&amp;view=editor&#34; title=&#34;vue-mvvm&#34; style=&#34;width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;&#34; sandbox=&#34;allow-modals allow-forms allow-popups allow-scripts allow-same-origin&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;&lt;strong&gt;Compiler&lt;/strong&gt; 模块依赖 &lt;strong&gt;Watcher&lt;/strong&gt; 模块。&lt;/p&gt;
+
+&lt;h4 id=&#34;documentfragment&#34;&gt;DocumentFragment&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Compiler&lt;/code&gt; 实例化时先把模板节点的子节点全部转移到 &lt;code&gt;DocumentFragment&lt;/code&gt; 中进行节点操作，避免频繁 reflow，影响性能；在模板解析完后再把 &lt;code&gt;DocumentFragment&lt;/code&gt; 转移到根节点下。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;kd&#34;&gt;function&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;nodeToFragment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;fragment&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;document&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;createDocumentFragment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;
+
+  &lt;span class=&#34;c1&#34;&gt;// 将原生节点移动到fragment
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;  &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;firstChild&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;while&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;fragment&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;appendChild&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;child&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;firstChild&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;fragment&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;指令解析&#34;&gt;指令解析&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;Compiler&lt;/code&gt; 解析模板中的 &lt;code&gt;v-&lt;/code&gt; 前缀的指令和 &lt;code&gt;{{ exp }}&lt;/code&gt; 文本插值表达式，该轮子忽略 &lt;code&gt;JavaScript&lt;/code&gt; 插值表达式。能够解析的指令有 &lt;code&gt;v-model&lt;/code&gt;、 &lt;code&gt;v-class&lt;/code&gt;、&lt;code&gt;v-text&lt;/code&gt;、&lt;code&gt;v-html&lt;/code&gt;、&lt;code&gt;v-on&lt;/code&gt;，这些指令都是引用 &lt;code&gt;data&lt;/code&gt; 中的属性，触发 &lt;code&gt;Observer&lt;/code&gt; 定义的 getter 和 setter。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;c1&#34;&gt;// 指令处理集合
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;compilerUtils&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;text&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// ...
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;v-model-双向绑定&#34;&gt;v-model 双向绑定&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;v-model&lt;/code&gt; 指令绑定的属性，&lt;code&gt;View&lt;/code&gt; 和 &lt;code&gt;Model&lt;/code&gt; 中的值变化互相影响，即双向绑定。&lt;/p&gt;
+
+&lt;p&gt;监听 &lt;code&gt;v-model&lt;/code&gt; 指令所在的 &lt;code&gt;node input&lt;/code&gt; 事件，&lt;code&gt;input&lt;/code&gt; 变化后通过 &lt;code&gt;vm.xxx&lt;/code&gt; 改变对应的 &lt;code&gt;model&lt;/code&gt; 属性值，触发该属性定义的 setter，即实现了 &lt;code&gt;View&lt;/code&gt; 影响 &lt;code&gt;Model&lt;/code&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;model&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;model&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+  &lt;span class=&#34;kd&#34;&gt;let&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_getVMVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;addEventListener&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;input&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;e&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newValue&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;e&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;target&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;===&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+      &lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;
+    &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+    &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_setVMVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;val&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;newValue&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;监听属性变化&#34;&gt;监听属性变化&lt;/h4&gt;
+
+&lt;p&gt;每个指令引用的 &lt;code&gt;data&lt;/code&gt; 属性都需要实例化 &lt;code&gt;Watcher&lt;/code&gt; 进行监听，并同时绑定更新函数给 &lt;code&gt;Watcher&lt;/code&gt; 收到变化通知后调用，更新视图：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;bind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;dir&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;updaterFn&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;updater&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;dir&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;+&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;Updater&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;
+
+  &lt;span class=&#34;nx&#34;&gt;updaterFn&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;updaterFn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;this&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;_getVMVal&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+
+  &lt;span class=&#34;k&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;Watcher&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;vm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exp&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;oldValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;updaterFn&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;updaterFn&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;oldValue&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;})&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;属性值更新&#34;&gt;属性值更新&lt;/h4&gt;
+
+&lt;p&gt;监听的属性值变化后，每个指令都对应不同的更新操作，比如替换 &lt;code&gt;textContent&lt;/code&gt;、&lt;code&gt;innerHTML&lt;/code&gt;、&lt;code&gt;value&lt;/code&gt; 等：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;k&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;updater&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;textUpdater&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nx&#34;&gt;node&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;textContent&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;typeof&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;===&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;undefined&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;?&lt;/span&gt; &lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;value&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;},&lt;/span&gt;
+  &lt;span class=&#34;nx&#34;&gt;htmlUpdater&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{}&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;// ...
+&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;在这个轮子中，更新 DOM 是同步执行的，而且不涉及 Virtual DOM。在 Vue 中会对 Virtual DOM 更新然后缓存在异步更新队列，在下一个事件循环 &lt;strong&gt;tick&lt;/strong&gt; 中 flush 到 DOM。&lt;/p&gt;
+
+&lt;h3 id=&#34;回顾&#34;&gt;回顾&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;MVVM&lt;/strong&gt; 模式降低了 &lt;strong&gt;View&lt;/strong&gt; 与 &lt;strong&gt;Model&lt;/strong&gt; 的耦合，由 &lt;strong&gt;ViewModel&lt;/strong&gt; 自动处理 View 与 Model 的数据同步，解决了数据频繁更新（操作 DOM）的问题。View 通过使用&lt;strong&gt;模板语法&lt;/strong&gt;来&lt;strong&gt;声明式&lt;/strong&gt;的将数据渲染进 DOM，当 ViewModel 对 Model 进行更新的时候，会通过数据绑定更新到 View。Model (在本文中就是 &lt;code&gt;data&lt;/code&gt;) 仅仅关注数据层本身，不关心任何行为；Model 的数据模型结合视图和业务实体。&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;宠着&lt;/del&gt;，画了个各模块的关系图帮助理解：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://ws3.sinaimg.cn/large/006tNc79gy1g27t19vigyj30tq0wd42d.jpg&#34; alt=&#34;image-20190419115645881&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最后，本轮子 GitHub 地址：&lt;a href=&#34;https://github.com/Jancat/vue-mvvm&#34;&gt;https://github.com/Jancat/vue-mvvm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Follow&lt;/strong&gt; or &lt;strong&gt;Star&lt;/strong&gt;，你选哪个？&lt;/p&gt;
+
+&lt;p&gt;（&lt;del&gt;不，小孩子才做选择，我全都要&lt;/del&gt;）&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;p&gt;本轮子基于下面的仓库代码改造，感谢！&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/DMQ/mvvm&#34;&gt;https://github.com/DMQ/mvvm&lt;/a&gt;&lt;/p&gt;</description>
+      
+    </item>
     
     <item>
       <title>使用 Elementary OS</title>
@@ -20,8 +388,7 @@
       
         <description>&lt;p&gt;&lt;a href=&#34;https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/&#34;&gt;上一篇&lt;/a&gt; 介绍了在 Win10 上安装 Elementary OS，这篇介绍下 Elementary OS 的简单使用。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/elementary-desktop.png&#34; alt=&#34;elementary-desktop&#34; /&gt;
-&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/elementary-desktop.png&#34; alt=&#34;elementary-desktop&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;包管理-apt-get&#34;&gt;包管理 apt-get&lt;/h2&gt;
 
@@ -316,8 +683,6 @@ sudo mv xx.list xx.list.bak&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/t
       
         <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;blockquote&gt;
 &lt;p&gt;elementary OS是一个基于Ubuntu的Linux发行版。它使用一个自己开发的基于GNOME的名为Pantheon的桌面环境。 这个桌面环境出众的原因是它深度集成了其他elementary OS应用程序，如Plank（一个基于Docky的Dock）、Midori（默认的网页浏览器）或Scratch（一个简单的文本编辑器）。该发行版使用基于Mutter的Gala作为其窗口管理器。&lt;/p&gt;
 
@@ -523,13 +888,15 @@ sudo vmware-install.pl&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&
 
 &lt;p&gt;为了锻炼自己的文字表达能力，和本着知识分享的精神，顺带系统整理下曾经的个人笔记，于是开始写公开的博客文章，在搜索引擎中留下自己的印记。&lt;/p&gt;
 
-&lt;p&gt;&lt;/p&gt;
-
 &lt;h4 id=&#34;文章发布网站的选择&#34;&gt;文章发布网站的选择&lt;/h4&gt;
 
 &lt;p&gt;技术文章如果要发布在公共的网站上，现在一般有几种选择：&lt;/p&gt;
 
 &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;掘金&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;掘金是一个优秀的开发者社区，技术氛围浓厚，文章质量还可以，尤其前端。&lt;/p&gt;&lt;/li&gt;
+
 &lt;li&gt;&lt;p&gt;&lt;strong&gt;简书&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;比较受欢迎的Markdown文章创作社区，各种类型的文章都有，但就是因为太泛了，技术氛围不够，专业性不强。但对于普通的不爱折腾的作者来说已经足够了，可以更加专注在文章创作上。&lt;/p&gt;&lt;/li&gt;
@@ -632,8 +999,7 @@ sudo vmware-install.pl&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&
       
       <guid>https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/</guid>
       
-        <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg&#34; alt=&#34;huban-logo&#34; /&gt;
-&lt;/p&gt;
+        <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg&#34; alt=&#34;huban-logo&#34; /&gt;&lt;/p&gt;
 
 &lt;!-- @import &#34;[TOC]&#34; {cmd=&#34;toc&#34; depthFrom=1 depthTo=6 orderedList=false} --&gt;
 
@@ -759,7 +1125,6 @@ sudo vmware-install.pl&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;56
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;57
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;58
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;59
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;page&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s1&#34;&gt;&amp;#39;board&amp;#39;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
@@ -842,7 +1207,6 @@ sudo vmware-install.pl&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
 &lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
-&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
 &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
 &lt;td class=&#34;lntd&#34;&gt;
 &lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-js&#34; data-lang=&#34;js&#34;&gt;&lt;span class=&#34;nx&#34;&gt;jg6ltavl&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:&lt;/span&gt; 
