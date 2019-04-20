@@ -62,14 +62,14 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jancat.github.io/post/2019/vue-mvvm/" />
 <meta property="article:published_time" content="2019-04-19T23:33:14&#43;08:00"/>
-<meta property="article:modified_time" content="2019-04-19T23:37:27&#43;08:00"/>
+<meta property="article:modified_time" content="2019-04-20T12:18:00&#43;08:00"/>
 
 <meta itemprop="name" content="Vue MVVM (defineProperty) 实现">
 <meta itemprop="description" content="">
 
 
 <meta itemprop="datePublished" content="2019-04-19T23:33:14&#43;08:00" />
-<meta itemprop="dateModified" content="2019-04-19T23:37:27&#43;08:00" />
+<meta itemprop="dateModified" content="2019-04-20T12:18:00&#43;08:00" />
 <meta itemprop="wordCount" content="0">
 
 
@@ -335,6 +335,7 @@
 </ul></li>
 <li><a href="#回顾">回顾</a></li>
 </ul></li>
+<li><a href="#安利">安利</a></li>
 <li><a href="#参考">参考</a></li>
 </ul></li>
 </ul>
@@ -376,9 +377,9 @@
 
 <h2 id="mvvm-原理实现">MVVM 原理实现</h2>
 
-<p>为了理解 Vue MVVM 内部原理，自己造一个简单的 MVVM 伪轮子，能够实现模板解析、数据响应式等基本功能，忽略细节和明显的 bug。同时，为了更容易理解和更好的 coding 体验，使用现代浏览器支持的 ES6+ 语法实现，划分各个模块。</p>
+<p>为了理解 Vue MVVM 内部原理，这里造一个简单的 MVVM 伪轮子，能够实现模板解析、数据响应式等基本功能，忽略细节和明显的 bug。同时，为了更容易理解和更好的 coding 体验，使用现代浏览器支持的 ES6+ 语法实现，划分各个模块。</p>
 
-<p>这个轮子中借助 ES5 的 <code>Object.defineProperty()</code> 实现数据劫持；在下个轮子中，将会使用 ES6 的 <code>Proxy</code> 实现，这也是 Vue 3 的计划之一。</p>
+<p>这个轮子中借助 ES5 的 <code>Object.defineProperty()</code> 实现数据劫持；在<a href="https://jancat.github.io/post/2019/vue-mvvm-proxy/">下一篇</a>中，将会使用 ES6 的 <code>Proxy</code> 实现，这也是 Vue 3 的计划之一。</p>
 
 <p>效果：</p>
 
@@ -386,29 +387,157 @@
 
 <h3 id="index-html">index.html</h3>
 
+<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+
 <p>入口文件，创建渲染模板，通过 <code>v-model</code> 指令双向绑定 <code>data</code>，同理 <code>v-class</code>、<code>v-text</code>、<code>v-html</code> 指令插入 <code>data</code> 值，<code>v-on:click</code> 绑定点击事件监听器 <code>method</code>。</p>
 
-<p>在 <code>module script</code> 中导入并实例化 MVVM，定义 <code>el</code>、<code>data</code>、<code>computed</code>、<code>methods</code>、<code>$watch</code></p>
+<p>在 <code>module script</code> 中导入并实例化 MVVM，定义 <code>el</code>、<code>data</code>、<code>computed</code>、<code>methods</code>、<code>$watch</code> options。</p>
 
 <h3 id="mvvm-模块">MVVM 模块</h3>
 
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FMVVM.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
 <p>MVVM 构造函数中把 <code>options.data</code>、<code>options.computed</code>、<code>options.methods</code> 中的属性全部绑定到 MVVM <code>this</code> 上，这样就能在 <code>methods</code> 中通过 <code>this.xxx</code> 代理到各自的 key 中，暂时不考虑重复的 key。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// data 代理，实现 vm.xxx, this.xxx -&gt; vm.$data.xxx
+</span><span class="c1"></span><span class="nx">_proxyData</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="p">{</span> <span class="nx">$data</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">$data</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="p">{</span>
+      <span class="nx">configurable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="nx">get</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">$data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+      <span class="p">},</span>
+      <span class="nx">set</span><span class="p">(</span><span class="nx">newVal</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newVal</span>
+      <span class="p">},</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-<p>初始化 <code>this</code> 代理后，调用 <code>Observer</code> 劫持 <code>data</code> 中的全部属性。</p>
+<span class="c1">// computed 属性代理，实现 vm.xxx, this.xxx -&gt; this.$options.computed.xxx
+</span><span class="c1"></span><span class="nx">_proxyComputed</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="nx">computed</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$options</span><span class="p">.</span><span class="nx">computed</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">computed</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">computed</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">get</span><span class="o">:</span>
+        <span class="k">typeof</span> <span class="nx">computed</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span>
+        <span class="o">?</span> <span class="nx">computed</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+        <span class="o">:</span> <span class="nx">computed</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">get</span><span class="p">,</span>
+        <span class="nx">set</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{},</span>
+      <span class="p">})</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-<p>最后，调用 <code>Compiler</code> 解析模板。</p>
-
-<p>MVVM 实例也提供了 <code>$watch</code> 方法，调用 <code>Watcher</code> 监听指定属性的变化。</p>
-
+<span class="c1">// 绑定 options.methods 的方法到 this 上
+</span><span class="c1"></span><span class="nx">_bindMethods</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">const</span> <span class="nx">methods</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$options</span><span class="p">.</span><span class="nx">methods</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">methods</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">methods</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span>
+        <span class="k">this</span><span class="p">,</span>
+        <span class="nx">key</span><span class="p">,</span>
+        <span class="nb">Object</span><span class="p">.</span><span class="nx">getOwnPropertyDescriptor</span><span class="p">(</span><span class="nx">methods</span><span class="p">,</span> <span class="nx">key</span><span class="p">),</span>
+      <span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>初始化 <code>this</code> 代理后，调用 <code>Observer</code> 劫持 <code>data</code> 中的全部属性：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">observe</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">$data</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>最后，调用 <code>Compiler</code> 解析模板：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">this</span><span class="p">.</span><span class="nx">$compile</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Compiler</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">el</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>MVVM 实例也提供了 <code>$watch</code> 方法，调用 <code>Watcher</code> 监听指定属性的变化：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">$watch</span><span class="p">(</span><span class="nx">key</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">new</span> <span class="nx">Watcher</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">cb</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
 <h3 id="dep-模块">Dep 模块</h3>
 
 <iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FDep.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-<p><strong>Dep</strong> 模块作为<strong>发布-订阅</strong>模式的订阅中心，每个 <code>data</code> 中的属性(包括嵌套) 都绑定了一个 Dep 实例(通过闭包引用)，提供添加、通知、移除订阅者的接口。</p>
+<p><strong>Dep</strong> 模块作为<strong>发布-订阅</strong>模式的订阅中心，每个 <code>data</code> 中的属性(包括嵌套) 都绑定了一个 <code>Dep</code> 实例(通过闭包引用)，提供添加、通知、移除订阅者的接口。</p>
 
-<p>一个某属性绑定的 Dep 实例可以包含多个订阅该属性的 Watcher 实例，属性变化后，将通知这些 Watcher 实例。</p>
+<p>一个属性绑定的 <code>Dep</code> 实例可以包含多个订阅该属性的 <code>Watcher</code> 实例，属性变化后，将通知这些 <code>Watcher</code> 实例。</p>
 
 <h3 id="observer-模块">Observer 模块</h3>
 
@@ -696,13 +825,26 @@
 
 <p><strong>Follow</strong> or <strong>Star</strong>，你选哪个？</p>
 
-<p>（<del>不，小孩子才做选择，我全都要</del>）</p>
+<p>（<del>不，小孩子才做选择，大人全都要</del>）</p>
+
+<h2 id="安利">安利</h2>
+
+<p>安利一波本文中使用到的工具：</p>
+
+<ul>
+<li><a href="https://codesandbox.io">CodeSandbox</a> : 基于 VSCode 编辑器的 <strong>Cloud IDE</strong>，内置各种流行框架模板。通过 <code>&lt;iframe&gt;</code> 提供 <strong>embed</strong> 的项目、代码预览，方便的嵌入文章中，乃展示效果、项目代码的行文利器。</li>
+<li><a href="https://www.processon.com">ProcessOn</a>：在线绘制思维导图、流程图等，UI 美观，效果拔群。不过免费版有文件数量限制。</li>
+</ul>
 
 <h2 id="参考">参考</h2>
 
 <p>本轮子基于下面的仓库代码改造，感谢！</p>
 
 <p><a href="https://github.com/DMQ/mvvm">https://github.com/DMQ/mvvm</a></p>
+
+<hr />
+
+<p><strong>兄弟篇</strong>：<a href="https://jancat.github.io/post/2019/vue-mvvm-proxy/">Vue MVVM 实现（Proxy 篇）</a></p>
     </div>
 
     
@@ -714,7 +856,7 @@
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2019-04-19 23:44</span>
+    <span class="item-content">2019-04-20 12:44</span>
   </p>
   
   <p class="copyright-item">
@@ -753,6 +895,19 @@
       
       <nav class="post-nav">
         
+          <a class="prev" href="/post/2019/vue-mvvm-proxy/">
+            
+            <i class="iconfont">
+              <svg  class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M691.908486 949.511495l75.369571-89.491197c10.963703-12.998035 10.285251-32.864502-1.499144-44.378743L479.499795 515.267417 757.434875 204.940602c11.338233-12.190647 11.035334-32.285311-0.638543-44.850487l-80.46666-86.564541c-11.680017-12.583596-30.356378-12.893658-41.662889-0.716314L257.233596 494.235404c-11.332093 12.183484-11.041474 32.266891 0.657986 44.844348l80.46666 86.564541c1.772366 1.910513 3.706415 3.533476 5.750981 4.877077l306.620399 321.703933C662.505829 963.726242 680.945807 962.528973 691.908486 949.511495z"></path>
+</svg>
+
+            </i>
+            <span class="prev-text nav-default">Vue MVVM 实现 （Proxy 篇）</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         
           <a class="next" href="/post/2018/use-elementary-os/">
             <span class="next-text nav-default">使用 Elementary OS</span>
