@@ -11,7 +11,7 @@
     
     
     <item>
-      <title>Vue MVVM 实现 （Proxy 篇）</title>
+      <title>Vue MVVM 实现（Proxy 篇）</title>
       <link>https://jancat.github.io/post/2019/vue-mvvm-proxy/</link>
       <pubDate>Sat, 20 Apr 2019 10:32:43 +0800</pubDate>
       
@@ -295,7 +295,7 @@
     </item>
     
     <item>
-      <title>Vue MVVM (defineProperty) 实现</title>
+      <title>Vue MVVM 实现（defineProperty 篇）</title>
       <link>https://jancat.github.io/post/2019/vue-mvvm/</link>
       <pubDate>Fri, 19 Apr 2019 23:33:14 +0800</pubDate>
       
