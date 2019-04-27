@@ -309,7 +309,7 @@
 
 &lt;p&gt;初始化 Vue 实例时内部就会定义数据劫持和创建发布-订阅模式。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://ws1.sinaimg.cn/large/006tKfTcgy1g1pnu3komuj31z40m0wn6.jpg&#34; alt=&#34;Vue MVVM&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/20190427110242.png&#34; alt=&#34;Vue MVVM&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;数据劫持&#34;&gt;数据劫持&lt;/h3&gt;
 

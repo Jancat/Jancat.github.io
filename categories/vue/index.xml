@@ -17,7 +17,7 @@
       <pubDate>Sat, 20 Apr 2019 10:32:43 +0800</pubDate>
       
       <guid>https://jancat.github.io/post/2019/vue-mvvm-proxy/</guid>
-      <description></description>
+      <description>上一篇实现 MVVM 数据劫持是基于 ES5 的 Object.defineProperty() API，新的轮子将使用 Proxy 替代，follow Vue 3；在原有轮子的基础上做些改造，适配 Proxy。 Object.defineProperty() 和 Proxy 实现 MVVM 数据</description>
     </item>
     
     <item>
