@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.55.5" />
 
 
 <link rel="canonical" href="https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/" />
@@ -70,7 +70,7 @@
 
 <meta itemprop="datePublished" content="2018-04-21T10:59:40&#43;08:00" />
 <meta itemprop="dateModified" content="2018-04-21T12:56:46&#43;08:00" />
-<meta itemprop="wordCount" content="1386">
+<meta itemprop="wordCount" content="1385">
 
 
 
@@ -475,19 +475,14 @@ if (!doNotTrack) {
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">tar zxf VMwareTools</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>进入解压出的<strong>VMwareTools</strong>，执行<strong>vmware-install.pl</strong>文件</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="nb">cd</span> VMwareTools
-sudo vmware-install.pl</code></pre></td></tr></table>
 </div>
-</div></li>
+<ol>
+<li>进入解压出的<strong>VMwareTools</strong>，执行<strong>vmware-install.pl</strong>文件
+<code>shell
+cd VMwareTools
+sudo vmware-install.pl
+</code></li>
+</ol></li>
 
 <li><p>一路默认回车，完成安装</p></li>
 
@@ -499,9 +494,9 @@ sudo vmware-install.pl</code></pre></td></tr></table>
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">/usr/bin/vmware-user</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>注销，重新登录</p></li>
+</div>
+<ol>
+<li>注销，重新登录</li>
 </ol>
 
 <h2 id="虚拟机无法连接网络">虚拟机无法连接网络</h2>
@@ -527,7 +522,8 @@ sudo vmware-install.pl</code></pre></td></tr></table>
 
 <hr />
 
-<p>到这里，elementary OS 在 VMware 中就安装完成了，后面还会介绍 elementary OS 的初始化和使用</p>
+<p>到这里，elementary OS 在 VMware 中就安装完成了，后面还会介绍 elementary OS 的初始化和使用</p></li>
+</ol>
     </div>
 
     

@@ -6,10 +6,28 @@
     <description>Recent content in Tags on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 20 Apr 2019 10:32:43 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Jun 2019 00:50:07 +0800</lastBuildDate>
     
 	<atom:link href="https://jancat.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cluster</title>
+      <link>https://jancat.github.io/tags/cluster/</link>
+      <pubDate>Thu, 27 Jun 2019 00:50:07 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/tags/cluster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>node</title>
+      <link>https://jancat.github.io/tags/node/</link>
+      <pubDate>Thu, 27 Jun 2019 00:50:07 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/tags/node/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>mvvm</title>
@@ -44,15 +62,6 @@
       <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
       
       <guid>https://jancat.github.io/tags/vmware/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Node</title>
-      <link>https://jancat.github.io/tags/node/</link>
-      <pubDate>Thu, 19 Apr 2018 04:03:44 +0000</pubDate>
-      
-      <guid>https://jancat.github.io/tags/node/</guid>
       <description></description>
     </item>
     

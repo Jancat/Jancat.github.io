@@ -33,7 +33,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.55.5" />
 
 
 <link rel="canonical" href="https://jancat.github.io/post/2018/use-elementary-os/" />
@@ -391,9 +391,10 @@ if (!doNotTrack) {
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">sudo chmod a+w /etc/apt/source.list</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>备份 <strong>source.list</strong></p>
+</div>
+<ol>
+<li>备份 <strong>source.list</strong></li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
@@ -431,17 +432,13 @@ deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted univers
 deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
 deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>执行更新</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get update</code></pre></td></tr></table>
 </div>
-</div></li>
+<ol>
+<li>执行更新
+<code>shell
+sudo apt-get update
+</code></li>
+</ol></li>
 </ol>
 
 <h2 id="常用软件安装">常用软件安装</h2>
@@ -461,9 +458,11 @@ deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted unive
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get install software-properties-common python-software-properties</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>添加 <strong>ppa</strong> 源</p>
+</div>
+<ol>
+<li>添加 <strong>ppa</strong> 源
+<br /></li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
@@ -481,9 +480,11 @@ deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted unive
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get update</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>安装 fcitx</p>
+</div>
+<ol>
+<li>安装 fcitx
+<br /></li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
@@ -501,9 +502,11 @@ deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted unive
 <td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell">sudo apt-get install fcitx-config-gtk fcitx-table-all im-config</code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>修复软件依赖</p>
+</div>
+<ol>
+<li>修复软件依赖
+<br /></li>
+</ol>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
@@ -520,19 +523,31 @@ deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted unive
 
 <ol>
 <li>在 <a href="https://pinyin.sogou.com/linux/?r=pinyin">搜狗官网</a> 下载输入法 Linux 版 64位</li>
-<li>在下载目录中使用 <code>dpkg</code> 命令安装 deb 包
-<code>shell
-sudo dpkg -i sougoupinyin-xxx.deb
-</code></li>
+
+<li><p>在下载目录中使用 <code>dpkg</code> 命令安装 deb 包</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell"><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">sudo dpkg -i sougoupinyin-xxx.deb</code></pre></td></tr></table>
+</div>
+</div>
+<ol>
 <li>更新包依赖
 <code>shell
 sudo apt -f install -y
 </code></li>
-<li>重启系统</li>
-<li>在终端中输入 <code>im-config</code>，打开 <strong>Input Method Configuration</strong> 输入法配置界面</li>
-<li>确定默认输入法为 <strong>搜狗拼音</strong></li>
-<li>在桌面右上角中启用搜狗输入法
-<img src="/images/post/use-elementary-os/sougou-pinyin.jpg" alt="sougou-pinyin" /></li>
+</ol></li>
+
+<li><p>重启系统</p></li>
+
+<li><p>在终端中输入 <code>im-config</code>，打开 <strong>Input Method Configuration</strong> 输入法配置界面</p></li>
+
+<li><p>确定默认输入法为 <strong>搜狗拼音</strong></p></li>
+
+<li><p>在桌面右上角中启用搜狗输入法
+<img src="/images/post/use-elementary-os/sougou-pinyin.jpg" alt="sougou-pinyin" /></p></li>
 </ol>
 
 <h3 id="chrome">Chrome</h3>

@@ -32,7 +32,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.55.4" />
+<meta name="generator" content="Hugo 0.55.5" />
 
 
 <link rel="canonical" href="https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/" />
@@ -70,7 +70,7 @@
 
 <meta itemprop="datePublished" content="2018-04-19T04:03:44&#43;00:00" />
 <meta itemprop="dateModified" content="2018-07-08T22:38:54&#43;08:00" />
-<meta itemprop="wordCount" content="3802">
+<meta itemprop="wordCount" content="3735">
 
 
 
@@ -603,31 +603,20 @@ if (!doNotTrack) {
 <span class="p">})</span>
 <span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;画板ID：&#39;</span><span class="p">,</span> <span class="nx">boardId</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>首先根据画板ID获取 <code>board</code> 数据，然后获取到 <code>board</code> 中所有的 <code>pins</code> 数据，最后根据每个 <code>pin</code> 数据下载图片到本地目录中，中间向命令行中输出一些提示：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadSingleBoard</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;Total time&#39;</span><span class="p">)</span>
-  <span class="kr">const</span> <span class="nx">board</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span><span class="p">)</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;\n开始下载画板 %s - %s，图片数量：%d&#39;</span><span class="p">,</span> <span class="nx">boardId</span><span class="p">,</span> <span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span><span class="p">)</span>
-
-  <span class="nx">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
-  <span class="nx">outputResult</span><span class="p">()</span>
-<span class="p">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
+<ol>
+<li>首先根据画板ID获取 <code>board</code> 数据，然后获取到 <code>board</code> 中所有的 <code>pins</code> 数据，最后根据每个 <code>pin</code> 数据下载图片到本地目录中，中间向命令行中输出一些提示：
+```ts
+async function downloadSingleBoard(boardId: string): Promise<void> {
+console.time(&lsquo;Total time&rsquo;)
+const board = await getBoardInfo(boardId)
+console.log(&rsquo;\n开始下载画板 %s - %s，图片数量：%d&rsquo;, boardId, board.title, board.pin_count)</li>
+</ol>
+
+<p>await getPinsAndDownload(board)
+  outputResult()
+}
+```</p></li>
 
 <li><p>根据画板ID获取 <code>board</code> 数据。为了使用 ES7 的 <code>async/await</code>，引入了 <code>promisify</code> 的 request 库</p>
 <div class="highlight"><div class="chroma">
@@ -675,53 +664,31 @@ if (!doNotTrack) {
   <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">board</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>获取 <code>pins</code> 数据然后下载图片，输出结果。其中在获取 <code>pins</code> 数据的时候发现有些画板无法获取全部的 <code>pins</code> 数据，造成画板图片下载不全（暂时还不清楚原因）</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span>: <span class="kt">IBoard</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">boardPins</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getPins</span><span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="p">)</span>
-  <span class="c1">// TODO: 有些画板获取的pins数据不全？
-</span><span class="c1"></span>  <span class="kr">const</span> <span class="nx">missedPinsCount</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span> <span class="o">-</span> <span class="nx">boardPins</span><span class="p">.</span><span class="nx">length</span>
-
-  <span class="kr">const</span> <span class="nx">boardPath</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">downloadPath</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="si">}</span><span class="sb"> - </span><span class="si">${</span><span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="si">}</span><span class="sb">`</span>
-  <span class="nx">fs</span><span class="p">.</span><span class="nx">emptyDirSync</span><span class="p">(</span><span class="nx">boardPath</span><span class="p">)</span>
-
-  <span class="kr">const</span> <span class="nx">downloadCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">boardPins</span><span class="p">,</span> <span class="nx">boardPath</span><span class="p">)</span>
-  <span class="kr">const</span> <span class="nx">failedCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span> <span class="o">-</span> <span class="nx">downloadCount</span> <span class="o">-</span> <span class="nx">missedPinsCount</span>
-  <span class="nx">totalDownload</span> <span class="o">+=</span> <span class="nx">downloadCount</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
-    <span class="sb">`Done. 成功 %d 个</span><span class="si">${</span><span class="nx">failedCount</span> <span class="o">?</span> <span class="sb">`，失败 </span><span class="err">\</span><span class="sb">x1b[31m</span><span class="si">${</span><span class="nx">failedCount</span><span class="si">}</span><span class="err">\</span><span class="sb">x1b[0m个`</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="si">}${</span>
-      <span class="nx">missedPinsCount</span> <span class="o">?</span> <span class="sb">`，丢失 </span><span class="err">\</span><span class="sb">x1b[31m</span><span class="si">${</span><span class="nx">missedPinsCount</span><span class="si">}</span><span class="err">\</span><span class="sb">x1b[0m 个`</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span>
-    <span class="si">}</span><span class="sb">`</span><span class="p">,</span>
-    <span class="nx">downloadCount</span><span class="p">,</span>
-  <span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
+<ol>
+<li>获取 <code>pins</code> 数据然后下载图片，输出结果。其中在获取 <code>pins</code> 数据的时候发现有些画板无法获取全部的 <code>pins</code> 数据，造成画板图片下载不全（暂时还不清楚原因）
+```ts
+async function getPinsAndDownload(board: IBoard): Promise<void> {
+const boardPins = await getPins(board.board_id)
+// TODO: 有些画板获取的pins数据不全？
+const missedPinsCount = board.pin_count - boardPins.length</li>
+</ol>
+
+<p>const boardPath = <code>${downloadPath}/${board.board_id} - ${board.title}</code>
+  fs.emptyDirSync(boardPath)</p>
+
+<p>const downloadCount: number = await downloadImage(boardPins, boardPath)
+  const failedCount: number = board.pin_count - downloadCount - missedPinsCount
+  totalDownload += downloadCount</p>
+
+<p>console.log(
+    <code>Done. 成功 %d 个${failedCount ?</code>，失败 \x1b[31m${failedCount}\x1b[0m个<code>: ''}${
+      missedPinsCount ?</code>，丢失 \x1b[31m${missedPinsCount}\x1b[0m 个<code>: ''
+    }</code>,
+    downloadCount,
+  )
+}
+```</p></li>
 
 <li><p>获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 <code>'X-Requested-With': 'XMLHttpRequest'</code>，服务器返回的是包含json的HMLT Document，而不是单纯的 <code>json</code> 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 <code>json</code>，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）</p>
 <div class="highlight"><div class="chroma">
@@ -809,12 +776,37 @@ if (!doNotTrack) {
   <span class="k">return</span> <span class="nx">allPins</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
+</div>
+<ol>
+<li>根据 <code>pins</code> 下载图片。这里引入了 <code>async</code> 异步库来控制同一时间的下载并发数，否则并发过高<strong>Node会失去响应</strong>；下载失败的图片还会重试一次
+```ts
+async function downloadImage(allPins: IPin[], boardPath: string): Promise<number> {
+let downloadCount: number = 0
+const errorImageUrl: Array&lt;{ url: string; path: string }&gt; = []</li>
+</ol>
 
-<li><p>根据 <code>pins</code> 下载图片。这里引入了 <code>async</code> 异步库来控制同一时间的下载并发数，否则并发过高<strong>Node会失去响应</strong>；下载失败的图片还会重试一次</p>
+<p>// 重试下载失败的图片
+  function retry() {
+    for (const image of errorImageUrl) {
+      rp({
+        uri: image.url,
+        timeout: 20 * 1000,
+        encoding: null, // make response a Buffer to write image correctly
+      }).pipe(
+        fs.createWriteStream(image.path).on(&lsquo;finish&rsquo;, () =&gt; {
+          totalDownload++
+          console.log(&rsquo;\x1b[32m Retry ok! \x1b[0m %s&rsquo;, image.url)
+        }),
+      )
+    }
+  }</p>
+
+<p>function download(pin: IPin, cb: () =&gt; void): void {
+    const imageUrl: string = <code>${imageServer}/${pin.file.key}_fw658</code>
+    const imageName: string = <code>${pin.pin_id}${imagesTypes[pin.file.type] || '.jpg'}</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+<pre class="chroma"><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -831,103 +823,42 @@ if (!doNotTrack) {
 </span><span class="lnt">15
 </span><span class="lnt">16
 </span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span></code></pre></td>
+</span></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">allPins</span>: <span class="kt">IPin</span><span class="p">[],</span> <span class="nx">boardPath</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="kd">let</span> <span class="nx">downloadCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="mi">0</span>
-  <span class="kr">const</span> <span class="nx">errorImageUrl</span>: <span class="kt">Array</span><span class="o">&lt;</span><span class="p">{</span> <span class="nx">url</span>: <span class="kt">string</span><span class="p">;</span> <span class="nx">path</span>: <span class="kt">string</span> <span class="p">}</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[]</span>
+<pre class="chroma">rp({
+  uri: imageUrl,
+  timeout: 20 * 1000,
+  encoding: null, // make response a Buffer to write image correctly
+})
+  .then(data =&gt; {
+    downloadCount++
 
-  <span class="c1">// 重试下载失败的图片
-</span><span class="c1"></span>  <span class="kd">function</span> <span class="nx">retry() {</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">image</span> <span class="nx">of</span> <span class="nx">errorImageUrl</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">rp</span><span class="p">({</span>
-        <span class="nx">uri</span>: <span class="kt">image.url</span><span class="p">,</span>
-        <span class="nx">timeout</span>: <span class="kt">20</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
-        <span class="nx">encoding</span>: <span class="kt">null</span><span class="p">,</span> <span class="c1">// make response a Buffer to write image correctly
-</span><span class="c1"></span>      <span class="p">}).</span><span class="nx">pipe</span><span class="p">(</span>
-        <span class="nx">fs</span><span class="p">.</span><span class="nx">createWriteStream</span><span class="p">(</span><span class="nx">image</span><span class="p">.</span><span class="nx">path</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;finish&#39;</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-          <span class="nx">totalDownload</span><span class="o">++</span>
-          <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;\x1b[32m Retry ok! \x1b[0m %s&#39;</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">url</span><span class="p">)</span>
-        <span class="p">}),</span>
-      <span class="p">)</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-
-  <span class="kd">function</span> <span class="nx">download</span><span class="p">(</span><span class="nx">pin</span>: <span class="kt">IPin</span><span class="p">,</span> <span class="nx">cb</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
-    <span class="kr">const</span> <span class="nx">imageUrl</span>: <span class="kt">string</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">imageServer</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">pin</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">key</span><span class="si">}</span><span class="sb">_fw658`</span>
-    <span class="kr">const</span> <span class="nx">imageName</span>: <span class="kt">string</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">pin</span><span class="p">.</span><span class="nx">pin_id</span><span class="si">}${</span><span class="nx">imagesTypes</span><span class="p">[</span><span class="nx">pin</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">type</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;.jpg&#39;</span><span class="si">}</span><span class="sb">`</span>
-
-    <span class="nx">rp</span><span class="p">({</span>
-      <span class="nx">uri</span>: <span class="kt">imageUrl</span><span class="p">,</span>
-      <span class="nx">timeout</span>: <span class="kt">20</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
-      <span class="nx">encoding</span>: <span class="kt">null</span><span class="p">,</span> <span class="c1">// make response a Buffer to write image correctly
-</span><span class="c1"></span>    <span class="p">})</span>
-      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="nx">downloadCount</span><span class="o">++</span>
-
-        <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">boardPath</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">imageName</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
-          <span class="nx">error</span> <span class="o">&amp;&amp;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;\x1b[31m%s\x1b[0m%s&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span> <span class="nx">imageUrl</span><span class="p">)</span>
-        <span class="p">})</span>
-      <span class="p">})</span>
-      <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;\x1b[31m%s %s.\x1b[0m %s&#39;</span><span class="p">,</span> <span class="s1">&#39;Download image failed.&#39;</span><span class="p">,</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">,</span> <span class="nx">imageUrl</span><span class="p">)</span>
-        <span class="nx">errorImageUrl</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span> <span class="nx">url</span>: <span class="kt">imageUrl</span><span class="p">,</span> <span class="nx">path</span><span class="o">:</span> <span class="sb">`</span><span class="si">${</span><span class="nx">boardPath</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">imageName</span><span class="si">}</span><span class="sb">`</span> <span class="p">})</span>
-      <span class="p">})</span>
-      <span class="p">.</span><span class="k">finally</span><span class="p">(</span><span class="nx">cb</span><span class="p">)</span>
-  <span class="p">}</span>
-
-  <span class="c1">// async控制并发下载数，否则并发数太高Node会失去响应
-</span><span class="c1"></span>  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="c1">// 同一时间最多有10个(不能太高)并发请求
-</span><span class="c1"></span>    <span class="nx">async</span><span class="p">.</span><span class="nx">eachLimit</span><span class="p">(</span><span class="nx">allPins</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">download</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span>: <span class="kt">IError</span> <span class="o">|</span> <span class="kc">undefined</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">throw</span> <span class="nx">error</span>
-      <span class="p">}</span>
-      <span class="nx">errorImageUrl</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="nx">retry</span><span class="p">()</span>
-      <span class="nx">resolve</span><span class="p">(</span><span class="nx">downloadCount</span><span class="p">)</span>
-    <span class="p">})</span>
-  <span class="p">})</span>
-<span class="p">}</span></code></pre></td></tr></table>
+    fs.writeFile(`${boardPath}/${imageName}`, data, error =&gt; {
+      error &amp;&amp; console.error(&#39;\x1b[31m%s\x1b[0m%s&#39;, error.message, imageUrl)
+    })
+  })
+  .catch(error =&gt; {
+    console.error(&#39;\x1b[31m%s %s.\x1b[0m %s&#39;, &#39;Download image failed.&#39;, error.message, imageUrl)
+    errorImageUrl.push({ url: imageUrl, path: `${boardPath}/${imageName}` })
+  })
+  .finally(cb)</pre></td></tr></table>
 </div>
-</div></li>
+</div>
+<p>}</p>
+
+<p>// async控制并发下载数，否则并发数太高Node会失去响应
+  return new Promise<number>(resolve =&gt; {
+    // 同一时间最多有10个(不能太高)并发请求
+    async.eachLimit(allPins, 10, download, (error: IError | undefined) =&gt; {
+      if (error) {
+        throw error
+      }
+      errorImageUrl.length &amp;&amp; retry()
+      resolve(downloadCount)
+    })
+  })
+}
+```</p></li>
 
 <li><p>下载的图片会保存在默认 <code>images</code> 目录或者用户输入的指定目录中，下载速度平均 5 张/秒</p></li>
 </ol>
@@ -943,53 +874,31 @@ if (!doNotTrack) {
 <td class="lntd">
 <pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;请输入地址栏中的用户名：&#39;</span><span class="p">,</span> <span class="nx">username</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadBoardsOfUser</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;Total time&#39;</span><span class="p">)</span>
-  <span class="kr">const</span> <span class="nx">userBoards</span>: <span class="kt">IBoard</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span>
-
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;\n用户 [%s] 画板数量：%d&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">userBoards</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
-
-  <span class="c1">// 顺序下载画板，并行下载会失控
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">board</span> <span class="nx">of</span> <span class="nx">userBoards</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
-      <span class="s1">&#39;\n开始下载画板：[%s - %s]，图片数量：%d&#39;</span><span class="p">,</span>
-      <span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="p">,</span>
-      <span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span>
-      <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="nx">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
-  <span class="p">}</span>
-
-  <span class="nx">outputResult</span><span class="p">()</span>
-<span class="p">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
+<ol>
+<li>首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片
+```ts
+async function downloadBoardsOfUser(username: string): Promise<void> {
+console.time(&lsquo;Total time&rsquo;)
+const userBoards: IBoard[] = await getUserBoards(username)</li>
+</ol>
+
+<p>console.log(&rsquo;\n用户 [%s] 画板数量：%d&rsquo;, username, userBoards.length)</p>
+
+<p>// 顺序下载画板，并行下载会失控
+  for (const board of userBoards) {
+    console.log(
+      &lsquo;\n开始下载画板：[%s - %s]，图片数量：%d&rsquo;,
+      board.board_id,
+      board.title,
+      board.pin_count,
+    )
+    await getPinsAndDownload(board)
+  }</p>
+
+<p>outputResult()
+}
+```</p></li>
 
 <li><p>获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取</p>
 <div class="highlight"><div class="chroma">
@@ -1069,9 +978,9 @@ if (!doNotTrack) {
   <span class="k">return</span> <span class="nx">allUserBoards</span>
 <span class="p">}</span></code></pre></td></tr></table>
 </div>
-</div></li>
-
-<li><p>后面步骤跟方式一相同，这里只是使用 <code>for</code> 循环下载多个画板图片</p></li>
+</div>
+<ol>
+<li>后面步骤跟方式一相同，这里只是使用 <code>for</code> 循环下载多个画板图片</li>
 </ol>
 
 <h2 id="总结">总结</h2>
@@ -1086,7 +995,8 @@ if (!doNotTrack) {
 
 <p>代码放到Github上了 ➡ <a href="https://github.com/Jancat/huaban-crawl">Jancat/huaban-crawl</a></p>
 
-<p>Enjoy the pictures ~</p>
+<p>Enjoy the pictures ~</p></li>
+</ol>
     </div>
 
     
