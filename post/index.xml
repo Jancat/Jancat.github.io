@@ -6,10 +6,23 @@
     <description>Recent content in Posts on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Thu, 27 Jun 2019 00:50:07 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 19 Aug 2019 21:18:32 +0800</lastBuildDate>
     
 	<atom:link href="https://jancat.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>什么时候使用 useMemo 和 useCallback</title>
+      <link>https://jancat.github.io/post/2019/translation-usememo-and-usecallback/</link>
+      <pubDate>Mon, 19 Aug 2019 21:18:32 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2019/translation-usememo-and-usecallback/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;原文：&lt;a href=&#34;https://kentcdodds.com/blog/usememo-and-usecallback&#34;&gt;When to useMemo and useCallback&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;性能优化总是会有成本，但并不总是带来好处。我们来谈谈 &lt;code&gt;useMemo&lt;/code&gt; 和 &lt;code&gt;useCallback&lt;/code&gt; 的成本和收益。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Node Cluster Workers IPC</title>

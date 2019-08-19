@@ -3,50 +3,81 @@
   
   <url>
     <loc>https://jancat.github.io/categories/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://jancat.github.io/categories/node/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://jancat.github.io/post/2019/node-cluster-workers-ipc/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://jancat.github.io/post/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/tags/react/</loc>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jancat.github.io/tags/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://jancat.github.io/tags/cluster/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
+    <loc>https://jancat.github.io/tags/usecallback/</loc>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://jancat.github.io/tags/node/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
+    <loc>https://jancat.github.io/tags/usememo/</loc>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/post/2019/translation-usememo-and-usecallback/</loc>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/categories/%E8%AF%91%E6%96%87/</loc>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jancat.github.io/</loc>
-    <lastmod>2019-06-27T00:55:41+08:00</lastmod>
+    <lastmod>2019-08-19T21:18:32+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/categories/node/</loc>
+    <lastmod>2019-06-27T01:05:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/tags/node/</loc>
+    <lastmod>2019-06-27T01:05:58+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/post/2019/node-cluster-workers-ipc/</loc>
+    <lastmod>2019-06-27T01:05:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://jancat.github.io/tags/cluster/</loc>
+    <lastmod>2019-06-27T01:05:58+08:00</lastmod>
     <priority>0</priority>
   </url>
   
