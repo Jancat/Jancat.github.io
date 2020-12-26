@@ -7,7 +7,7 @@
   
 
 <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
 
 <meta name="MobileOptimized" content="width"/>
 <meta name="HandheldFriendly" content="true"/>
@@ -32,10 +32,12 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.79.1" />
 
 
 <link rel="canonical" href="https://jancat.github.io/post/2018/huaban-crawler-with-node-and-typescript/" />
+
+
 
 
 
@@ -51,7 +53,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.f1e506a781bf25d33ffc18aa6b4e972a965c58049d27d4f92b7db2e9bf28e4bf.css" integrity="sha256-8eUGp4G/JdM//Biqa06XKpZcWASdJ9T5K32y6b8o5L8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -65,10 +67,8 @@
 <meta property="article:modified_time" content="2018-07-08T22:38:54+08:00" />
 <meta itemprop="name" content="使用Node和Typescript爬取花瓣网图片">
 <meta itemprop="description" content="">
-
-
-<meta itemprop="datePublished" content="2018-04-19T04:03:44&#43;00:00" />
-<meta itemprop="dateModified" content="2018-07-08T22:38:54&#43;08:00" />
+<meta itemprop="datePublished" content="2018-04-19T04:03:44+00:00" />
+<meta itemprop="dateModified" content="2018-07-08T22:38:54+08:00" />
 <meta itemprop="wordCount" content="3802">
 
 
@@ -320,103 +320,83 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">文章目录</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#前言">前言</a>
-<ul>
-<li><a href="#技术选型">技术选型</a></li>
-</ul></li>
-<li><a href="#花瓣网技术分析">花瓣网技术分析</a>
-<ul>
-<li><a href="#画板资源">画板资源</a></li>
-<li><a href="#board-data">Board Data</a></li>
-<li><a href="#图片懒加载">图片懒加载</a></li>
-</ul></li>
-<li><a href="#node-爬虫实现">Node 爬虫实现</a>
-<ul>
-<li><a href="#输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</a></li>
-<li><a href="#输入用户id下载该用户所有自建画板的图片-不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</a></li>
-</ul></li>
-<li><a href="#总结">总结</a></li>
-<li><a href="#github-project">Github Project</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#前言">前言</a>
+      <ul>
+        <li><a href="#技术选型">技术选型</a></li>
+      </ul>
+    </li>
+    <li><a href="#花瓣网技术分析">花瓣网技术分析</a>
+      <ul>
+        <li><a href="#画板资源">画板资源</a></li>
+        <li><a href="#board-data">Board Data</a></li>
+        <li><a href="#图片懒加载">图片懒加载</a></li>
+      </ul>
+    </li>
+    <li><a href="#node-爬虫实现">Node 爬虫实现</a>
+      <ul>
+        <li><a href="#输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</a></li>
+        <li><a href="#输入用户id下载该用户所有自建画板的图片不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#github-project">Github Project</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      <p><img src="/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg" alt="huban-logo" /></p>
-
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
-
-<!-- code_chunk_output -->
-
+      <p><img src="/images/post/huaban-crawler-with-node-and-typescript/huban-logo.jpg" alt="huban-logo"></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <ul>
-<li><a href="#前言">前言</a>
-
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a>
 <ul>
-<li><a href="#技术选型">技术选型</a></li>
-</ul></li>
-<li><a href="#花瓣网技术分析">花瓣网技术分析</a>
-
+<li><a href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B">技术选型</a></li>
+</ul>
+</li>
+<li><a href="#%E8%8A%B1%E7%93%A3%E7%BD%91%E6%8A%80%E6%9C%AF%E5%88%86%E6%9E%90">花瓣网技术分析</a>
 <ul>
-<li><a href="#画板资源">画板资源</a></li>
+<li><a href="#%E7%94%BB%E6%9D%BF%E8%B5%84%E6%BA%90">画板资源</a></li>
 <li><a href="#board-data">Board Data</a></li>
-<li><a href="#图片懒加载">图片懒加载</a></li>
-</ul></li>
-<li><a href="#node-爬虫实现">Node 爬虫实现</a>
-
+<li><a href="#%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD">图片懒加载</a></li>
+</ul>
+</li>
+<li><a href="#node-%E7%88%AC%E8%99%AB%E5%AE%9E%E7%8E%B0">Node 爬虫实现</a>
 <ul>
-<li><a href="#输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</a></li>
-<li><a href="#输入用户id下载该用户所有自建画板的图片不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</a></li>
-</ul></li>
-<li><a href="#总结">总结</a></li>
+<li><a href="#%E8%BE%93%E5%85%A5%E7%94%BB%E6%9D%BFid%E4%B8%8B%E8%BD%BD%E8%AF%A5%E7%94%BB%E6%9D%BF%E7%9A%84%E6%89%80%E6%9C%89%E5%9B%BE%E7%89%87">输入画板ID下载该画板的所有图片</a></li>
+<li><a href="#%E8%BE%93%E5%85%A5%E7%94%A8%E6%88%B7id%E4%B8%8B%E8%BD%BD%E8%AF%A5%E7%94%A8%E6%88%B7%E6%89%80%E6%9C%89%E8%87%AA%E5%BB%BA%E7%94%BB%E6%9D%BF%E7%9A%84%E5%9B%BE%E7%89%87%E4%B8%8D%E5%8C%85%E6%8B%AC%E6%94%B6%E8%97%8F%E7%9A%84%E7%94%BB%E6%9D%BF">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
 <li><a href="#github-project">Github Project</a></li>
 </ul>
-
-<!-- /code_chunk_output -->
-
+<!-- raw HTML omitted -->
 <h2 id="前言">前言</h2>
-
 <p><a href="https://huaban.com">花瓣网</a> 最初是模仿国外的 <a href="https://www.pinterest.com/">Pinterest</a> 开始做起来的图片采集分享网站，国内类似的网站有<a href="https://www.duitang.com/">堆糖</a>。在初期的用户积累阶段过后，花瓣网近几年开始探索其商业模式，以“图”为中心向相关领域延伸（摄影、设计、Live、电商导购等），不过不管怎么发展，用户体验还是要放在首位的，不忘初衷。</p>
-
 <p>作为国内优秀的图片网站,其流畅的瀑布流图片展示、简单易用的图片采集分类方式、强大的图片采集插件，让我这个图控坚持在这里深耕多年，采集了几万张图片，骗粉几千个（欢迎关注 <a href="http://huaban.com/junlin/">http://huaban.com/junlin/</a> ）。</p>
-
-<p>然而对于<strong>图控+收藏控</strong>来说，花瓣网也只是<strong>个人图库大计</strong>中的其中一环，毕竟还是有很多<del>私图</del>不宜光明正大放出来的，花瓣网也有违规图片检测机制，所以需要汇总花瓣网采集的图片到个人存储库中（网盘or硬盘）；此为<u>纯纯的</u>动机，也是本文出现的原因。</p>
-
+<p>然而对于<strong>图控+收藏控</strong>来说，花瓣网也只是<strong>个人图库大计</strong>中的其中一环，毕竟还是有很多<del>私图</del>不宜光明正大放出来的，花瓣网也有违规图片检测机制，所以需要汇总花瓣网采集的图片到个人存储库中（网盘or硬盘）；此为<!-- raw HTML omitted -->纯纯的<!-- raw HTML omitted -->动机，也是本文出现的原因。</p>
 <h3 id="技术选型">技术选型</h3>
-
 <p>这么多图片手工一个个下载肯定是不现实的，花瓣网也没有提供批量下载画板的功能（要是有就省心了，可能是考虑到这功能开放后会影响网站运营），这样就催生了很多批量下载工具、脚本（<a href="https://www.douban.com/group/473118/">豆皮DouP相册下载器豆瓣小组</a>、Github 爬虫项目），基本都能很方便的下载。</p>
-
 <p>本着一颗不安分喜欢折腾的心，也是出于技术学习目的，打算自己实现一个批量下载的爬虫脚本。虽然爬虫首选Python，但，作为相信着 <strong>Atwood定律</strong> 的前端er，</p>
-
 <blockquote>
 <p>any application that can be written in JavaScript, will eventually be written in JavaScript.
 （任何能够用JavaScript实现的应用，最终都必将由JavaScript实现。）
 &ndash; Jeff Atwood</p>
 </blockquote>
-
 <p>很自然的选择了 <strong>Node.js</strong> ，再加上越来越来流行的 <strong>TypeScript</strong>，如虎添翼，Perfect！</p>
-
 <h2 id="花瓣网技术分析">花瓣网技术分析</h2>
-
 <p>首先打开花瓣网任意一个<strong>画板</strong>，在 Chrome DevTools - Network 下观察它和服务器之前的交互。</p>
-
 <h3 id="画板资源">画板资源</h3>
-
 <p>刷新后发现有很多网络请求，注意到最开始有个带有<strong>画板ID</strong>的 Request <a href="http://huaban.com/boards/17473820/">http://huaban.com/boards/17473820/</a> ，应该就是它了，服务器响应的是一个 HTML Document。</p>
-
-<p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-request.png" alt="board-request" /></p>
-
+<p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-request.png" alt="board-request"></p>
 <h3 id="board-data">Board Data</h3>
-
 <p>在这个 HTML Document 中发现有个 <code>&lt;script&gt;</code> 中带有大量的 <strong>board</strong> 数据：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -536,23 +516,16 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>其中 <code>app.page.board.pins</code> 是一个对象数组，里面每个对象对应着画板中其中一张图片的信息，<code>pin</code> 代表一张图片的信息。</p>
-
+</div><p>其中 <code>app.page.board.pins</code> 是一个对象数组，里面每个对象对应着画板中其中一张图片的信息，<code>pin</code> 代表一张图片的信息。</p>
 <p>在网页中检查第一张图片的源 <code>&lt;img src=&quot;//img.hb.aicdn.com/95b6f7594128756a5fb415188cb5761c4139cebbf359b-R9Dvyn_fw236&quot;&gt;</code>，可以发现花瓣网图片使用了又拍云的CDN服务，第二部分即是上面的 <code>pins[0].file.key</code> 加上一个 <code>_fw236</code> 后缀；其它图片的 <code>src</code> 都带有这个 <code>_fw236</code> 后缀，暂时还不知道它的意义。</p>
-
 <p>拿到了画板图片信息，到这一步就能想到可以通过爬虫来下载画板的图片。</p>
-
 <h3 id="图片懒加载">图片懒加载</h3>
-
 <p>再回到画板网页上，看到页面上目前只加载了画板一部分图片，剩下的图片是通过<strong>懒加载</strong>的方式出现的（想想就知道不能一次性把所有图片都加载出来）。</p>
-
 <p>拖动滚动条到底部，继续观察 <strong>Network</strong>，第一个请求 <a href="http://huaban.com/boards/17473820/?jg6ltavl&amp;max=1584529804&amp;limit=20&amp;wfl=1">http://huaban.com/boards/17473820/?jg6ltavl&amp;max=1584529804&amp;limit=20&amp;wfl=1</a> 在画板ID后面携带了一些参数：</p>
-
-<p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-lazy-load.png" alt="board-lazy-load" /></p>
+<p><img src="/images/post/huaban-crawler-with-node-and-typescript/board-lazy-load.png" alt="board-lazy-load"></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -564,36 +537,28 @@ if (!doNotTrack) {
 <span class="nx">wfl</span><span class="o">:</span> <span class="mi">1</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<ul>
+</div><ul>
 <li>第一个参数是个随机字符串，最后一位按字母表顺序循环，没发现有什么意义，忽略；</li>
 <li>第二个参数 <strong>max</strong> 的值是个 <strong>pin_id</strong> ；</li>
 <li>第三个参数 <strong>limit</strong> 限制了服务器返回的 <strong>pin 数量</strong>；</li>
 <li>第四个参数 <strong>wfl</strong> 可能是 <strong>waterfall</strong> 瀑布流的缩写，没发现有什么意义，忽略。</li>
 </ul>
-
 <p>重点是 <strong>max</strong> 和 <strong>limit</strong> 这两个值，经过测试发现，<strong>max</strong> 是上一张图片的 <strong>pin_id</strong>，服务器按先后顺序（采集顺序）返回这张图片<strong>后面</strong>的 pin 数据；</p>
-
 <p>而 <strong>limit</strong> 告诉服务器返回<strong>多少个</strong> pin 数据。后面测出服务器对 <strong>limit</strong> 做了最大值校验，最大是 <strong>100</strong>，即一次最多只能加载100张图片数据。</p>
-
 <p>到了现在可以开始写爬虫模拟上面的操作了。</p>
-
 <h2 id="node-爬虫实现">Node 爬虫实现</h2>
-
 <p>使用 Node.js 实现命令行程序，提供两种方式下载图片：</p>
-
 <ol>
 <li>输入<strong>画板ID</strong>下载该画板的所有图片</li>
 <li>输入<strong>用户ID</strong>下载该用户所有自建画板的图片（不包括收藏的画板）</li>
 </ol>
-
 <h3 id="输入画板id下载该画板的所有图片">输入画板ID下载该画板的所有图片</h3>
-
 <ol>
-<li><p>在命令行中跟用户交互，使用 Node <code>readline</code> API实现在 <code>stdin/stdout</code> 读取输入和显示输出：</p>
+<li>
+<p>在命令行中跟用户交互，使用 Node <code>readline</code> API实现在 <code>stdin/stdout</code> 读取输入和显示输出：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -602,20 +567,21 @@ if (!doNotTrack) {
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="nx">readline</span> <span class="nx">from</span> <span class="s1">&#39;readline&#39;</span>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">import</span> <span class="nx">readline</span> <span class="kr">from</span> <span class="s1">&#39;readline&#39;</span>
 
 <span class="kr">const</span> <span class="nx">rl</span>: <span class="kt">readline.ReadLine</span> <span class="o">=</span> <span class="nx">readline</span><span class="p">.</span><span class="nx">createInterface</span><span class="p">({</span>
   <span class="nx">input</span>: <span class="kt">process.stdin</span><span class="p">,</span>
   <span class="nx">output</span>: <span class="kt">process.stdout</span><span class="p">,</span>
 <span class="p">})</span>
-<span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;画板ID：&#39;</span><span class="p">,</span> <span class="nx">boardId</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></td></tr></table>
+<span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;画板ID：&#39;</span><span class="p">,</span> <span class="nx">boardId</span> <span class="o">=&gt;</span> <span class="p">{})</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>首先根据画板ID获取 <code>board</code> 数据，然后获取到 <code>board</code> 中所有的 <code>pins</code> 数据，最后根据每个 <code>pin</code> 数据下载图片到本地目录中，中间向命令行中输出一些提示：</p>
+<li>
+<p>首先根据画板ID获取 <code>board</code> 数据，然后获取到 <code>board</code> 中所有的 <code>pins</code> 数据，最后根据每个 <code>pin</code> 数据下载图片到本地目录中，中间向命令行中输出一些提示：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -625,21 +591,22 @@ if (!doNotTrack) {
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadSingleBoard</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">downloadSingleBoard</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;Total time&#39;</span><span class="p">)</span>
-  <span class="kr">const</span> <span class="nx">board</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span><span class="p">)</span>
+  <span class="kr">const</span> <span class="nx">board</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span><span class="p">)</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;\n开始下载画板 %s - %s，图片数量：%d&#39;</span><span class="p">,</span> <span class="nx">boardId</span><span class="p">,</span> <span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span><span class="p">)</span>
 
-  <span class="nx">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
+  <span class="k">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
   <span class="nx">outputResult</span><span class="p">()</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>根据画板ID获取 <code>board</code> 数据。为了使用 ES7 的 <code>async/await</code>，引入了 <code>promisify</code> 的 request 库</p>
+<li>
+<p>根据画板ID获取 <code>board</code> 数据。为了使用 ES7 的 <code>async/await</code>，引入了 <code>promisify</code> 的 request 库</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -661,13 +628,13 @@ if (!doNotTrack) {
 </span><span class="lnt">20
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="nx">rp</span> <span class="nx">from</span> <span class="s1">&#39;request-promise&#39;</span>
+<pre class="chroma"><code class="language-typescript" data-lang="typescript"><span class="kr">import</span> <span class="nx">rp</span> <span class="kr">from</span> <span class="s1">&#39;request-promise&#39;</span>
 
-<span class="nx">async</span> <span class="kd">function</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="nx">IBoard</span><span class="o">&gt;</span> <span class="p">{</span>
+<span class="kr">async</span> <span class="kd">function</span> <span class="nx">getBoardInfo</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">IBoard</span><span class="p">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">response</span><span class="o">:</span> <span class="p">{</span>
     <span class="nx">err?</span>: <span class="kt">number</span>
     <span class="nx">board</span>: <span class="kt">IBoard</span>
-  <span class="p">}</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">rp</span><span class="p">({</span>
+  <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">rp</span><span class="p">({</span>
     <span class="nx">uri</span><span class="o">:</span> <span class="sb">`</span><span class="si">${</span><span class="nx">huabanDomain</span><span class="si">}</span><span class="sb">/boards/</span><span class="si">${</span><span class="nx">boardId</span><span class="si">}</span><span class="sb">/`</span><span class="p">,</span>
     <span class="nx">headers</span>: <span class="kt">jsonRequestHeader</span><span class="p">,</span>
     <span class="nx">qs</span><span class="o">:</span> <span class="p">{</span>
@@ -680,14 +647,15 @@ if (!doNotTrack) {
   <span class="p">}</span>
 
   <span class="k">return</span> <span class="nx">response</span><span class="p">.</span><span class="nx">board</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>获取 <code>pins</code> 数据然后下载图片，输出结果。其中在获取 <code>pins</code> 数据的时候发现有些画板无法获取全部的 <code>pins</code> 数据，造成画板图片下载不全（暂时还不清楚原因）</p>
+<li>
+<p>获取 <code>pins</code> 数据然后下载图片，输出结果。其中在获取 <code>pins</code> 数据的时候发现有些画板无法获取全部的 <code>pins</code> 数据，造成画板图片下载不全（暂时还不清楚原因）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -708,15 +676,15 @@ if (!doNotTrack) {
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span>: <span class="kt">IBoard</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="kr">const</span> <span class="nx">boardPins</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getPins</span><span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="p">)</span>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span>: <span class="kt">IBoard</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">boardPins</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getPins</span><span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="p">)</span>
   <span class="c1">// TODO: 有些画板获取的pins数据不全？
 </span><span class="c1"></span>  <span class="kr">const</span> <span class="nx">missedPinsCount</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span> <span class="o">-</span> <span class="nx">boardPins</span><span class="p">.</span><span class="nx">length</span>
 
   <span class="kr">const</span> <span class="nx">boardPath</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">downloadPath</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="si">}</span><span class="sb"> - </span><span class="si">${</span><span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="si">}</span><span class="sb">`</span>
   <span class="nx">fs</span><span class="p">.</span><span class="nx">emptyDirSync</span><span class="p">(</span><span class="nx">boardPath</span><span class="p">)</span>
 
-  <span class="kr">const</span> <span class="nx">downloadCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">boardPins</span><span class="p">,</span> <span class="nx">boardPath</span><span class="p">)</span>
+  <span class="kr">const</span> <span class="nx">downloadCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">boardPins</span><span class="p">,</span> <span class="nx">boardPath</span><span class="p">)</span>
   <span class="kr">const</span> <span class="nx">failedCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span> <span class="o">-</span> <span class="nx">downloadCount</span> <span class="o">-</span> <span class="nx">missedPinsCount</span>
   <span class="nx">totalDownload</span> <span class="o">+=</span> <span class="nx">downloadCount</span>
 
@@ -726,14 +694,15 @@ if (!doNotTrack) {
     <span class="si">}</span><span class="sb">`</span><span class="p">,</span>
     <span class="nx">downloadCount</span><span class="p">,</span>
   <span class="p">)</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 <code>'X-Requested-With': 'XMLHttpRequest'</code>，服务器返回的是包含json的HMLT Document，而不是单纯的 <code>json</code> 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 <code>json</code>，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）</p>
+<li>
+<p>获取画板中全部pins(图片)数据。有个关键的点，请求头部中如果不加上 <code>'X-Requested-With': 'XMLHttpRequest'</code>，服务器返回的是包含json的HMLT Document，而不是单纯的 <code>json</code> 数据。我看到有些脚本没有注意到这点，就需要用正则截取HTML中的 <code>json</code>，多走了一步弯路（我也是从弯路走过来的，这里提醒后面的读者）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -781,12 +750,12 @@ if (!doNotTrack) {
   <span class="s1">&#39;X-Requested-With&#39;</span><span class="o">:</span> <span class="s1">&#39;XMLHttpRequest&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 
-<span class="nx">async</span> <span class="kd">function</span> <span class="nx">getPins</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="nx">IPin</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">{</span>
+<span class="kr">async</span> <span class="kd">function</span> <span class="nx">getPins</span><span class="p">(</span><span class="nx">boardId</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">IPin</span><span class="err">[]</span><span class="p">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">allPins</span>: <span class="kt">IPin</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
 
-  <span class="nx">async</span> <span class="kd">function</span> <span class="nx">loadPins</span><span class="p">(</span><span class="nx">lastPinId</span>: <span class="kt">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kr">async</span> <span class="kd">function</span> <span class="nx">loadPins</span><span class="p">(</span><span class="nx">lastPinId</span>: <span class="kt">string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="p">{</span>
     <span class="c1">// limit 查询参数限制获取的pin数量，最大100，默认20
-</span><span class="c1"></span>    <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">rp</span><span class="p">({</span>
+</span><span class="c1"></span>    <span class="kr">const</span> <span class="nx">response</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">rp</span><span class="p">({</span>
       <span class="nx">uri</span><span class="o">:</span> <span class="sb">`</span><span class="si">${</span><span class="nx">huabanDomain</span><span class="si">}</span><span class="sb">/boards/</span><span class="si">${</span><span class="nx">boardId</span><span class="si">}</span><span class="sb">/`</span><span class="p">,</span>
       <span class="nx">qs</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">limit</span>: <span class="kt">100</span><span class="p">,</span>
@@ -808,20 +777,21 @@ if (!doNotTrack) {
 </span><span class="c1"></span>    <span class="kr">const</span> <span class="nx">pinsChunkLength</span>: <span class="kt">number</span> <span class="o">=</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pins</span><span class="p">.</span><span class="nx">length</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">pinsChunkLength</span> <span class="o">&amp;&amp;</span> <span class="nx">allPins</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">// 用最后一个pin id作为下一次请求的max值，表示获取该pin后面的pins
-</span><span class="c1"></span>      <span class="nx">await</span> <span class="nx">loadPins</span><span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">pins</span><span class="p">[</span><span class="nx">pinsChunkLength</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nx">pin_id</span><span class="p">)</span>
+</span><span class="c1"></span>      <span class="k">await</span> <span class="nx">loadPins</span><span class="p">(</span><span class="nx">board</span><span class="p">.</span><span class="nx">pins</span><span class="p">[</span><span class="nx">pinsChunkLength</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nx">pin_id</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
 
-  <span class="nx">await</span> <span class="nx">loadPins</span><span class="p">()</span>
+  <span class="k">await</span> <span class="nx">loadPins</span><span class="p">()</span>
   <span class="k">return</span> <span class="nx">allPins</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>根据 <code>pins</code> 下载图片。这里引入了 <code>async</code> 异步库来控制同一时间的下载并发数，否则并发过高<strong>Node会失去响应</strong>；下载失败的图片还会重试一次</p>
+<li>
+<p>根据 <code>pins</code> 下载图片。这里引入了 <code>async</code> 异步库来控制同一时间的下载并发数，否则并发过高<strong>Node会失去响应</strong>；下载失败的图片还会重试一次</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -878,13 +848,13 @@ if (!doNotTrack) {
 </span><span class="lnt">55
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">allPins</span>: <span class="kt">IPin</span><span class="p">[],</span> <span class="nx">boardPath</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">downloadImage</span><span class="p">(</span><span class="nx">allPins</span>: <span class="kt">IPin</span><span class="p">[],</span> <span class="nx">boardPath</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">number</span><span class="p">&gt;</span> <span class="p">{</span>
   <span class="kd">let</span> <span class="nx">downloadCount</span>: <span class="kt">number</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="kr">const</span> <span class="nx">errorImageUrl</span>: <span class="kt">Array</span><span class="o">&lt;</span><span class="p">{</span> <span class="nx">url</span>: <span class="kt">string</span><span class="p">;</span> <span class="nx">path</span>: <span class="kt">string</span> <span class="p">}</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">[]</span>
 
   <span class="c1">// 重试下载失败的图片
 </span><span class="c1"></span>  <span class="kd">function</span> <span class="nx">retry() {</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">image</span> <span class="nx">of</span> <span class="nx">errorImageUrl</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">image</span> <span class="k">of</span> <span class="nx">errorImageUrl</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">rp</span><span class="p">({</span>
         <span class="nx">uri</span>: <span class="kt">image.url</span><span class="p">,</span>
         <span class="nx">timeout</span>: <span class="kt">20</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">,</span>
@@ -900,7 +870,7 @@ if (!doNotTrack) {
 
   <span class="kd">function</span> <span class="nx">download</span><span class="p">(</span><span class="nx">pin</span>: <span class="kt">IPin</span><span class="p">,</span> <span class="nx">cb</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">void</span><span class="p">)</span><span class="o">:</span> <span class="k">void</span> <span class="p">{</span>
     <span class="kr">const</span> <span class="nx">imageUrl</span>: <span class="kt">string</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">imageServer</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">pin</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">key</span><span class="si">}</span><span class="sb">_fw658`</span>
-    <span class="kr">const</span> <span class="nx">imageName</span>: <span class="kt">string</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">pin</span><span class="p">.</span><span class="nx">pin_id</span><span class="si">}${</span><span class="nx">imagesTypes</span><span class="p">[</span><span class="nx">pin</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">type</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;.jpg&#39;</span><span class="si">}</span><span class="sb">`</span>
+    <span class="kr">const</span> <span class="nx">imageName</span>: <span class="kt">string</span> <span class="o">=</span> <span class="sb">`</span><span class="si">${</span><span class="nx">pin</span><span class="p">.</span><span class="nx">pin_id</span><span class="si">}${</span><span class="nx">imagesTypes</span><span class="p">[</span><span class="nx">pin</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="kr">type</span><span class="p">]</span> <span class="o">||</span> <span class="s1">&#39;.jpg&#39;</span><span class="si">}</span><span class="sb">`</span>
 
     <span class="nx">rp</span><span class="p">({</span>
       <span class="nx">uri</span>: <span class="kt">imageUrl</span><span class="p">,</span>
@@ -922,9 +892,9 @@ if (!doNotTrack) {
   <span class="p">}</span>
 
   <span class="c1">// async控制并发下载数，否则并发数太高Node会失去响应
-</span><span class="c1"></span>  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="kt">number</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class="c1"></span>  <span class="k">return</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">number</span><span class="p">&gt;(</span><span class="nx">resolve</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="c1">// 同一时间最多有10个(不能太高)并发请求
-</span><span class="c1"></span>    <span class="nx">async</span><span class="p">.</span><span class="nx">eachLimit</span><span class="p">(</span><span class="nx">allPins</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">download</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span>: <span class="kt">IError</span> <span class="o">|</span> <span class="kc">undefined</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span><span class="c1"></span>    <span class="kr">async</span><span class="p">.</span><span class="nx">eachLimit</span><span class="p">(</span><span class="nx">allPins</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">download</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span>: <span class="kt">IError</span> <span class="o">|</span> <span class="kc">undefined</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">throw</span> <span class="nx">error</span>
       <span class="p">}</span>
@@ -932,30 +902,32 @@ if (!doNotTrack) {
       <span class="nx">resolve</span><span class="p">(</span><span class="nx">downloadCount</span><span class="p">)</span>
     <span class="p">})</span>
   <span class="p">})</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>下载的图片会保存在默认 <code>images</code> 目录或者用户输入的指定目录中，下载速度平均 5 张/秒</p></li>
+<li>
+<p>下载的图片会保存在默认 <code>images</code> 目录或者用户输入的指定目录中，下载速度平均 5 张/秒</p>
+</li>
 </ol>
-
-<h3 id="输入用户id下载该用户所有自建画板的图片-不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</h3>
-
+<h3 id="输入用户id下载该用户所有自建画板的图片不包括收藏的画板">输入用户ID下载该用户所有自建画板的图片（不包括收藏的画板）</h3>
 <ol>
-<li><p>命令行中输入用户ID</p>
+<li>
+<p>命令行中输入用户ID</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;请输入地址栏中的用户名：&#39;</span><span class="p">,</span> <span class="nx">username</span> <span class="o">=&gt;</span> <span class="p">{})</span></code></pre></td></tr></table>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">rl</span><span class="p">.</span><span class="nx">question</span><span class="p">(</span><span class="s1">&#39;请输入地址栏中的用户名：&#39;</span><span class="p">,</span> <span class="nx">username</span> <span class="o">=&gt;</span> <span class="p">{})</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片</p>
+<li>
+<p>首先获取到该用户的所有画板数据，然后顺序下载每个画板中的图片</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -976,32 +948,33 @@ if (!doNotTrack) {
 </span><span class="lnt">19
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">downloadBoardsOfUser</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">downloadBoardsOfUser</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="p">{</span>
   <span class="nx">console</span><span class="p">.</span><span class="nx">time</span><span class="p">(</span><span class="s1">&#39;Total time&#39;</span><span class="p">)</span>
-  <span class="kr">const</span> <span class="nx">userBoards</span>: <span class="kt">IBoard</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span>
+  <span class="kr">const</span> <span class="nx">userBoards</span>: <span class="kt">IBoard</span><span class="p">[]</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span><span class="p">)</span>
 
   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;\n用户 [%s] 画板数量：%d&#39;</span><span class="p">,</span> <span class="nx">username</span><span class="p">,</span> <span class="nx">userBoards</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
 
   <span class="c1">// 顺序下载画板，并行下载会失控
-</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">board</span> <span class="nx">of</span> <span class="nx">userBoards</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="c1"></span>  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">board</span> <span class="k">of</span> <span class="nx">userBoards</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
       <span class="s1">&#39;\n开始下载画板：[%s - %s]，图片数量：%d&#39;</span><span class="p">,</span>
       <span class="nx">board</span><span class="p">.</span><span class="nx">board_id</span><span class="p">,</span>
       <span class="nx">board</span><span class="p">.</span><span class="nx">title</span><span class="p">,</span>
       <span class="nx">board</span><span class="p">.</span><span class="nx">pin_count</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="nx">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
+    <span class="k">await</span> <span class="nx">getPinsAndDownload</span><span class="p">(</span><span class="nx">board</span><span class="p">)</span>
   <span class="p">}</span>
 
   <span class="nx">outputResult</span><span class="p">()</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取</p>
+<li>
+<p>获取用户画板。用户画板也使用了懒加载方式，所以也需要去循环获取</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -1039,14 +1012,14 @@ if (!doNotTrack) {
 </span><span class="lnt">36
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="nx">async</span> <span class="kd">function</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="nx">IBoard</span><span class="p">[]</span><span class="o">&gt;</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-ts" data-lang="ts"><span class="kr">async</span> <span class="kd">function</span> <span class="nx">getUserBoards</span><span class="p">(</span><span class="nx">username</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">IBoard</span><span class="err">[]</span><span class="p">&gt;</span> <span class="p">{</span>
   <span class="kr">const</span> <span class="nx">allUserBoards</span>: <span class="kt">IBoard</span><span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
 
-  <span class="nx">async</span> <span class="kd">function</span> <span class="nx">getBoards</span><span class="p">(</span><span class="nx">lastBoardId?</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="o">&lt;</span><span class="k">void</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="kr">async</span> <span class="kd">function</span> <span class="nx">getBoards</span><span class="p">(</span><span class="nx">lastBoardId?</span>: <span class="kt">string</span><span class="p">)</span><span class="o">:</span> <span class="nx">Promise</span><span class="p">&lt;</span><span class="nt">void</span><span class="p">&gt;</span> <span class="p">{</span>
     <span class="kr">const</span> <span class="nx">response</span><span class="o">:</span> <span class="p">{</span>
       <span class="nx">err?</span>: <span class="kt">number</span>
       <span class="nx">user?</span>: <span class="kt">IUser</span>
-    <span class="p">}</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">rp</span><span class="p">({</span>
+    <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">rp</span><span class="p">({</span>
       <span class="nx">uri</span><span class="o">:</span> <span class="sb">`</span><span class="si">${</span><span class="nx">huabanDomain</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">username</span><span class="si">}</span><span class="sb">/`</span><span class="p">,</span>
       <span class="nx">qs</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">limit</span>: <span class="kt">100</span><span class="p">,</span>
@@ -1068,31 +1041,26 @@ if (!doNotTrack) {
 
     <span class="c1">// 获取所有画板数据
 </span><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nx">requestUserBoardsCount</span> <span class="o">&amp;&amp;</span> <span class="nx">allUserBoards</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">user</span><span class="p">.</span><span class="nx">board_count</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">await</span> <span class="nx">getBoards</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">boards</span><span class="p">[</span><span class="nx">requestUserBoardsCount</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nx">board_id</span><span class="p">)</span>
+      <span class="k">await</span> <span class="nx">getBoards</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">boards</span><span class="p">[</span><span class="nx">requestUserBoardsCount</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nx">board_id</span><span class="p">)</span>
     <span class="p">}</span>
   <span class="p">}</span>
 
-  <span class="nx">await</span> <span class="nx">getBoards</span><span class="p">()</span>
+  <span class="k">await</span> <span class="nx">getBoards</span><span class="p">()</span>
   <span class="k">return</span> <span class="nx">allUserBoards</span>
-<span class="p">}</span></code></pre></td></tr></table>
+<span class="p">}</span>
+</code></pre></td></tr></table>
 </div>
 </div></li>
-
-<li><p>后面步骤跟方式一相同，这里只是使用 <code>for</code> 循环下载多个画板图片</p></li>
+<li>
+<p>后面步骤跟方式一相同，这里只是使用 <code>for</code> 循环下载多个画板图片</p>
+</li>
 </ol>
-
 <h2 id="总结">总结</h2>
-
 <p>这次爬虫几乎没有遇到服务器的反抗，花瓣网没有做反爬虫检测，最基本的 <code>User-Agent</code> 都不需要伪装，很适合爬虫初学者拿来练手；这种开放共享的精神值得表扬👍。</p>
-
 <p>遗留下了有些画板 <code>pins</code> 数据不全的问题，等待有缘再解决。</p>
-
 <h2 id="github-project">Github Project</h2>
-
 <p>项目引入了 <code>TSLint</code>、<code>Prettier</code> 来规范代码风格，用 <code>ts-node</code> 来执行 <code>.ts</code> 程序；</p>
-
 <p>代码放到Github上了 ➡ <a href="https://github.com/Jancat/huaban-crawl">Jancat/huaban-crawl</a></p>
-
 <p>Enjoy the pictures ~</p>
     </div>
 
@@ -1221,6 +1189,8 @@ if (!doNotTrack) {
 
     
 
+  
+
         </div>
       </div>
     </main>
@@ -1299,7 +1269,7 @@ if (!doNotTrack) {
     &copy;
     
       2018 -
-    2019
+    2020
     <span class="heart">
       
       <i class="iconfont">
@@ -1348,6 +1318,12 @@ if (!doNotTrack) {
 
 
 <script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
 
 
 

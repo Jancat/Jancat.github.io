@@ -7,7 +7,7 @@
   
 
 <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
 
 <meta name="MobileOptimized" content="width"/>
 <meta name="HandheldFriendly" content="true"/>
@@ -32,10 +32,12 @@
 
 
 
-<meta name="generator" content="Hugo 0.57.2" />
+<meta name="generator" content="Hugo 0.79.1" />
 
 
 <link rel="canonical" href="https://jancat.github.io/post/2019/vue-mvvm/" />
+
+
 
 
 
@@ -51,7 +53,7 @@
 
 
 
-<link rel="stylesheet" href="/sass/jane.min.af20b78e95c84de86b00a0242a4a77bd2601700e1b250edf27537d957ac0041d.css" integrity="sha256-ryC3jpXITehrAKAkKkp3vSYBcA4bJQ7fJ1N9lXrABB0=" media="screen" crossorigin="anonymous">
+<link rel="stylesheet" href="/sass/jane.min.f1e506a781bf25d33ffc18aa6b4e972a965c58049d27d4f92b7db2e9bf28e4bf.css" integrity="sha256-8eUGp4G/JdM//Biqa06XKpZcWASdJ9T5K32y6b8o5L8=" media="screen" crossorigin="anonymous">
 
 
 
@@ -65,10 +67,8 @@
 <meta property="article:modified_time" content="2019-04-27T11:21:01+08:00" />
 <meta itemprop="name" content="Vue MVVM 实现（defineProperty 篇）">
 <meta itemprop="description" content="">
-
-
-<meta itemprop="datePublished" content="2019-04-19T23:33:14&#43;08:00" />
-<meta itemprop="dateModified" content="2019-04-27T11:21:01&#43;08:00" />
+<meta itemprop="datePublished" content="2019-04-19T23:33:14+08:00" />
+<meta itemprop="dateModified" content="2019-04-27T11:21:01+08:00" />
 <meta itemprop="wordCount" content="3132">
 
 
@@ -319,71 +319,45 @@ if (!doNotTrack) {
   <h2 class="post-toc-title">文章目录</h2>
   <div class="post-toc-content">
     <nav id="TableOfContents">
-<ul>
-<li>
-<ul>
-<li><a href="#vue-响应式原理">Vue 响应式原理</a>
-<ul>
-<li><a href="#数据劫持">数据劫持</a></li>
-<li><a href="#发布-订阅">发布-订阅</a></li>
-<li><a href="#mvvm-各模块职责">MVVM 各模块职责</a></li>
-</ul></li>
-<li><a href="#mvvm-原理实现">MVVM 原理实现</a>
-<ul>
-<li><a href="#index-html">index.html</a></li>
-<li><a href="#mvvm-模块">MVVM 模块</a></li>
-<li><a href="#dep-模块">Dep 模块</a></li>
-<li><a href="#observer-模块">Observer 模块</a>
-<ul>
-<li><a href="#observer-named-export">Observer named export</a></li>
-</ul></li>
-<li><a href="#watcher-模块">Watcher 模块</a>
-<ul>
-<li><a href="#监听嵌套属性">监听嵌套属性</a></li>
-<li><a href="#重复的-dep">重复的 Dep</a></li>
-</ul></li>
-<li><a href="#compiler-模块">Compiler 模块</a>
-<ul>
-<li><a href="#documentfragment">DocumentFragment</a></li>
-<li><a href="#指令解析">指令解析</a></li>
-<li><a href="#v-model-双向绑定">v-model 双向绑定</a></li>
-<li><a href="#监听属性变化">监听属性变化</a></li>
-<li><a href="#属性值更新">属性值更新</a></li>
-</ul></li>
-<li><a href="#回顾">回顾</a></li>
-</ul></li>
-<li><a href="#安利">安利</a></li>
-<li><a href="#参考">参考</a></li>
-</ul></li>
-</ul>
+  <ul>
+    <li><a href="#vue-响应式原理">Vue 响应式原理</a>
+      <ul>
+        <li><a href="#数据劫持">数据劫持</a></li>
+        <li><a href="#发布-订阅">发布-订阅</a></li>
+        <li><a href="#mvvm-各模块职责">MVVM 各模块职责</a></li>
+      </ul>
+    </li>
+    <li><a href="#mvvm-原理实现">MVVM 原理实现</a>
+      <ul>
+        <li><a href="#indexhtml">index.html</a></li>
+        <li><a href="#mvvm-模块">MVVM 模块</a></li>
+        <li><a href="#dep-模块">Dep 模块</a></li>
+        <li><a href="#observer-模块">Observer 模块</a></li>
+        <li><a href="#watcher-模块">Watcher 模块</a></li>
+        <li><a href="#compiler-模块">Compiler 模块</a></li>
+        <li><a href="#回顾">回顾</a></li>
+      </ul>
+    </li>
+    <li><a href="#安利">安利</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
 </nav>
   </div>
 </div>
 
     
     <div class="post-content">
-      <p><img src="https://cn.vuejs.org/images/data.png" alt="Vue MVVM Poster" /></p>
-
+      <p><img src="https://cn.vuejs.org/images/data.png" alt="Vue MVVM Poster"></p>
 <h2 id="vue-响应式原理">Vue 响应式原理</h2>
-
 <p>Vue 2.x 的响应式原理是通过 <strong>数据劫持</strong> 和 <strong>发布-订阅</strong>模式实现的。</p>
-
 <p>初始化 Vue 实例时内部就会定义数据劫持和创建发布-订阅模式。</p>
-
-<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/20190427110242.png" alt="Vue MVVM" /></p>
-
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/20190427110242.png" alt="Vue MVVM"></p>
 <h3 id="数据劫持">数据劫持</h3>
-
 <p><strong>数据劫持</strong> 通过 <code>Object.defineProperty()</code> 劫持传入的 <code>data</code>，对 <code>data</code> 属性(包括嵌套对象) 的操作进行监听（通过 getter/setter），从而触发一系列响应。</p>
-
 <p>在 <a href="https://cn.vuejs.org/v2/guide/reactivity.html">官方文档-深入响应式原理</a> 中也说明了 Vue 在初始化实例后 <strong>无法检测到对象属性的添加或删除</strong>，需要通过 <code>Vue.set(vm.someObject, 'b', 2)</code> 或者 <code>this.$set(this.someObject,'b',2)</code> 的方式动态添加新的响应式属性，即给新的属性添加 getter/setter。</p>
-
 <h3 id="发布-订阅">发布-订阅</h3>
-
 <p><strong>发布-订阅</strong>模式是数据劫持之后的响应，订阅中心 <strong>Dep</strong> 收集对 <strong>Data</strong> 各个属性的依赖，<strong>Watcher</strong> 作为订阅者订阅这些依赖；依赖项的 setter 触发时，会通知对应的 <strong>Watcher</strong>，从而触发更新。</p>
-
 <h3 id="mvvm-各模块职责">MVVM 各模块职责</h3>
-
 <ul>
 <li><strong>MVVM</strong>: Vue 实例初始化，调用 <strong>Observer</strong> 数据劫持，调用 <strong>Compiler</strong> 解析模板；</li>
 <li><strong>Observer</strong>: 劫持 data 全部属性，定义 setter 、getter，添加和通知订阅者；</li>
@@ -391,33 +365,21 @@ if (!doNotTrack) {
 <li><strong>Dep</strong>：订阅中心，提供添加、移除、通知订阅的接口；</li>
 <li><strong>Watcher</strong>: data 属性的订阅者，收到变化通知后调用更新函数更新视图。</li>
 </ul>
-
 <h2 id="mvvm-原理实现">MVVM 原理实现</h2>
-
 <p>为了理解 Vue MVVM 内部原理，这里造一个简单的 MVVM 伪轮子，能够实现模板解析、数据响应式等基本功能，忽略细节和明显的 bug。同时，为了更容易理解和更好的 coding 体验，使用现代浏览器支持的 ES6+ 语法实现，划分各个模块。</p>
-
 <p>这个轮子中借助 ES5 的 <code>Object.defineProperty()</code> 实现数据劫持；在<a href="https://jancat.github.io/post/2019/vue-mvvm-proxy/">下一篇</a>中，将会使用 ES6 的 <code>Proxy</code> 实现，这也是 Vue 3 的计划之一。</p>
-
 <p>效果：</p>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=14&hidenavigation=1&view=preview" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
-<h3 id="index-html">index.html</h3>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
+<!-- raw HTML omitted -->
+<h3 id="indexhtml">index.html</h3>
+<!-- raw HTML omitted -->
 <p>入口文件，创建渲染模板，通过 <code>v-model</code> 指令双向绑定 <code>data</code>，同理 <code>v-class</code>、<code>v-text</code>、<code>v-html</code> 指令插入 <code>data</code> 值，<code>v-on:click</code> 绑定点击事件监听器 <code>method</code>。</p>
-
 <p>在 <code>module script</code> 中导入并实例化 MVVM，定义 <code>el</code>、<code>data</code>、<code>computed</code>、<code>methods</code>、<code>$watch</code> options。</p>
-
 <h3 id="mvvm-模块">MVVM 模块</h3>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FMVVM.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
+<!-- raw HTML omitted -->
 <p>MVVM 构造函数中把 <code>options.data</code>、<code>options.computed</code>、<code>options.methods</code> 中的属性全部绑定到 MVVM <code>this</code> 上，这样就能在 <code>methods</code> 中通过 <code>this.xxx</code> 代理到各自的 key 中，暂时不考虑重复的 key。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -467,8 +429,8 @@ if (!doNotTrack) {
 <td class="lntd">
 <pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// data 代理，实现 vm.xxx, this.xxx -&gt; vm.$data.xxx
 </span><span class="c1"></span><span class="nx">_proxyData</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="p">{</span> <span class="nx">$data</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span>
-  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">$data</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">$data</span> <span class="p">}</span> <span class="o">=</span> <span class="k">this</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">$data</span><span class="p">)</span> <span class="p">{</span>
     <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="p">{</span>
       <span class="nx">configurable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
       <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
@@ -484,9 +446,9 @@ if (!doNotTrack) {
 
 <span class="c1">// computed 属性代理，实现 vm.xxx, this.xxx -&gt; this.$options.computed.xxx
 </span><span class="c1"></span><span class="nx">_proxyComputed</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="nx">computed</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$options</span><span class="p">.</span><span class="nx">computed</span>
+  <span class="kr">const</span> <span class="nx">computed</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$options</span><span class="p">.</span><span class="nx">computed</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">computed</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">computed</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">computed</span><span class="p">)</span> <span class="p">{</span>
       <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="p">{</span>
         <span class="nx">get</span><span class="o">:</span>
         <span class="k">typeof</span> <span class="nx">computed</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span>
@@ -500,9 +462,9 @@ if (!doNotTrack) {
 
 <span class="c1">// 绑定 options.methods 的方法到 this 上
 </span><span class="c1"></span><span class="nx">_bindMethods</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="nx">methods</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$options</span><span class="p">.</span><span class="nx">methods</span>
+  <span class="kr">const</span> <span class="nx">methods</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">$options</span><span class="p">.</span><span class="nx">methods</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">methods</span> <span class="o">===</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">methods</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">methods</span><span class="p">)</span> <span class="p">{</span>
       <span class="nb">Object</span><span class="p">.</span><span class="nx">defineProperty</span><span class="p">(</span>
         <span class="k">this</span><span class="p">,</span>
         <span class="nx">key</span><span class="p">,</span>
@@ -513,31 +475,28 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>初始化 <code>this</code> 代理后，调用 <code>Observer</code> 劫持 <code>data</code> 中的全部属性：</p>
+</div><p>初始化 <code>this</code> 代理后，调用 <code>Observer</code> 劫持 <code>data</code> 中的全部属性：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">observe</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">$data</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>最后，调用 <code>Compiler</code> 解析模板：</p>
+</div><p>最后，调用 <code>Compiler</code> 解析模板：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-js" data-lang="js"><span class="k">this</span><span class="p">.</span><span class="nx">$compile</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Compiler</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">el</span> <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">,</span> <span class="k">this</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>MVVM 实例也提供了 <code>$watch</code> 方法，调用 <code>Watcher</code> 监听指定属性的变化：</p>
+</div><p>MVVM 实例也提供了 <code>$watch</code> 方法，调用 <code>Watcher</code> 监听指定属性的变化：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span></code></pre></td>
@@ -547,27 +506,18 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h3 id="dep-模块">Dep 模块</h3>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FDep.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
+</div><h3 id="dep-模块">Dep 模块</h3>
+<!-- raw HTML omitted -->
 <p><strong>Dep</strong> 模块作为<strong>发布-订阅</strong>模式的订阅中心，每个 <code>data</code> 中的属性(包括嵌套) 都绑定了一个 <code>Dep</code> 实例(通过闭包引用)，提供添加、通知、移除订阅者的接口。</p>
-
 <p>一个属性绑定的 <code>Dep</code> 实例可以包含多个订阅该属性的 <code>Watcher</code> 实例，属性变化后，将通知这些 <code>Watcher</code> 实例。</p>
-
 <h3 id="observer-模块">Observer 模块</h3>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FObserver.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
+<!-- raw HTML omitted -->
 <p><strong>Observer</strong> 模块依赖 <strong>Dep</strong> 模块。</p>
-
 <p>Observer 构造函数递归劫持 <code>data</code> 中的全部属性，定义 getter 和 setter，同时为每个属性绑定一个 Dep 实例。</p>
-
 <p>在属性的 getter 中判断当前 <code>Dep.target</code> 是否指向一个 <code>Watcher</code> 实例，如果是，则把该 <code>Watcher</code> 实例作为属性订阅者添加到 <code>Dep</code> 中：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -583,11 +533,10 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>在属性的 setter 中当值变化后通过闭包引用的 <code>Dep</code> 实例通知订阅者：</p>
+</div><p>在属性的 setter 中当值变化后通过闭包引用的 <code>Dep</code> 实例通知订阅者：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -611,21 +560,15 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="observer-named-export">Observer named export</h4>
-
+</div><h4 id="observer-named-export">Observer named export</h4>
 <p><code>Observer</code> 模块导出的不是 <code>Observer class</code>，而是 <code>observe</code> 函数，用于递归实例化 <code>Observer</code> 劫持嵌套的 <code>data key</code> 对象。相当于 <code>data</code> 中的每个嵌套对象都对应一个 <code>Observer</code> 实例，包括 <code>data</code> 本身。不过在这个轮子中没有用到 <code>Observer</code> 实例的引用。</p>
-
 <h3 id="watcher-模块">Watcher 模块</h3>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FWatcher.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
+<!-- raw HTML omitted -->
 <p><strong>Watcher</strong> 模块依赖 <strong>Dep</strong> 模块。</p>
-
 <p><code>Watcher</code> 在初始化时将会把 <code>Dep.target</code> 指向自身的 <code>this</code>，然后访问监听的属性，触发 <code>Observer</code> 中定义的属性 getter，从而把当前 <code>Watcher</code> 实例添加到属性订阅者中。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -640,22 +583,19 @@ if (!doNotTrack) {
 </span><span class="c1"></span><span class="nx">_getValue</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// 访问监听的属性时把 Dep.target 指向自身，从而在 Observer 中把当前实例添加到属性订阅者中
 </span><span class="c1"></span>  <span class="nx">Dep</span><span class="p">.</span><span class="nx">target</span> <span class="o">=</span> <span class="k">this</span>
-  <span class="k">const</span> <span class="nx">value</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getter</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vm</span><span class="p">)</span>
+  <span class="kr">const</span> <span class="nx">value</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getter</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">vm</span><span class="p">)</span>
   <span class="c1">// 获取属性值后置空 Dep.target
 </span><span class="c1"></span>  <span class="nx">Dep</span><span class="p">.</span><span class="nx">target</span> <span class="o">=</span> <span class="kc">null</span>
   <span class="k">return</span> <span class="nx">value</span>
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="监听嵌套属性">监听嵌套属性</h4>
-
+</div><h4 id="监听嵌套属性">监听嵌套属性</h4>
 <p>如果 <code>Watcher</code> 实例监听的是嵌套属性，比如 <code>a.b.c</code>，关注的是 <code>c</code> 值的变化。则在访问 <code>a</code> 时，<code>a</code> 绑定的 <code>Dep</code> 实例会把当前 <code>Watcher</code> 实例添加到订阅者中，同理 <code>b</code>、<code>c</code>，即一个 <code>Watcher</code> 实例的引用同时存在于嵌套属性的父属性 <code>Dep</code> 订阅者中；当父属性值变化时，也会通知到子属性的订阅者。</p>
-
 <h4 id="重复的-dep">重复的 Dep</h4>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -671,23 +611,16 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>假如相应属性的 <code>dep.id</code> 已经在当前 <code>watcher</code> 的 <code>depIds</code> 里，说明不是一个新的属性，仅仅是改变了其值而已，则不需要将当前 <code>watcher</code> 添加到该属性的 <code>dep</code> 里。</p>
-
+</div><p>假如相应属性的 <code>dep.id</code> 已经在当前 <code>watcher</code> 的 <code>depIds</code> 里，说明不是一个新的属性，仅仅是改变了其值而已，则不需要将当前 <code>watcher</code> 添加到该属性的 <code>dep</code> 里。</p>
 <p>假如相应属性是新的属性，则将当前 <code>watcher</code> 添加到新属性的<code>dep</code>里，如通过 <code>vm.child = {name: 'a'}</code> 改变了 <code>child.name</code> 的值，<code>child.name</code> 就是个新属性，则需要将当前<code>watcher(child.name)</code>加入到新的 <code>child.name</code> 的<code>dep</code>里。因为此时 <code>child.name</code> 是个新值，之前的 <code>setter</code>、<code>dep</code> 都已经失效，如果不把 <code>watcher</code> 加入到新的 <code>child.name</code> 的<code>dep</code>中，通过 <code>child.name = xxx</code> 赋值的时候，对应的 <code>watcher</code> 就收不到通知，等于失效了。</p>
-
 <h3 id="compiler-模块">Compiler 模块</h3>
-
-<iframe src="https://codesandbox.io/embed/q7j083qmyq?autoresize=1&fontsize=16&hidenavigation=1&module=%2FCompiler.js&view=editor" title="vue-mvvm" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
-
+<!-- raw HTML omitted -->
 <p><strong>Compiler</strong> 模块依赖 <strong>Watcher</strong> 模块。</p>
-
 <h4 id="documentfragment">DocumentFragment</h4>
-
 <p><code>Compiler</code> 实例化时先把模板节点的子节点全部转移到 <code>DocumentFragment</code> 中进行节点操作，避免频繁 reflow，影响性能；在模板解析完后再把 <code>DocumentFragment</code> 转移到根节点下。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -702,7 +635,7 @@ if (!doNotTrack) {
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">nodeToFragment</span><span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="nx">fragment</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">()</span>
+  <span class="kr">const</span> <span class="nx">fragment</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createDocumentFragment</span><span class="p">()</span>
 
   <span class="c1">// 将原生节点移动到fragment
 </span><span class="c1"></span>  <span class="kd">let</span> <span class="nx">child</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">firstChild</span>
@@ -715,13 +648,11 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="指令解析">指令解析</h4>
-
+</div><h4 id="指令解析">指令解析</h4>
 <p><code>Compiler</code> 解析模板中的 <code>v-</code> 前缀的指令和 <code>{{ exp }}</code> 文本插值表达式，该轮子忽略 <code>JavaScript</code> 插值表达式。能够解析的指令有 <code>v-model</code>、 <code>v-class</code>、<code>v-text</code>、<code>v-html</code>、<code>v-on</code>，这些指令都是引用 <code>data</code> 中的属性，触发 <code>Observer</code> 定义的 getter 和 setter。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -730,22 +661,19 @@ if (!doNotTrack) {
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-js" data-lang="js"><span class="c1">// 指令处理集合
-</span><span class="c1"></span><span class="k">const</span> <span class="nx">compilerUtils</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="c1"></span><span class="kr">const</span> <span class="nx">compilerUtils</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">text</span><span class="p">()</span> <span class="p">{},</span>
   <span class="nx">html</span><span class="p">()</span> <span class="p">{},</span>
   <span class="c1">// ...
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="v-model-双向绑定">v-model 双向绑定</h4>
-
+</div><h4 id="v-model-双向绑定">v-model 双向绑定</h4>
 <p><code>v-model</code> 指令绑定的属性，<code>View</code> 和 <code>Model</code> 中的值变化互相影响，即双向绑定。</p>
-
 <p>监听 <code>v-model</code> 指令所在的 <code>node input</code> 事件，<code>input</code> 变化后通过 <code>vm.xxx</code> 改变对应的 <code>model</code> 属性值，触发该属性定义的 setter，即实现了 <code>View</code> 影响 <code>Model</code>。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt"> 1
+<pre class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
 </span><span class="lnt"> 3
 </span><span class="lnt"> 4
@@ -765,7 +693,7 @@ if (!doNotTrack) {
 
   <span class="kd">let</span> <span class="nx">val</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getVMVal</span><span class="p">(</span><span class="nx">vm</span><span class="p">,</span> <span class="nx">exp</span><span class="p">)</span>
   <span class="nx">node</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="nx">e</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="k">const</span> <span class="nx">newValue</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span>
+    <span class="kr">const</span> <span class="nx">newValue</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span>
     <span class="k">if</span> <span class="p">(</span><span class="nx">val</span> <span class="o">===</span> <span class="nx">newValue</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span>
     <span class="p">}</span>
@@ -775,13 +703,11 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="监听属性变化">监听属性变化</h4>
-
+</div><h4 id="监听属性变化">监听属性变化</h4>
 <p>每个指令引用的 <code>data</code> 属性都需要实例化 <code>Watcher</code> 进行监听，并同时绑定更新函数给 <code>Watcher</code> 收到变化通知后调用，更新视图：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -793,7 +719,7 @@ if (!doNotTrack) {
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-js" data-lang="js"><span class="nx">bind</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">vm</span><span class="p">,</span> <span class="nx">exp</span><span class="p">,</span> <span class="nx">dir</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">const</span> <span class="nx">updaterFn</span> <span class="o">=</span> <span class="nx">updater</span><span class="p">[</span><span class="nx">dir</span> <span class="o">+</span> <span class="s1">&#39;Updater&#39;</span><span class="p">]</span>
+  <span class="kr">const</span> <span class="nx">updaterFn</span> <span class="o">=</span> <span class="nx">updater</span><span class="p">[</span><span class="nx">dir</span> <span class="o">+</span> <span class="s1">&#39;Updater&#39;</span><span class="p">]</span>
 
   <span class="nx">updaterFn</span> <span class="o">&amp;&amp;</span> <span class="nx">updaterFn</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getVMVal</span><span class="p">(</span><span class="nx">vm</span><span class="p">,</span> <span class="nx">exp</span><span class="p">))</span>
 
@@ -803,13 +729,11 @@ if (!doNotTrack) {
 <span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<h4 id="属性值更新">属性值更新</h4>
-
+</div><h4 id="属性值更新">属性值更新</h4>
 <p>监听的属性值变化后，每个指令都对应不同的更新操作，比如替换 <code>textContent</code>、<code>innerHTML</code>、<code>value</code> 等：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="lnt">1
+<pre class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
 </span><span class="lnt">4
@@ -818,7 +742,7 @@ if (!doNotTrack) {
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-js" data-lang="js"><span class="k">const</span> <span class="nx">updater</span> <span class="o">=</span> <span class="p">{</span>
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">updater</span> <span class="o">=</span> <span class="p">{</span>
   <span class="nx">textUpdater</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">node</span><span class="p">.</span><span class="nx">textContent</span> <span class="o">=</span> <span class="k">typeof</span> <span class="nx">value</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="s1">&#39;&#39;</span> <span class="o">:</span> <span class="nx">value</span>
   <span class="p">},</span>
@@ -827,40 +751,24 @@ if (!doNotTrack) {
 </span><span class="c1"></span><span class="p">}</span>
 </code></pre></td></tr></table>
 </div>
-</div>
-<p>在这个轮子中，更新 DOM 是同步执行的，而且不涉及 Virtual DOM。在 Vue 中会对 Virtual DOM 更新然后缓存在异步更新队列，在下一个事件循环 <strong>tick</strong> 中 flush 到 DOM。</p>
-
+</div><p>在这个轮子中，更新 DOM 是同步执行的，而且不涉及 Virtual DOM。在 Vue 中会对 Virtual DOM 更新然后缓存在异步更新队列，在下一个事件循环 <strong>tick</strong> 中 flush 到 DOM。</p>
 <h3 id="回顾">回顾</h3>
-
 <p><strong>MVVM</strong> 模式降低了 <strong>View</strong> 与 <strong>Model</strong> 的耦合，由 <strong>ViewModel</strong> 自动处理 View 与 Model 的数据同步，解决了数据频繁更新（操作 DOM）的问题。View 通过使用<strong>模板语法</strong>来<strong>声明式</strong>的将数据渲染进 DOM，当 ViewModel 对 Model 进行更新的时候，会通过数据绑定更新到 View。Model (在本文中就是 <code>data</code>) 仅仅关注数据层本身，不关心任何行为；Model 的数据模型结合视图和业务实体。</p>
-
 <p><del>宠着</del>，画了个各模块的关系图帮助理解：</p>
-
-<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/2019-04-26-084701.png" alt="image-20190426164700940" /></p>
-
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/blog/2019-04-26-084701.png" alt="image-20190426164700940"></p>
 <p>最后，本轮子 GitHub 地址：<a href="https://github.com/Jancat/vue-mvvm">https://github.com/Jancat/vue-mvvm</a></p>
-
 <p><strong>Follow</strong> or <strong>Star</strong>，你选哪个？</p>
-
 <p>（<del>不，小孩子才做选择，大人全都要</del>）</p>
-
 <h2 id="安利">安利</h2>
-
 <p>安利一波本文中使用到的工具：</p>
-
 <ul>
 <li><a href="https://codesandbox.io">CodeSandbox</a> : 基于 VSCode 编辑器的 <strong>Cloud IDE</strong>，内置各种流行框架模板。通过 <code>&lt;iframe&gt;</code> 提供 <strong>embed</strong> 的项目、代码预览，方便的嵌入文章中，乃展示效果、项目代码的行文利器。</li>
 <li><a href="https://www.processon.com">ProcessOn</a>：在线绘制思维导图、流程图等，UI 美观，效果拔群。不过免费版有文件数量限制。</li>
 </ul>
-
 <h2 id="参考">参考</h2>
-
 <p>本轮子基于下面的仓库代码改造，感谢！</p>
-
 <p><a href="https://github.com/DMQ/mvvm">https://github.com/DMQ/mvvm</a></p>
-
-<hr />
-
+<hr>
 <p><strong>兄弟篇</strong>：<a href="https://jancat.github.io/post/2019/vue-mvvm-proxy/">Vue MVVM 实现（Proxy 篇）</a></p>
     </div>
 
@@ -998,6 +906,8 @@ if (!doNotTrack) {
 
     
 
+  
+
         </div>
       </div>
     </main>
@@ -1076,7 +986,7 @@ if (!doNotTrack) {
     &copy;
     
       2018 -
-    2019
+    2020
     <span class="heart">
       
       <i class="iconfont">
@@ -1125,6 +1035,12 @@ if (!doNotTrack) {
 
 
 <script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
 
 
 

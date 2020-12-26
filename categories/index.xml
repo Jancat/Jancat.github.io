@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 键落云起</title>
@@ -6,10 +6,15 @@
     <description>Recent content in Categories on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 19 Aug 2019 21:18:32 +0800</lastBuildDate>
-    
-	<atom:link href="https://jancat.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Sat, 26 Dec 2020 22:02:07 +0800</lastBuildDate><atom:link href="https://jancat.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>UI Component</title>
+      <link>https://jancat.github.io/categories/ui-component/</link>
+      <pubDate>Sat, 26 Dec 2020 22:02:07 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/categories/ui-component/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>译文</title>

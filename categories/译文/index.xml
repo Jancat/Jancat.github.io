@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>译文 on 键落云起</title>
@@ -6,11 +6,7 @@
     <description>Recent content in 译文 on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Mon, 19 Aug 2019 21:18:32 +0800</lastBuildDate>
-    
-	<atom:link href="https://jancat.github.io/categories/%E8%AF%91%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 19 Aug 2019 21:18:32 +0800</lastBuildDate><atom:link href="https://jancat.github.io/categories/%E8%AF%91%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>【译】什么时候使用 useMemo 和 useCallback</title>
       <link>https://jancat.github.io/post/2019/translation-usememo-and-usecallback/</link>
@@ -20,7 +16,6 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;原文：&lt;a href=&#34;https://kentcdodds.com/blog/usememo-and-usecallback&#34;&gt;When to useMemo and useCallback&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-
 &lt;p&gt;性能优化总是会有成本，但并不总是带来好处。我们来谈谈 &lt;code&gt;useMemo&lt;/code&gt; 和 &lt;code&gt;useCallback&lt;/code&gt; 的成本和收益。&lt;/p&gt;</description>
     </item>
     

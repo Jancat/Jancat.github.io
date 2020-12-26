@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="zh" itemscope itemtype="http://schema.org/WebPage">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>设计一对通用的消息提示组件 —— Alert &amp; Toast - 键落云起</title>
+  
+
+<meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+
+<meta name="MobileOptimized" content="width"/>
+<meta name="HandheldFriendly" content="true"/>
+
+
+<meta name="applicable-device" content="pc,mobile">
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="author" content="君临" />
+  <meta name="description" content="在浏览器页面中，通用的消息提示组件一般可以分为静态局部提示和动态全局提示，用于反馈用户需要关注的信息，使用频率较高。
+" />
+
+  <meta name="keywords" content="Hugo, theme, jane, 博客" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.79.1" />
+
+
+<link rel="canonical" href="https://jancat.github.io/post/2020/design-a-pair-of-general-message-prompt-components-alert-and-toast/" />
+
+
+
+
+
+<link rel="icon" href="/favicon.ico" />
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/sass/jane.min.f1e506a781bf25d33ffc18aa6b4e972a965c58049d27d4f92b7db2e9bf28e4bf.css" integrity="sha256-8eUGp4G/JdM//Biqa06XKpZcWASdJ9T5K32y6b8o5L8=" media="screen" crossorigin="anonymous">
+
+
+
+
+
+<meta property="og:title" content="设计一对通用的消息提示组件 —— Alert &amp; Toast" />
+<meta property="og:description" content="
+在浏览器页面中，通用的消息提示组件一般可以分为静态局部提示和动态全局提示，用于反馈用户需要关注的信息，使用频率较高。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jancat.github.io/post/2020/design-a-pair-of-general-message-prompt-components-alert-and-toast/" />
+<meta property="article:published_time" content="2020-12-26T22:02:07+08:00" />
+<meta property="article:modified_time" content="2020-12-26T22:02:07+08:00" />
+<meta itemprop="name" content="设计一对通用的消息提示组件 —— Alert &amp; Toast">
+<meta itemprop="description" content="
+在浏览器页面中，通用的消息提示组件一般可以分为静态局部提示和动态全局提示，用于反馈用户需要关注的信息，使用频率较高。">
+<meta itemprop="datePublished" content="2020-12-26T22:02:07+08:00" />
+<meta itemprop="dateModified" content="2020-12-26T22:02:07+08:00" />
+<meta itemprop="wordCount" content="3679">
+
+
+
+<meta itemprop="keywords" content="组件库,Alert,Toast," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="设计一对通用的消息提示组件 —— Alert &amp; Toast"/>
+<meta name="twitter:description" content="
+在浏览器页面中，通用的消息提示组件一般可以分为静态局部提示和动态全局提示，用于反馈用户需要关注的信息，使用频率较高。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-138698332-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">键落云起</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/categories/">分类</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/post/">归档</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/tags/">标签</a>
+          
+        
+      </li><li class="mobile-menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/about/">关于</a>
+          
+        
+      </li>
+    
+
+    
+  </ul>
+</nav>
+
+
+  
+    
+
+
+
+
+
+
+  <link rel="stylesheet" href="/lib/photoswipe/photoswipe.min.css" />
+  <link rel="stylesheet" href="/lib/photoswipe/default-skin/default-skin.min.css" />
+
+
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+  
+
+  
+
+  
+
+  <header id="header" class="header container">
+    <div class="logo-wrapper">
+  <a href="/" class="logo">
+    
+      键落云起
+    
+  </a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/categories/">分类</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/post/">归档</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/tags/">标签</a>
+          
+
+        
+
+      </li>
+    
+        <li class="menu-item">
+        
+          
+          
+            <a class="menu-item-link" href="https://jancat.github.io/about/">关于</a>
+          
+
+        
+
+      </li>
+    
+
+    
+    
+
+    
+  </ul>
+</nav>
+
+  </header>
+
+  <div id="mobile-panel">
+    <main id="main" class="main bg-llight">
+      <div class="content-wrapper">
+        <div id="content" class="content container">
+          <article class="post bg-white">
+    
+    <header class="post-header">
+      <h1 class="post-title">设计一对通用的消息提示组件 —— Alert &amp; Toast</h1>
+      
+      <div class="post-meta">
+        <time datetime="2020-12-26" class="post-time">
+          2020-12-26
+        </time>
+        <div class="post-category">
+            <a href="https://jancat.github.io/categories/ui-component/"> UI Component </a>
+            
+          </div>
+        
+
+        
+        
+          <span id="busuanzi_container_page_pv">
+            | 阅读 <span id="busuanzi_value_page_pv"></span>
+          </span>
+        
+
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#alert-警告提示">Alert 警告提示</a>
+      <ul>
+        <li><a href="#使用场景">使用场景</a></li>
+        <li><a href="#展示交互">展示交互</a></li>
+        <li><a href="#标题和描述">标题和描述</a></li>
+        <li><a href="#提示类型">提示类型</a></li>
+        <li><a href="#变体">变体</a></li>
+        <li><a href="#可关闭">可关闭</a></li>
+        <li><a href="#操作">操作</a></li>
+      </ul>
+    </li>
+    <li><a href="#toast-全局提示">Toast 全局提示</a>
+      <ul>
+        <li><a href="#使用场景-1">使用场景</a></li>
+        <li><a href="#展示交互-1">展示交互</a></li>
+        <li><a href="#和-alert-的对比">和 Alert 的对比</a></li>
+        <li><a href="#提示类型-1">提示类型</a></li>
+        <li><a href="#变体-1">变体</a></li>
+        <li><a href="#静态方法-api">静态方法 API</a></li>
+        <li><a href="#配置对象传参">配置对象传参</a></li>
+        <li><a href="#全局配置">全局配置</a></li>
+        <li><a href="#关闭提示">关闭提示</a></li>
+        <li><a href="#通过-key-更新-toast">通过 key 更新 Toast</a></li>
+        <li><a href="#通过-hooks-获取上下文">通过 Hooks 获取上下文</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      <p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221536.png" alt=""></p>
+<p>在浏览器页面中，通用的消息提示组件一般可以分为<strong>静态局部提示</strong>和<strong>动态全局提示</strong>，用于反馈用户需要关注的信息，使用频率较高。</p>
+<p>虽然这两种提示从视觉交互上来看比较相似，但使用场景不同，组件对外暴露的接口也有一点区别，所以一般拆分成两个 UI 组件提供给业务方使用。</p>
+<p>代码未动，设计先行，先考虑接口，再考虑实现。本文介绍如何设计这两个组件（展示、交互、API、实现思路），满足业务方的定制化和组件的通用化，提供简单易用、视觉交互友好的消息提示组件。</p>
+<p>以下的设计思路整理总结自 People Design、 Ant Design 、Material-UI 的消息提示组件 ，主要针对 PC 端设计展示和交互，使用 React 语法 ；本文主要关注组件基础设计思路，不涉及：具体代码实现、无障碍设计 WAI-ARIA、主题切换、移动端适配等。</p>
+<p>Alert &amp; Toast ↓↓</p>
+<h2 id="alert-警告提示">Alert 警告提示</h2>
+<p>静态局部提示组件在 Antd 和 Material-UI 中命名为 <strong>Alert 警告提示</strong></p>
+<h3 id="使用场景">使用场景</h3>
+<p>页面局部展示一段简短且重要的信息，在不影响用户操作的同时能够吸引用户的注意力。</p>
+<h3 id="展示交互">展示交互</h3>
+<p>消息框宽度默认水平撑满当前容器，以非浮层的静态展现形式，始终展现，不会自动消失，用户可以点击关闭，可以提供自定义的操作按钮。</p>
+<h3 id="标题和描述">标题和描述</h3>
+<p>Alert 提示可以指定标题，表示提示的类型或主题</p>
+<p>长文本提示建议增加标题，用户可快速理解主要内容，内容建议不超过 4 行。</p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221001.png" alt=""></p>
+<p><em>Material-UI Alert 带标题和内容</em></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221028.png" alt=""></p>
+<p><em>AntD Alert 带标题和内容</em></p>
+<h4 id="api-设计">API 设计</h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td>警告提示内容，一般是文本</td>
+<td>ReactNode</td>
+<td>-</td>
+</tr>
+<tr>
+<td>title</td>
+<td>在内容上方展示的消息标题</td>
+<td>ReactNode</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-jsx" data-lang="jsx"><span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">title</span><span class="o">=</span><span class="s">&#34;标题&#34;</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;提示内容&#34;</span> <span class="p">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="提示类型">提示类型</h3>
+<p>Alert 按照功能默认提供四种类型的提示，分别是：</p>
+<ul>
+<li><strong>普通提示 info</strong>：用于展示背景条件、政策信息、规范要求、当前状态等客观内容；</li>
+<li><strong>成功提示 success</strong>：用于展示已完成操作的成功状态；</li>
+<li><strong>警告提示 warning</strong>：用于展示可能会导致某种后果的警示性文本；</li>
+<li><strong>错误提示 error</strong>：用于展示当前操作或者整体状态有错误，提示用户修正或展示错误相关信息。</li>
+</ul>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221039.png" alt=""></p>
+<p><em>AntD Alert 四种提示类型</em></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221048.png" alt=""></p>
+<p><em>Material-UI Alert 四种提示类型</em></p>
+<p>每种提示类型都提供对应的图标展示在消息开头，合适的图标让信息类型更加醒目，不带图标适合单调简单的提示。</p>
+<h4 id="api-设计-1">API 设计</h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td>提示类型，共有四种选择 <code>success</code>、<code>info</code>、<code>warning</code>、<code>error</code></td>
+<td>string</td>
+<td><code>info</code></td>
+</tr>
+<tr>
+<td>icon</td>
+<td>辅助图标，可以指定 <code>false</code> 不展示图标，或者提供自定义图标</td>
+<td>ReactNode | boolean</td>
+<td>type 对应的 icon</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-jsx" data-lang="jsx"><span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;info tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;info&#34;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;success tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;success&#34;</span> <span class="na">icon</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;warning tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;warning&#34;</span> <span class="na">icon</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">CustomIcon</span> <span class="p">/&gt;}</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;error tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;error&#34;</span> <span class="p">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="变体">变体</h3>
+<p>提示框有描边（outlined）和填充（filled）这两种变体可以使用，以便匹配不同的设计风格。</p>
+<p>标准（默认）是浅色填充无边框，填充（filled）是深色填充，描边（outlined）只有边框无填充。</p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221058.png" alt=""></p>
+<p><em>Material-UI Alert 变体示例</em></p>
+<h4 id="api-设计-2">API 设计</h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>variant</td>
+<td>变体类型，共有三种选择 <code>standard</code>、<code>filled</code>、<code>outlined</code></td>
+<td>string</td>
+<td><code>standard</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-jsx" data-lang="jsx"><span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;info tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;info&#34;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;success tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;success&#34;</span> <span class="na">variant</span><span class="o">=</span><span class="s">&#34;filled&#34;</span> <span class="p">/&gt;</span>
+<span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;warning tips&#34;</span> <span class="na">type</span><span class="o">=</span><span class="s">&#34;warning&#34;</span> <span class="na">variant</span><span class="o">=</span><span class="s">&#34;outlined&#34;</span> <span class="p">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="可关闭">可关闭</h3>
+<p>当用户接收到 Alert 提供的信息后，可能不希望再被 Alert 吸引注意力，影响对其它信息的处理；此时可以配置关闭按钮，允许用户主动关闭 Alert。</p>
+<p>关闭后添加 leave 的过渡动效，平滑自然地收起 Alert。</p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221111.png" alt=""></p>
+<p><em>AntD Alert 自定义关闭示例</em></p>
+<h4 id="api-设计-3">API 设计</h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>closeText</td>
+<td>自定义关闭按钮，替换默认的 x 图标</td>
+<td>ReactNode</td>
+<td><code>-</code></td>
+</tr>
+<tr>
+<td>closable</td>
+<td>默认不可关闭</td>
+<td>boolean</td>
+<td>false</td>
+</tr>
+<tr>
+<td>afterClose</td>
+<td>关闭后触发的回调函数</td>
+<td>() =&gt; void</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-jsx" data-lang="jsx"><span class="p">&lt;</span><span class="nt">Alert</span> <span class="na">message</span><span class="o">=</span><span class="s">&#34;info tips&#34;</span> <span class="na">closable</span> <span class="na">closeText</span><span class="o">=</span><span class="s">&#34;关闭&#34;</span> <span class="na">afterClose</span><span class="o">=</span><span class="p">{()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;closed&#39;</span><span class="p">)}</span> <span class="p">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="操作">操作</h3>
+<p>提示中可以配置操作按钮，在尾部展示（关闭按钮之前）。文本消息不超过右侧操作按钮区域，间隔一定间距换行。</p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221121.png" alt=""></p>
+<p><em>AntD Alert 操作示例</em></p>
+<p>消息内容中也可以自定义文本链接，点击会跳转到其它页面。</p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221131.png" alt=""></p>
+<p><em>People Design 常驻提示操作示例</em></p>
+<h4 id="api-设计-4">API 设计</h4>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>action</td>
+<td>自定义操作项</td>
+<td>ReactNode</td>
+<td><code>-</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-jsx" data-lang="jsx"><span class="p">&lt;</span><span class="nt">Alert</span>
+  <span class="na">message</span><span class="o">=</span><span class="s">&#34;Success Tips&#34;</span>
+  <span class="na">type</span><span class="o">=</span><span class="s">&#34;success&#34;</span>
+  <span class="na">action</span><span class="o">=</span><span class="p">{</span>
+    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{()</span> <span class="p">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Action clicked.&#39;</span><span class="p">)}&gt;</span><span class="nx">UNDO</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">}</span>
+<span class="p">/&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="toast-全局提示">Toast 全局提示</h2>
+<blockquote>
+<p>有些组件库命名为 Message、Snackbar 等</p>
+</blockquote>
+<p>全局提示是操作后的轻量级短时反馈提示，不会打断用户操作。</p>
+<h3 id="使用场景-1">使用场景</h3>
+<p>用于展示操作后系统对该行为作出的反馈，如成功、警示、错误、提示信息等。</p>
+<h3 id="展示交互-1">展示交互</h3>
+<p>位于页面顶部中央，距离顶部有固定间距。消息框宽度随内容自适应，超过最大宽度后文本换行。不随页面滚动，有浮层阴影效果。</p>
+<p>展示一段时间后自动消息（可以设置不自动关闭），对内容干扰降到最低。</p>
+<p>当不同操作触发了多条全局提示，按照时间先后顺序在页面上方中央依次堆叠出现，将未消失提示推至下方。</p>
+<p>消息出现（从上至下掉落或从小放大）和消失（相反动作）都会有过渡。</p>
+<p>当指针悬浮在 Toast 上时，认为用户此时正在关注此提示，所以清除 Toast 自动关闭的定时器，避免 Toast 突然在用户关注焦点中消失；当指针离开 Toast 后，重新创建 Toast 的关闭定时器。</p>
+<h3 id="和-alert-的对比">和 Alert 的对比</h3>
+<ul>
+<li>Alert 作为局部组件嵌入；Toast 页面最上层浮动展示，暗示全局性；</li>
+<li>Alert 跟随容器一起静态出现； Toast 在某个操作后动态浮现；</li>
+<li>Alert 默认常驻；Toast 出现后默认自动消失；</li>
+<li>Alert 在模板中声明式引用；Toast 在全局 JavaScript 作用域内命令式静态方法调用，可以看作是工具方法，在事件中触发；</li>
+<li>Alert 每个实例独立，配置不共享；Toast 实例间共享全局配置，可以统一管理，配置默认的样式和行为；</li>
+<li>Alert 提供 action prop；Toast 为轻交互，不提供额外操作，但可以在 content 中自行嵌入（基本约束，灵活定制）；</li>
+<li>Alert 提供 title prop；Toast 为轻提示，一般不需要标题，但同样可以在 content 中自行嵌入。</li>
+</ul>
+<h3 id="提示类型-1">提示类型</h3>
+<p>Toast 除了 Alert 的四种提示类型外，还有一种 loading 类型：</p>
+<ul>
+<li><strong>加载中 loading</strong>：用于展示当前操作正在处理中或者内容正在加载中</li>
+</ul>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221143.png" alt=""></p>
+<p><em>AntD message 示例</em></p>
+<h3 id="变体-1">变体</h3>
+<blockquote>
+<p>同 Alert</p>
+</blockquote>
+<h3 id="静态方法-api">静态方法 API</h3>
+<blockquote>
+<p>API 基本参照 AntD message</p>
+</blockquote>
+<p>Toast 作为特殊的工具组件，提供每个提示类型的静态方法调用：</p>
+<ul>
+<li><code>Toast.success(content, [duration], onClose)</code></li>
+<li><code>Toast.error(content, [duration], onClose)</code></li>
+<li><code>Toast.info(content, [duration], onClose)</code></li>
+<li><code>Toast.warning(content, [duration], onClose)</code></li>
+<li><code>Toast.loading(content, [duration], onClose)</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">content</td>
+<td style="text-align:left">提示内容</td>
+<td style="text-align:left">ReactNode | config</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">duration</td>
+<td style="text-align:left">自动关闭的延时，单位秒。设为 0 时不自动关闭</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left">onClose</td>
+<td style="text-align:left">关闭时触发的回调函数</td>
+<td style="text-align:left">function</td>
+<td style="text-align:left">-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="返回-promise">返回 promise</h4>
+<p>静态方法调用后返回 promise，可以使用 <code>.then()</code>、 <code>await</code> 语法，以同步的写法在之后执行 Toast 关闭后的逻辑：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">Toast[level](content, [duration]).then(afterClose)
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kr">await</span> <span class="nx">Toast</span><span class="p">[</span><span class="nx">level</span><span class="p">](</span><span class="nx">content</span><span class="p">,</span> <span class="p">[</span><span class="nx">duration</span><span class="p">])</span>
+<span class="nx">afterClose</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="实现思路">实现思路</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">openToast</span><span class="p">(</span><span class="nx">configs</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="nx">resolve</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="k">new</span> <span class="nx">Toast</span><span class="p">({</span> <span class="p">...</span><span class="nx">configs</span><span class="p">,</span> <span class="nx">onClose</span><span class="o">=</span><span class="p">{()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="nx">resolve</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+      <span class="nx">configs</span><span class="p">.</span><span class="nx">onClose</span><span class="o">?</span><span class="p">.()</span>
+    <span class="p">}}})</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">Toast</span><span class="p">()</span> <span class="p">{}</span>
+
+<span class="p">[</span><span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">,</span> <span class="s1">&#39;info&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">,</span> <span class="s1">&#39;loading&#39;</span><span class="p">].</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">type</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">Toast</span><span class="p">[</span><span class="nx">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">(...</span><span class="nx">configs</span><span class="p">)</span> <span class="p">=&gt;</span> <span class="nx">openToast</span><span class="p">({</span> <span class="nx">type</span><span class="p">,</span> <span class="p">...</span><span class="nx">configs</span> <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="配置对象传参">配置对象传参</h3>
+<p>除了上面的简略参数外，还可以使用对象的形式传递参数，用来定制更具体的 Toast：</p>
+<ul>
+<li><code>Toast.success(config)</code></li>
+<li><code>Toast.error(config)</code></li>
+<li><code>Toast.info(config)</code></li>
+<li><code>Toast.warning(config)</code></li>
+<li><code>Toast.loading(config)</code></li>
+</ul>
+<p><code>config</code> 对象属性如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">className</td>
+<td style="text-align:left">自定义 CSS class</td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">content</td>
+<td style="text-align:left">提示内容</td>
+<td style="text-align:left">ReactNode</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">duration</td>
+<td style="text-align:left">自动关闭的延时，单位秒。设为 0 时不自动关闭，会展示关闭图标，也可以通过 <code>Toast.destroy(key)</code> 关闭</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left">icon</td>
+<td style="text-align:left">自定义图标</td>
+<td style="text-align:left">ReactNode</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">key</td>
+<td style="text-align:left">当前提示的唯一标志</td>
+<td style="text-align:left">string | number</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">style</td>
+<td style="text-align:left">自定义内联样式</td>
+<td style="text-align:left">CSSProperties</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">onClose</td>
+<td style="text-align:left">关闭时触发的回调函数</td>
+<td style="text-align:left">function</td>
+<td style="text-align:left">-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="全局配置">全局配置</h3>
+<p>提供 <code>Toast.config(options)</code> 配置 Toast 的默认样式和行为，在引入 Toast 的入口文件中配置。<code>options</code> 属性如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">说明</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">duration</td>
+<td style="text-align:left">默认自动关闭延时，单位秒</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left">getContainer</td>
+<td style="text-align:left">配置渲染节点的输出位置</td>
+<td style="text-align:left">() =&gt; HTMLElement</td>
+<td style="text-align:left">() =&gt; document.body</td>
+</tr>
+<tr>
+<td style="text-align:left">maxCount</td>
+<td style="text-align:left">最大显示数, 超过限制时，最早的消息会被自动关闭</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left">top</td>
+<td style="text-align:left">消息距离顶部的位置</td>
+<td style="text-align:left">number</td>
+<td style="text-align:left">24</td>
+</tr>
+</tbody>
+</table>
+<h3 id="关闭提示">关闭提示</h3>
+<ul>
+<li><code>Toast.destroy()</code> 关闭当前所有的 Toast；</li>
+<li><code>Toast.destroy(key)</code> 如果在 <code>config</code> 对象中配置了一个 Toast 的唯一 <code>key</code>，可以传递 <code>key</code> 参数关闭指定的 Toast。</li>
+</ul>
+<h3 id="通过-key-更新-toast">通过 key 更新 Toast</h3>
+<p>可以通过唯一的 <code>key</code> 来动态更新 Toast 内容</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kr">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="s1">&#39;updatable&#39;</span>
+
+<span class="kr">const</span> <span class="nx">openMessage</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">Toast</span><span class="p">.</span><span class="nx">loading</span><span class="p">({</span> <span class="nx">content</span><span class="o">:</span> <span class="s1">&#39;Loading...&#39;</span><span class="p">,</span> <span class="nx">key</span> <span class="p">});</span>
+  <span class="nx">setTimeout</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">message</span><span class="p">.</span><span class="nx">success</span><span class="p">({</span> <span class="nx">content</span><span class="o">:</span> <span class="s1">&#39;Loaded!&#39;</span><span class="p">,</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">duration</span><span class="o">:</span> <span class="mi">2</span> <span class="p">});</span>
+  <span class="p">},</span> <span class="mi">1000</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="通过-hooks-获取上下文">通过 Hooks 获取上下文</h3>
+<p>当需要 context 信息（例如父级组件向下传递的共享状态）时，可以通过 <code>Toast.useToast()</code> 创建支持读取 context 的 <code>contextHolder</code>，方法会返回 <code>api</code> 实体以及 <code>contextHolder</code> 节点。将其插入到需要获取 context 的位置即可：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-jsx" data-lang="jsx"><span class="kr">const</span> <span class="nx">Context</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createContext</span><span class="p">();</span>
+
+<span class="kd">function</span> <span class="nx">Demo</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">[</span><span class="nx">toast</span><span class="p">,</span> <span class="nx">contextHolder</span><span class="p">]</span> <span class="o">=</span> <span class="nx">Toast</span><span class="p">.</span><span class="nx">useToast</span><span class="p">();</span>
+  <span class="kr">const</span> <span class="nx">info</span> <span class="o">=</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">toast</span><span class="p">.</span><span class="nx">info</span><span class="p">({</span>
+      <span class="c1">// Access the closest Provider for this context above in the tree
+</span><span class="c1"></span>      <span class="nx">content</span><span class="o">:</span> <span class="p">&lt;</span><span class="nt">Context.Consumer</span><span class="p">&gt;{({</span> <span class="nx">name</span> <span class="p">})</span> <span class="p">=&gt;</span> <span class="sb">`Hello, </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">!`</span><span class="p">}&lt;/</span><span class="nt">Context.Consumer</span><span class="p">&gt;,</span>
+      <span class="nx">duration</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">});</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nt">Context.Provider</span> <span class="na">value</span><span class="o">=</span><span class="p">{{</span> <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;Toast hook&#39;</span> <span class="p">}}&gt;</span>
+      <span class="p">{</span><span class="cm">/* Receive the upper context value */</span><span class="p">}</span>
+      <span class="p">{</span><span class="nx">contextHolder</span><span class="p">}</span>
+      <span class="p">&lt;</span><span class="nt">button</span> <span class="na">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">info</span><span class="p">}&gt;</span>
+        <span class="nx">Display</span> <span class="nx">normal</span> <span class="nx">message</span>
+      <span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">Context.Provider</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="实现思路-1">实现思路</h4>
+<p>直接调用 Toast 方法，会动态创建新的 Toast 实例，默认渲染在 body 底部的容器中，此时在 Toast 中访问的是容器的 context。</p>
+<p>要在 Toast content 内访问父级组件的 context，需要把 content 挂载到 <code>&lt;Context.Provider&gt;</code> 的 React 子树中，这样 content 中的 <code>&lt;Context.Consumer&gt;</code> 才能接收到绑定的 <code>value</code>。但是如果直接把 Toast 渲染到父级组件下，即使是 <code>fixed</code> 定位，多少也会受到父组件的干扰（样式、生命周期等），所以为了避免父组件的影响，同时自动应用过渡动画，需要在一个专用的 Toast 容器环境中让 Toast 和普通调用一样渲染，即默认的 body 底部容器。</p>
+<p>跨组件树异地渲染正是 <code>React.createPortal()</code> 的用武之地。</p>
+<p>通过 <code>Toast.useToast()</code> 返回的 <code>toast</code> api，在事件中触发提示后，会动态创建 Toast 实例（作为 contextHolder 插入到父组件子树），Toast render 中判断是 hook 触发则利用 <code>React.createPortal(&lt;ToastContent /&gt;, bodyContainer)</code> 把 <strong>ToastContent</strong> 渲染到默认容器中，这样 ToastContent 即成为了 <code>&lt;Context.Provider&gt;</code> 子树中的组件，实现访问父级 context，又能在默认容器中正常渲染。</p>
+<p>使用代码简略说明：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-js" data-lang="js"><span class="kd">function</span> <span class="nx">useToast</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kr">const</span> <span class="p">[</span><span class="nx">element</span><span class="p">,</span> <span class="nx">setElement</span><span class="p">]</span> <span class="o">=</span> <span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
+
+  <span class="kd">function</span> <span class="nx">toast</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Toast 容器已经挂载到 body 底部
+</span><span class="c1"></span>    <span class="kr">const</span> <span class="nx">containerCallback</span> <span class="o">=</span> <span class="nx">container</span> <span class="p">=&gt;</span> <span class="p">{</span>
+      <span class="c1">// 动态创建 Toast 实例
+</span><span class="c1"></span>      <span class="kr">const</span> <span class="nx">toastElem</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nx">Toast</span> <span class="nx">container</span><span class="o">=</span><span class="p">{</span><span class="nx">container</span><span class="p">}</span> <span class="o">/&gt;</span>
+      <span class="nx">setElement</span><span class="p">(</span><span class="nx">toastElem</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">addToast</span><span class="p">({</span> <span class="p">...</span><span class="nx">props</span><span class="p">,</span> <span class="nx">containerCallback</span> <span class="p">})</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="p">[</span><span class="nx">toast</span><span class="p">,</span> <span class="nx">element</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">addToast</span><span class="p">({</span> <span class="nx">containerCallback</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">containerCallback</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// hook 调用，在 body 底部动态创建 Toast 容器，mount 后传递 DOM 节点
+</span><span class="c1"></span>    <span class="k">return</span> <span class="p">(</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">ref</span><span class="o">=</span><span class="p">{</span><span class="nx">div</span> <span class="p">=&gt;</span> <span class="nx">div</span> <span class="o">&amp;&amp;</span> <span class="nx">containerCallback</span><span class="p">(</span><span class="nx">div</span><span class="p">)}</span> <span class="o">/&gt;</span>
+    <span class="p">)</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Toast</span> <span class="o">/&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">Toast</span><span class="p">({</span> <span class="nx">container</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">container</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// hook 调用，不渲染到父组件下
+</span><span class="c1"></span>    <span class="k">return</span> <span class="nx">React</span><span class="p">.</span><span class="nx">createPortal</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">ToastContent</span> <span class="o">/&gt;</span><span class="p">,</span> <span class="nx">container</span><span class="p">)</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// 普通调用，正常渲染
+</span><span class="c1"></span>    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">ToastContent</span> <span class="o">/&gt;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="总结">总结</h2>
+<p>通过设计 Alert 和 Toast 的展示交互和 API，能够从普通用户、组件使用方、组件提供方的角度考虑如何做好一个通用组件；不同的组件库有不同的风格，但沉淀出来的优秀实践都大同小异。</p>
+<p>有了设计方案后才考虑怎么优雅地实现这些功能，关联组件库、解决兼容问题、处理各种细节等，逐步打磨成熟。</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://ant-design.gitee.io/components/message-cn/">Ant Design Message 全局提示</a></p>
+<p><a href="https://ant-design.gitee.io/components/alert-cn/">Ant Design Alert 警告提示</a></p>
+<p><a href="https://people-design.bytedance.net/docs/component/coponent-feedback-global-prompt-cn">People Design 全局提示</a></p>
+<p><a href="https://people-design.bytedance.net/docs/component/coponent-feedback-warning-cn">People Design 常驻提示</a></p>
+<p><a href="https://material-ui.com/components/alert/">Material-UI Alert</a></p>
+<p><a href="https://material-ui.com/components/snackbars/">Material-UI Snackbar</a></p>
+    </div>
+
+    
+    
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">君临</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2020-12-26 22:1212</span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">许可协议</span>
+    <span class="item-content"><a target="_blank" rel="license noopener external nofollow" href="https://creativecommons.org/licenses/by/4.0/deed.zh" >署名 4.0 国际</a></span>
+  </p>
+</div>
+
+    
+    
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">赞赏支持</label>
+  <div class="qr-code">
+    
+    
+      <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/wechat-reward-code.jpg">
+        <span>微信打赏</span>
+      </label>
+    
+      <label class="qr-code-image" for="reward">
+        <img class="image" src="/images/alipay-qr-code.jpg">
+        <span>支付宝打赏</span>
+      </label>
+  </div>
+</div>
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          <a href="https://jancat.github.io/tags/%E7%BB%84%E4%BB%B6%E5%BA%93/">组件库</a>
+          <a href="https://jancat.github.io/tags/alert/">Alert</a>
+          <a href="https://jancat.github.io/tags/toast/">Toast</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="/post/2019/translation-usememo-and-usecallback/">
+            <span class="next-text nav-default">【译】什么时候使用 useMemo 和 useCallback</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            
+            <i class="iconfont">
+              <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="18" height="18">
+  <path d="M332.091514 74.487481l-75.369571 89.491197c-10.963703 12.998035-10.285251 32.864502 1.499144 44.378743l286.278095 300.375162L266.565125 819.058374c-11.338233 12.190647-11.035334 32.285311 0.638543 44.850487l80.46666 86.564541c11.680017 12.583596 30.356378 12.893658 41.662889 0.716314l377.434212-421.426145c11.332093-12.183484 11.041474-32.266891-0.657986-44.844348l-80.46666-86.564541c-1.772366-1.910513-3.706415-3.533476-5.750981-4.877077L373.270379 71.774697C361.493148 60.273758 343.054193 61.470003 332.091514 74.487481z"></path>
+</svg>
+
+            </i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+
+  
+  
+
+  
+  
+
+  
+
+  
+  
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "Jancat/Jancat.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+  
+
+  
+
+  
+
+  <div class="disqus-comment">
+  <div class="disqus-button" id="load_disqus" onclick="load_disqus()">
+    显示 Disqus 评论
+  </div>
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    var disqus_config = function () {
+      this.page.url = "https://jancat.github.io/post/2020/design-a-pair-of-general-message-prompt-components-alert-and-toast/";
+    };
+    function load_disqus() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'jancat';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+      $('#load_disqus').remove();
+    };
+  </script>
+  <noscript>Please enable JavaScript to view the
+    <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+  </noscript>
+  
+  </div>
+
+    
+
+  
+
+        </div>
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="icon-links">
+  
+  
+    <a href="mailto:szujunlinpan@gmail.com" rel="me noopener" class="iconfont"
+      title="email" >
+      <svg class="icon" viewBox="0 0 1451 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M664.781909 681.472759 0 97.881301C0 3.997201 71.046997 0 71.046997 0L474.477909 0 961.649408 0 1361.641813 0C1361.641813 0 1432.688811 3.997201 1432.688811 97.881301L771.345323 681.472759C771.345323 681.472759 764.482731 685.154773 753.594283 688.65053L753.594283 688.664858C741.602731 693.493018 729.424896 695.068979 718.077952 694.839748 706.731093 695.068979 694.553173 693.493018 682.561621 688.664858L682.561621 688.65053C671.644501 685.140446 664.781909 681.472759 664.781909 681.472759L664.781909 681.472759ZM718.063616 811.603883C693.779541 811.016482 658.879232 802.205449 619.10784 767.734955 542.989056 701.759633 0 212.052267 0 212.052267L0 942.809523C0 942.809523 0 1024 83.726336 1024L682.532949 1024 753.579947 1024 1348.948139 1024C1432.688811 1024 1432.688811 942.809523 1432.688811 942.809523L1432.688811 212.052267C1432.688811 212.052267 893.138176 701.759633 817.019477 767.734955 777.248 802.205449 742.347691 811.03081 718.063616 811.603883L718.063616 811.603883Z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://stackoverflow.com/users/4281309/junlin" rel="me noopener" class="iconfont"
+      title="stack-overflow"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M809.714286 932.571429l-638.857143 0 0-274.285714-91.428571 0 0 365.714286 821.714286 0 0-365.714286-91.428571 0 0 274.285714zm-538.285714-299.428571l18.857143-89.714286 447.428571 94.285714-18.857143 89.142857zm58.857143-213.714286l38.285714-83.428571 414.285714 193.714286-38.285714 82.857143zm114.857143-203.428571l58.285714-70.285714 350.857143 293.142857-58.285714 70.285714zm226.857143-216l272.571429 366.285714-73.142857 54.857143-272.571429-366.285714zm-410.285714 840.571429l0-90.857143 457.142857 0 0 90.857143-457.142857 0z"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://github.com/Jancat" rel="me noopener" class="iconfont"
+      title="github"  target="_blank"
+      >
+      <svg class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M512 12.672c-282.88 0-512 229.248-512 512 0 226.261333 146.688 418.133333 350.08 485.76 25.6 4.821333 34.986667-11.008 34.986667-24.618667 0-12.16-0.426667-44.373333-0.64-87.04-142.421333 30.890667-172.458667-68.693333-172.458667-68.693333C188.672 770.986667 155.008 755.2 155.008 755.2c-46.378667-31.744 3.584-31.104 3.584-31.104 51.413333 3.584 78.421333 52.736 78.421333 52.736 45.653333 78.293333 119.850667 55.68 149.12 42.581333 4.608-33.109333 17.792-55.68 32.426667-68.48-113.706667-12.8-233.216-56.832-233.216-253.013333 0-55.893333 19.84-101.546667 52.693333-137.386667-5.76-12.928-23.04-64.981333 4.48-135.509333 0 0 42.88-13.738667 140.8 52.48 40.96-11.392 84.48-17.024 128-17.28 43.52 0.256 87.04 5.888 128 17.28 97.28-66.218667 140.16-52.48 140.16-52.48 27.52 70.528 10.24 122.581333 5.12 135.509333 32.64 35.84 52.48 81.493333 52.48 137.386667 0 196.693333-119.68 240-233.6 252.586667 17.92 15.36 34.56 46.762667 34.56 94.72 0 68.522667-0.64 123.562667-0.64 140.202666 0 13.44 8.96 29.44 35.2 24.32C877.44 942.592 1024 750.592 1024 524.672c0-282.752-229.248-512-512-512"></path>
+</svg>
+
+    </a>
+  
+    <a href="https://www.zhihu.com/people/Jancat/" rel="me noopener" class="iconfont"
+      title="zhihu"  target="_blank"
+      >
+      <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="36" height="36">
+  <path d="M351.791182 562.469462l192.945407 0c0-45.367257-21.3871-71.939449-21.3871-71.939449L355.897709 490.530013c3.977591-82.182744 7.541767-187.659007 8.816806-226.835262l159.282726 0c0 0-0.86367-67.402109-18.578124-67.402109s-279.979646 0-279.979646 0 16.850783-88.141456 39.318494-127.053698c0 0-83.60514-4.510734-112.121614 106.962104S81.344656 355.077018 76.80834 367.390461c-4.536316 12.313443 24.62791 5.832845 36.941354 0 12.313443-5.832845 68.050885-25.924439 84.252893-103.69571l86.570681 0c1.165546 49.28652 4.596691 200.335724 3.515057 226.835262L109.86113 490.530013c-25.275663 18.147312-33.701566 71.939449-33.701566 71.939449L279.868105 562.469462c-8.497535 56.255235-23.417339 128.763642-44.275389 167.210279-33.05279 60.921511-50.55235 116.65793-169.802314 212.576513 0 0-19.442818 14.257725 40.829917 9.073656 60.273758-5.185093 117.305683-20.739347 156.840094-99.807147 20.553105-41.107233 41.805128-93.250824 58.386782-146.138358l-0.055259 0.185218 167.855986 193.263655c0 0 22.035876-51.847855 5.832845-108.880803L371.045711 650.610918l-42.1244 31.157627-0.045025 0.151449c11.69946-41.020252 20.11206-81.5749 22.726607-116.858498C351.665315 564.212152 351.72876 563.345412 351.791182 562.469462z"></path>
+  <path d="M584.918753 182.033893l0 668.840094 70.318532 0 28.807093 80.512708 121.875768-80.512708 153.600307 0L959.520453 182.033893 584.918753 182.033893zM887.150192 778.934538l-79.837326 0-99.578949 65.782216-23.537066-65.782216-24.855084 0L659.341766 256.673847l227.807403 0L887.149169 778.934538z"></path>
+</svg>
+
+    </a>
+
+
+<a href="https://jancat.github.io/index.xml" rel="noopener alternate" type="application/rss&#43;xml"
+    class="iconfont" title="rss" target="_blank">
+    <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="30" height="30">
+  <path d="M819.157333 1024C819.157333 574.592 449.408 204.8 0 204.8V0c561.706667 0 1024 462.293333 1024 1024h-204.842667zM140.416 743.04a140.8 140.8 0 0 1 140.501333 140.586667A140.928 140.928 0 0 1 140.074667 1024C62.72 1024 0 961.109333 0 883.626667s62.933333-140.544 140.416-140.586667zM678.784 1024h-199.04c0-263.210667-216.533333-479.786667-479.744-479.786667V345.173333c372.352 0 678.784 306.517333 678.784 678.826667z"></path>
+</svg>
+
+  </a>
+   
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - <a class="theme-link" href="https://github.com/xianmin/hugo-theme-jane">Jane</a>
+  </span>
+
+  <span class="copyright-year">
+    &copy;
+    
+      2018 -
+    2020
+    <span class="heart">
+      
+      <i class="iconfont">
+        <svg class="icon" viewBox="0 0 1025 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="14" height="14">
+  <path d="M1000.1 247.9c-15.5-37.3-37.6-70.6-65.7-98.9-54.4-54.8-125.8-85-201-85-85.7 0-166 39-221.4 107.4C456.6 103 376.3 64 290.6 64c-75.1 0-146.5 30.4-201.1 85.6-28.2 28.5-50.4 61.9-65.8 99.3-16 38.8-24 79.9-23.6 122.2 0.7 91.7 40.1 177.2 108.1 234.8 3.1 2.6 6 5.1 8.9 7.8 14.9 13.4 58 52.8 112.6 102.7 93.5 85.5 209.9 191.9 257.5 234.2 7 6.1 15.8 9.5 24.9 9.5 9.2 0 18.1-3.4 24.9-9.5 34.5-30.7 105.8-95.9 181.4-165 74.2-67.8 150.9-138 195.8-178.2 69.5-57.9 109.6-144.4 109.9-237.3 0.1-42.5-8-83.6-24-122.2z"
+   fill="#8a8a8a"></path>
+</svg>
+
+      </i>
+    </span><span class="author">
+        君临
+        
+      </span></span>
+
+  
+  
+    <span id="busuanzi_container">
+      访客数/访问量：<span id="busuanzi_value_site_uv"></span>/<span id="busuanzi_value_site_pv"></span>
+    </span>
+  
+
+  
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont">
+        
+        <svg class="icon" viewBox="0 0 1024 1024" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="35" height="35">
+  <path d="M510.866688 227.694839 95.449397 629.218702l235.761562 0-2.057869 328.796468 362.40389 0L691.55698 628.188232l241.942331-3.089361L510.866688 227.694839zM63.840492 63.962777l894.052392 0 0 131.813095L63.840492 195.775872 63.840492 63.962777 63.840492 63.962777zM63.840492 63.962777"></path>
+</svg>
+
+      </i>
+    </div>
+  </div>
+  
+<script type="text/javascript" src="/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="/lib/slideout/slideout-1.0.1.min.js"></script>
+
+
+
+
+<script type="text/javascript" src="/js/main.638251f4230630f0335d8c6748e53a96f94b72670920b60c09a56fdc8bece214.js" integrity="sha256-Y4JR9CMGMPAzXYxnSOU6lvlLcmcJILYMCaVv3Ivs4hQ=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <script type="text/javascript" src="/js/load-photoswipe.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe.min.js"></script>
+    <script type="text/javascript" src="/lib/photoswipe/photoswipe-ui-default.min.js"></script>
+  
+
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on 键落云起</title>
@@ -6,11 +6,7 @@
     <description>Recent content in Linux on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sun, 08 Jul 2018 18:16:57 +0800</lastBuildDate>
-    
-	<atom:link href="https://jancat.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 08 Jul 2018 18:16:57 +0800</lastBuildDate><atom:link href="https://jancat.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 Elementary OS</title>
       <link>https://jancat.github.io/post/2018/use-elementary-os/</link>
@@ -18,8 +14,7 @@
       
       <guid>https://jancat.github.io/post/2018/use-elementary-os/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/&#34;&gt;上一篇&lt;/a&gt; 介绍了在 Win10 上安装 Elementary OS，这篇介绍下 Elementary OS 的简单使用。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/elementary-desktop.png&#34; alt=&#34;elementary-desktop&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/use-elementary-os/elementary-desktop.png&#34; alt=&#34;elementary-desktop&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -28,7 +23,7 @@
       <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
       
       <guid>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34; /&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34;&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

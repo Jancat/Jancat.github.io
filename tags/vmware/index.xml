@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>vmware on 键落云起</title>
@@ -6,18 +6,14 @@
     <description>Recent content in vmware on 键落云起</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
-    <lastBuildDate>Sat, 21 Apr 2018 10:59:40 +0800</lastBuildDate>
-    
-	<atom:link href="https://jancat.github.io/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 21 Apr 2018 10:59:40 +0800</lastBuildDate><atom:link href="https://jancat.github.io/tags/vmware/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Win10 VMware 安装 Elementary OS</title>
       <link>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</link>
       <pubDate>Sat, 21 Apr 2018 10:59:40 +0800</pubDate>
       
       <guid>https://jancat.github.io/post/2018/win10-vmware-install-elementary-os/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34; /&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;img src=&#34;https://jancat.github.io/images/post/win10-vmware-install-elementary-os/elementary-os-poster.jpg&#34; alt=&#34;Elementary OS Poster&#34;&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

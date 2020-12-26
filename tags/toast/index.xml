@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Toast on 键落云起</title>
+    <link>https://jancat.github.io/tags/toast/</link>
+    <description>Recent content in Toast on 键落云起</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 26 Dec 2020 22:02:07 +0800</lastBuildDate><atom:link href="https://jancat.github.io/tags/toast/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计一对通用的消息提示组件 —— Alert &amp; Toast</title>
+      <link>https://jancat.github.io/post/2020/design-a-pair-of-general-message-prompt-components-alert-and-toast/</link>
+      <pubDate>Sat, 26 Dec 2020 22:02:07 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2020/design-a-pair-of-general-message-prompt-components-alert-and-toast/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/20201226221536.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在浏览器页面中，通用的消息提示组件一般可以分为&lt;strong&gt;静态局部提示&lt;/strong&gt;和&lt;strong&gt;动态全局提示&lt;/strong&gt;，用于反馈用户需要关注的信息，使用频率较高。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
