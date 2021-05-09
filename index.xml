@@ -166,7 +166,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;当设置了 &lt;code&gt;container&lt;/code&gt; &lt;code&gt;height: 300px;&lt;/code&gt; 后，&lt;code&gt;content&lt;/code&gt; 高度溢出，因为父元素默认溢出不裁剪（&lt;code&gt;overflow: visible&lt;/code&gt;），可以看到 &lt;code&gt;content&lt;/code&gt; 溢出的部分覆盖了 &lt;code&gt;container&lt;/code&gt; 的 bottom border，并且 &lt;code&gt; content&lt;/code&gt; 溢出内容直接覆盖在了 &lt;code&gt;container&lt;/code&gt; 相邻的 behind 元素上（见 &lt;strong&gt;overflow content&lt;/strong&gt;），但 &lt;code&gt;content&lt;/code&gt; 的 &lt;code&gt;background&lt;/code&gt; 层叠等级小于 behind 元素的 &lt;code&gt;background&lt;/code&gt;，所以 behind 元素的 &lt;code&gt;background&lt;/code&gt; 在上面（玄不玄）。&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210207212401610.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;所以在默认情况下，溢出的内容不会影响正常的文档流，直接覆盖在父元素后面的元素上，可能影响正常页面信息的获取。&lt;/p&gt;
 &lt;p&gt;此时 &lt;code&gt;container&lt;/code&gt; 和 &lt;code&gt;content&lt;/code&gt; 元素的 &lt;code&gt;scrollHeight&lt;/code&gt; 都为 500 px，因为父元素的 &lt;code&gt;scrollHeight&lt;/code&gt; 会包含子元素的溢出部分，但不包含 border：&lt;/p&gt;
 &lt;table&gt;
@@ -218,7 +218,7 @@
 &lt;blockquote&gt;
 &lt;p&gt;在 Mac 系统中，页面中出现的滚动条是悬浮覆盖在元素上，不占用滚动元素的宽度，即 &lt;code&gt;scrollElement.offsetWidth&lt;/code&gt; 中包含的滚动条宽度为 0。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210208210936691.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;当 &lt;code&gt;container&lt;/code&gt; 滚动到底部，&lt;code&gt;container.scrollTop&lt;/code&gt; 滚动的值为 &lt;code&gt;content&lt;/code&gt; 顶部（不可见）到 &lt;code&gt;container&lt;/code&gt; &lt;strong&gt;可视区域&lt;/strong&gt; 顶部的距离，&lt;code&gt;content&lt;/code&gt; 的高度 500 px 在可视区域显示完 300 px 后，滚动到上面剩下的不可见区域高度为 200px，即等于 &lt;code&gt;container&lt;/code&gt; 的滚动距离 &lt;code&gt;scrollTop&lt;/code&gt; 200 px。&lt;code&gt;cotainer&lt;/code&gt; 可视区域的高度为 &lt;code&gt;clientHeight&lt;/code&gt; （不包括 border、溢出）300 px。&lt;/p&gt;
 &lt;p&gt;下面的等式可以用来判断 &lt;code&gt;container&lt;/code&gt; 是否垂直滚动到最底部：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
@@ -286,7 +286,7 @@
 &lt;span class=&#34;nx&#34;&gt;container&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;scrollTop&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;100&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210209202040755.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;此时 &lt;code&gt;content&lt;/code&gt; 溢出内容虽然被裁剪，但不影响 &lt;code&gt;container.scrollHeight&lt;/code&gt; 的值（500 px），因为还存在溢出.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -373,7 +373,7 @@
 &lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210209215818858.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;container&lt;/code&gt; 不管设置 &lt;code&gt;overflow: auto&lt;/code&gt; 还是 &lt;code&gt;overflow: hidden&lt;/code&gt; ，&lt;code&gt;container&lt;/code&gt; 是否滚动不影响 &lt;code&gt;container&lt;/code&gt; 本身的高度没有溢出 &lt;code&gt;root&lt;/code&gt; 这个事实，  所以 &lt;code&gt;root&lt;/code&gt; 的 &lt;code&gt;scrollHeight&lt;/code&gt; 不包含 &lt;code&gt;content&lt;/code&gt; 的溢出内容，还是等于自身高度（&lt;code&gt; root.scrollHeight == root.offsetHeight == 400px&lt;/code&gt;）。&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -454,7 +454,7 @@
 &lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210222135745915.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -499,7 +499,7 @@
 &lt;/table&gt;
 &lt;h3 id=&#34;触发悬浮&#34;&gt;触发悬浮&lt;/h3&gt;
 &lt;p&gt;如果有悬浮元素和触发元素是相对于 &lt;code&gt;html&lt;/code&gt; 元素来定位偏移距离的（比如悬浮提示、下拉菜单），当悬浮元素初次出现在触发元素旁边后，触发元素在 &lt;code&gt;container&lt;/code&gt; 中滚动时，假如没有动态的调整悬浮元素的相应偏移距离，悬浮层就会静止在最开始出现的位置，没有跟随触发元素滚动，造成视觉上的分离，显得突兀。（当然如果设计成滚动时关闭悬浮元素，那自然就没有这个问题）&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210222202031938.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;上图中，当指针悬浮在触发元素 &lt;code&gt;trigger&lt;/code&gt; 元素上时，会计算 &lt;code&gt;trigger&lt;/code&gt; 在视口中的位置和滚动距离：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -548,7 +548,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;当 &lt;code&gt;trigger&lt;/code&gt; 在 &lt;code&gt;container&lt;/code&gt; 中滚动时，&lt;code&gt;Popover&lt;/code&gt; 还是悬浮在原来那个位置静止，滚动并没有作用在 &lt;code&gt;Popover &lt;/code&gt; 上（&lt;code&gt;Popover&lt;/code&gt; 相对于 &lt;code&gt;body&lt;/code&gt; ），&lt;code&gt;trigger&lt;/code&gt; 和 &lt;code&gt;Popover&lt;/code&gt; 出现分离：&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210222202620893.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;html-溢出&#34;&gt;html 溢出&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -587,7 +587,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;&lt;code&gt;container&lt;/code&gt; 删除 &lt;code&gt;overflow:auto&lt;/code&gt; 后，溢出的 &lt;code&gt;content&lt;/code&gt; 超出了 &lt;code&gt;cotainer、root、body、html&lt;/code&gt; 对应的视口高度（&lt;code&gt;height: 100%&lt;/code&gt;），最终在 &lt;code&gt;html&lt;/code&gt; 元素上触发了溢出滚动，&lt;code&gt;html&lt;/code&gt; 作为最终的滚动区域，滚动区域高度跟 &lt;code&gt;content&lt;/code&gt; 的高度一致，所以 &lt;code&gt;Popover&lt;/code&gt; 相对于 &lt;code&gt;html&lt;/code&gt; 元素在滚动区域偏移定位到 &lt;code&gt;trigger&lt;/code&gt; 旁边后，&lt;code&gt;Popover&lt;/code&gt; 会跟随 &lt;code&gt;trigger&lt;/code&gt; 在滚动区域滚动，保持相对静止：&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210223131228600.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;滚动到底部后，&lt;code&gt;html.scrollTop&lt;/code&gt; 正好是 &lt;code&gt;content.offsetHeight&lt;/code&gt; 和 &lt;code&gt;html.offsetHeight&lt;/code&gt; 的高度差 100 px。&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -654,7 +654,7 @@
 &lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;此时 &lt;code&gt;html&lt;/code&gt; 不再限制为视口的高度， &lt;code&gt;body, root, container { height: 100% }&lt;/code&gt; 的高度百分比没有了相对计算的值，退化为 &lt;code&gt;heigth: auto&lt;/code&gt;，由子元素内容高度决定， &lt;code&gt;content&lt;/code&gt; 的固定高度层层向上撑开了 &lt;code&gt;html&lt;/code&gt; 的高度，&lt;code&gt;html&lt;/code&gt; 的高度此时跟 &lt;code&gt;content&lt;/code&gt; 的高度一致，&lt;code&gt;html&lt;/code&gt; 下没有发生高度溢出，视口成为滚动区域，但是可以在 &lt;code&gt;html&lt;/code&gt; 中控制滚动。&lt;/p&gt;
-&lt;p&gt;&lt;!-- raw HTML omitted --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210223220031004.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;

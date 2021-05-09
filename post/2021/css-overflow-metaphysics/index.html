@@ -66,12 +66,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jancat.github.io/post/2021/css-overflow-metaphysics/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-05-09T20:48:09&#43;08:00" />
-<meta property="article:modified_time" content="2021-05-09T20:48:09&#43;08:00" />
+<meta property="article:modified_time" content="2021-05-09T21:03:21&#43;08:00" />
 
 <meta itemprop="name" content="CSS Overflow 玄学">
 <meta itemprop="description" content="
 页面的滚动布局跟 CSS overflow 属性的设置息息相关，关系到某块溢出屏幕（容器）的元素部分能否正常滚动出现在视口中，或者相对于根元素定位的元素是否具有同步滚动的能力。overflow 从单个元素的视角理解不难，但是 overflow 的向上传播特性，使得它动辄影响页面布局，最后滚不滚得动就不好说了。"><meta itemprop="datePublished" content="2021-05-09T20:48:09&#43;08:00" />
-<meta itemprop="dateModified" content="2021-05-09T20:48:09&#43;08:00" />
+<meta itemprop="dateModified" content="2021-05-09T21:03:21&#43;08:00" />
 <meta itemprop="wordCount" content="3234">
 <meta itemprop="keywords" content="overflow,scroll," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CSS Overflow 玄学"/>
@@ -493,7 +493,7 @@ if (!doNotTrack) {
 </code></pre></td></tr></table>
 </div>
 </div><p>当设置了 <code>container</code> <code>height: 300px;</code> 后，<code>content</code> 高度溢出，因为父元素默认溢出不裁剪（<code>overflow: visible</code>），可以看到 <code>content</code> 溢出的部分覆盖了 <code>container</code> 的 bottom border，并且 <code> content</code> 溢出内容直接覆盖在了 <code>container</code> 相邻的 behind 元素上（见 <strong>overflow content</strong>），但 <code>content</code> 的 <code>background</code> 层叠等级小于 behind 元素的 <code>background</code>，所以 behind 元素的 <code>background</code> 在上面（玄不玄）。</p>
-<p><!-- raw HTML omitted --></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210207212401610.png" alt=""></p>
 <p>所以在默认情况下，溢出的内容不会影响正常的文档流，直接覆盖在父元素后面的元素上，可能影响正常页面信息的获取。</p>
 <p>此时 <code>container</code> 和 <code>content</code> 元素的 <code>scrollHeight</code> 都为 500 px，因为父元素的 <code>scrollHeight</code> 会包含子元素的溢出部分，但不包含 border：</p>
 <table>
@@ -545,7 +545,7 @@ if (!doNotTrack) {
 <blockquote>
 <p>在 Mac 系统中，页面中出现的滚动条是悬浮覆盖在元素上，不占用滚动元素的宽度，即 <code>scrollElement.offsetWidth</code> 中包含的滚动条宽度为 0。</p>
 </blockquote>
-<p><!-- raw HTML omitted --></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210208210936691.png" alt=""></p>
 <p>当 <code>container</code> 滚动到底部，<code>container.scrollTop</code> 滚动的值为 <code>content</code> 顶部（不可见）到 <code>container</code> <strong>可视区域</strong> 顶部的距离，<code>content</code> 的高度 500 px 在可视区域显示完 300 px 后，滚动到上面剩下的不可见区域高度为 200px，即等于 <code>container</code> 的滚动距离 <code>scrollTop</code> 200 px。<code>cotainer</code> 可视区域的高度为 <code>clientHeight</code> （不包括 border、溢出）300 px。</p>
 <p>下面的等式可以用来判断 <code>container</code> 是否垂直滚动到最底部：</p>
 <div class="highlight"><div class="chroma">
@@ -613,7 +613,7 @@ if (!doNotTrack) {
 <span class="nx">container</span><span class="p">.</span><span class="nx">scrollTop</span> <span class="o">=</span> <span class="mi">100</span>
 </code></pre></td></tr></table>
 </div>
-</div><p><!-- raw HTML omitted --></p>
+</div><p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210209202040755.png" alt=""></p>
 <p>此时 <code>content</code> 溢出内容虽然被裁剪，但不影响 <code>container.scrollHeight</code> 的值（500 px），因为还存在溢出.</p>
 <table>
 <thead>
@@ -700,7 +700,7 @@ if (!doNotTrack) {
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 </code></pre></td></tr></table>
 </div>
-</div><p><!-- raw HTML omitted --></p>
+</div><p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210209215818858.png" alt=""></p>
 <p><code>container</code> 不管设置 <code>overflow: auto</code> 还是 <code>overflow: hidden</code> ，<code>container</code> 是否滚动不影响 <code>container</code> 本身的高度没有溢出 <code>root</code> 这个事实，  所以 <code>root</code> 的 <code>scrollHeight</code> 不包含 <code>content</code> 的溢出内容，还是等于自身高度（<code> root.scrollHeight == root.offsetHeight == 400px</code>）。</p>
 <table>
 <thead>
@@ -781,7 +781,7 @@ if (!doNotTrack) {
 <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
 </code></pre></td></tr></table>
 </div>
-</div><p><!-- raw HTML omitted --></p>
+</div><p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210222135745915.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -826,7 +826,7 @@ if (!doNotTrack) {
 </table>
 <h3 id="触发悬浮">触发悬浮</h3>
 <p>如果有悬浮元素和触发元素是相对于 <code>html</code> 元素来定位偏移距离的（比如悬浮提示、下拉菜单），当悬浮元素初次出现在触发元素旁边后，触发元素在 <code>container</code> 中滚动时，假如没有动态的调整悬浮元素的相应偏移距离，悬浮层就会静止在最开始出现的位置，没有跟随触发元素滚动，造成视觉上的分离，显得突兀。（当然如果设计成滚动时关闭悬浮元素，那自然就没有这个问题）</p>
-<p><!-- raw HTML omitted --></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210222202031938.png" alt=""></p>
 <p>上图中，当指针悬浮在触发元素 <code>trigger</code> 元素上时，会计算 <code>trigger</code> 在视口中的位置和滚动距离：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -875,7 +875,7 @@ if (!doNotTrack) {
 </code></pre></td></tr></table>
 </div>
 </div><p>当 <code>trigger</code> 在 <code>container</code> 中滚动时，<code>Popover</code> 还是悬浮在原来那个位置静止，滚动并没有作用在 <code>Popover </code> 上（<code>Popover</code> 相对于 <code>body</code> ），<code>trigger</code> 和 <code>Popover</code> 出现分离：</p>
-<p><!-- raw HTML omitted --></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210222202620893.png" alt=""></p>
 <h3 id="html-溢出">html 溢出</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -914,7 +914,7 @@ if (!doNotTrack) {
 </code></pre></td></tr></table>
 </div>
 </div><p><code>container</code> 删除 <code>overflow:auto</code> 后，溢出的 <code>content</code> 超出了 <code>cotainer、root、body、html</code> 对应的视口高度（<code>height: 100%</code>），最终在 <code>html</code> 元素上触发了溢出滚动，<code>html</code> 作为最终的滚动区域，滚动区域高度跟 <code>content</code> 的高度一致，所以 <code>Popover</code> 相对于 <code>html</code> 元素在滚动区域偏移定位到 <code>trigger</code> 旁边后，<code>Popover</code> 会跟随 <code>trigger</code> 在滚动区域滚动，保持相对静止：</p>
-<p><!-- raw HTML omitted --></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210223131228600.png" alt=""></p>
 <p>滚动到底部后，<code>html.scrollTop</code> 正好是 <code>content.offsetHeight</code> 和 <code>html.offsetHeight</code> 的高度差 100 px。</p>
 <table>
 <thead>
@@ -981,7 +981,7 @@ if (!doNotTrack) {
 </code></pre></td></tr></table>
 </div>
 </div><p>此时 <code>html</code> 不再限制为视口的高度， <code>body, root, container { height: 100% }</code> 的高度百分比没有了相对计算的值，退化为 <code>heigth: auto</code>，由子元素内容高度决定， <code>content</code> 的固定高度层层向上撑开了 <code>html</code> 的高度，<code>html</code> 的高度此时跟 <code>content</code> 的高度一致，<code>html</code> 下没有发生高度溢出，视口成为滚动区域，但是可以在 <code>html</code> 中控制滚动。</p>
-<p><!-- raw HTML omitted --></p>
+<p><img src="https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210223220031004.png" alt=""></p>
 <table>
 <thead>
 <tr>
@@ -1046,7 +1046,7 @@ if (!doNotTrack) {
   </p>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
-    <span class="item-content">2021-05-09 20:55</span>
+    <span class="item-content">2021-05-09 21:55</span>
   </p>
   
   <p class="copyright-item">
