@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scroll on 键落云起</title>
+    <link>https://jancat.github.io/tags/scroll/</link>
+    <description>Recent content in scroll on 键落云起</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 09 May 2021 20:48:09 +0800</lastBuildDate><atom:link href="https://jancat.github.io/tags/scroll/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CSS Overflow 玄学</title>
+      <link>https://jancat.github.io/post/2021/css-overflow-metaphysics/</link>
+      <pubDate>Sun, 09 May 2021 20:48:09 +0800</pubDate>
+      
+      <guid>https://jancat.github.io/post/2021/css-overflow-metaphysics/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://lg-gxg3fdgs-1254198195.cos.ap-shanghai.myqcloud.com/images/image-20210509210016035.png&#34; alt=&#34;image-20210509210016035&#34;&gt;&lt;/p&gt;
+&lt;p&gt;页面的滚动布局跟 CSS &lt;code&gt;overflow&lt;/code&gt; 属性的设置息息相关，关系到某块溢出屏幕（容器）的元素部分能否正常滚动出现在视口中，或者相对于根元素定位的元素是否具有同步滚动的能力。overflow 从单个元素的视角理解不难，但是 &lt;code&gt;overflow&lt;/code&gt; 的向上传播特性，使得它动辄影响页面布局，最后滚不滚得动就不好说了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
